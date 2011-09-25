@@ -8,7 +8,7 @@
     <version>0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
     <url>http://furnace.tinkerpop.com</url>
-    <name>Furnace: A Property Graph Algorithms Engine</name>
+    <name>Furnace: A Property Graph Algorithms Package</name>
     <description>Furnace supports the evaluation of standard graph analysis algorithms on property graph data structures.
     </description>
     <developers>

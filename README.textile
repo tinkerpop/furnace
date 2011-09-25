@@ -1,3 +1,3 @@
 !https://github.com/tinkerpop/furnace/raw/master/doc/images/furnace-logo.png!
 
-Furnace is an property graph algorithms package.
+Furnace is a property graph algorithms package for "Blueprints":http://blueprints.tinkerpop.com enabled graphs. It provides implementations for standard graph analysis algorithms that can be applied to property graphs in a meaningful ways via abtract adjacencies represented in "Pipes":http://pipes.tinkerpop.com. 
