@@ -1,0 +1,3 @@
+!https://github.com/tinkerpop/furnace/raw/master/doc/images/furnace-logo.png!
+
+Furnace is an property graph algorithms package.
