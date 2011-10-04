@@ -2,7 +2,10 @@ package com.tinkerpop.furnace;
 
 import com.tinkerpop.blueprints.pgm.Edge;
 import com.tinkerpop.blueprints.pgm.Vertex;
+import com.tinkerpop.blueprints.pgm.impls.MultiIterable;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -10,12 +13,32 @@ import java.util.Set;
  */
 public class DerivedVertex implements Vertex {
 
-    private final Vertex rawVertex;
     private final DerivedGraph graph;
+    protected final Vertex rawVertex;
 
     public DerivedVertex(final Vertex rawVertex, final DerivedGraph graph) {
         this.rawVertex = rawVertex;
         this.graph = graph;
+    }
+
+    public Iterable<Edge> getOutEdges(final String... labels) {
+        List<Iterable<Edge>> iterables = new ArrayList<Iterable<Edge>>();
+        for (final String label : labels) {
+            final Derivation derivation = this.graph.getDerivation(label);
+            if (null != derivation)
+                iterables.add(derivation.outEdges(this.rawVertex));
+        }
+        return new MultiIterable<Edge>(iterables);
+    }
+
+    public Iterable<Edge> getInEdges(final String... labels) {
+        List<Iterable<Edge>> iterables = new ArrayList<Iterable<Edge>>();
+        for (final String label : labels) {
+            final Derivation derivation = this.graph.getDerivation(label);
+            if (null != derivation)
+                iterables.add(derivation.inEdges(this.rawVertex));
+        }
+        return new MultiIterable<Edge>(iterables);
     }
 
     public Object getId() {
@@ -38,12 +61,17 @@ public class DerivedVertex implements Vertex {
         return this.rawVertex.getPropertyKeys();
     }
 
-    public Iterable<Edge> getOutEdges(String... labels) {
-        return this.graph.getDerivation(labels[0]).compute(this.rawVertex);
+    public int hashCode() {
+        return this.rawVertex.hashCode();
     }
 
-    public Iterable<Edge> getInEdges(String... labels) {
-        return this.graph.getDerivation(labels[0]).compute(this.rawVertex);
+    public String toString() {
+        return this.rawVertex.toString();
     }
+
+    public boolean equals(Object object) {
+        return (object instanceof Vertex) && ((Vertex) object).getId().equals(this.getId());
+    }
+
 }
 

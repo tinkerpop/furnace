@@ -1,5 +1,11 @@
 package com.tinkerpop.furnace;
 
+import com.tinkerpop.blueprints.pgm.Edge;
+import com.tinkerpop.blueprints.pgm.Graph;
+import com.tinkerpop.blueprints.pgm.Vertex;
+import com.tinkerpop.blueprints.pgm.impls.tg.TinkerGraphFactory;
+import com.tinkerpop.furnace.util.DerivedEdgeSequence;
+import com.tinkerpop.gremlin.pipes.GremlinFluentPipeline;
 import junit.framework.TestCase;
 
 /**
@@ -8,6 +14,27 @@ import junit.framework.TestCase;
 public class DerivedGraphTest extends TestCase {
 
     public void testTrue() {
-        assertTrue(true);
+        Graph graph = TinkerGraphFactory.createTinkerGraph();
+        final DerivedGraph derived = new DerivedGraph(graph);
+        derived.addDerivation("coworker", new Derivation() {
+            public Iterable<Edge> outEdges(Vertex vertex) {
+                return new DerivedEdgeSequence(derived, vertex, new GremlinFluentPipeline(vertex).out("created").in("created"), "coworker");
+            }
+
+            public Iterable<Edge> inEdges(Vertex vertex) {
+                return new DerivedEdgeSequence(derived, vertex, new GremlinFluentPipeline(vertex).out("created").in("created"), "coworker");
+            }
+        });
+        int counter = 0;
+        for (Edge edge : derived.getVertex(1).getOutEdges("coworker")) {
+            assertEquals(edge.getOutVertex(), derived.getVertex(1));
+            assertTrue(edge.getInVertex().equals(derived.getVertex(1)) ||
+                    edge.getInVertex().equals(derived.getVertex(4)) ||
+                    edge.getInVertex().equals(derived.getVertex(6)));
+            counter++;
+        }
+
+        assertEquals(counter, 3);
+
     }
 }

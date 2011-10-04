@@ -8,5 +8,7 @@ import com.tinkerpop.blueprints.pgm.Vertex;
  */
 public interface Derivation {
 
-    public Iterable<Edge> compute(Vertex vertex);
+    public Iterable<Edge> outEdges(Vertex vertex);
+
+    public Iterable<Edge> inEdges(Vertex vertex);
 }
