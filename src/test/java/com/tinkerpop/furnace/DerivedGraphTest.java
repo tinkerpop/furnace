@@ -5,7 +5,7 @@ import com.tinkerpop.blueprints.pgm.Graph;
 import com.tinkerpop.blueprints.pgm.Vertex;
 import com.tinkerpop.blueprints.pgm.impls.tg.TinkerGraphFactory;
 import com.tinkerpop.furnace.util.DerivedEdgeSequence;
-import com.tinkerpop.gremlin.pipes.GremlinFluentPipeline;
+import com.tinkerpop.gremlin.pipes.GremlinPipeline;
 import junit.framework.TestCase;
 
 /**
@@ -18,11 +18,11 @@ public class DerivedGraphTest extends TestCase {
         final DerivedGraph derived = new DerivedGraph(graph);
         derived.addDerivation("coworker", new Derivation() {
             public Iterable<Edge> outEdges(Vertex vertex) {
-                return new DerivedEdgeSequence(derived, vertex, new GremlinFluentPipeline(vertex).out("created").in("created"), "coworker");
+                return new DerivedEdgeSequence(derived, vertex, new GremlinPipeline(vertex).out("created").in("created"), "coworker");
             }
 
             public Iterable<Edge> inEdges(Vertex vertex) {
-                return new DerivedEdgeSequence(derived, vertex, new GremlinFluentPipeline(vertex).out("created").in("created"), "coworker");
+                return new DerivedEdgeSequence(derived, vertex, new GremlinPipeline(vertex).out("created").in("created"), "coworker");
             }
         });
         int counter = 0;
