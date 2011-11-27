@@ -5,7 +5,7 @@ import com.tinkerpop.blueprints.pgm.Graph;
 import com.tinkerpop.blueprints.pgm.Vertex;
 import com.tinkerpop.blueprints.pgm.impls.tg.TinkerGraphFactory;
 import com.tinkerpop.furnace.util.DerivedEdgeSequence;
-import com.tinkerpop.gremlin.pipes.GremlinPipeline;
+import com.tinkerpop.gremlin.java.GremlinPipeline;
 import junit.framework.TestCase;
 
 /**
