@@ -8,7 +8,6 @@
         <artifactId>oss-parent</artifactId>
         <version>7</version>
     </parent>
-
     <groupId>com.tinkerpop</groupId>
     <artifactId>furnace</artifactId>
     <version>0.1-SNAPSHOT</version>
@@ -62,17 +61,6 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-    <repositories>
-        <repository>
-            <id>tinkerpop-repository</id>
-            <name>TinkerPop Maven2 Repository</name>
-            <url>http://tinkerpop.com/maven2</url>
-            <snapshots>
-                <enabled>true</enabled>
-                <updatePolicy>always</updatePolicy>
-            </snapshots>
-        </repository>
-    </repositories>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
