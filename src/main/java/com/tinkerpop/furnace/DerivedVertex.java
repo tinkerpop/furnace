@@ -21,20 +21,20 @@ public class DerivedVertex implements Vertex {
         this.graph = graph;
     }
 
-    public Iterable<Edge> getOutEdges(final String... labels) {
+    public Iterable<Edge> getOutEdges(final Object... labels) {
         List<Iterable<Edge>> iterables = new ArrayList<Iterable<Edge>>();
-        for (final String label : labels) {
-            final Derivation derivation = this.graph.getDerivation(label);
+        for (final Object label : labels) {
+            final Derivation derivation = this.graph.getDerivation((String) label);
             if (null != derivation)
                 iterables.add(derivation.outEdges(this.rawVertex));
         }
         return new MultiIterable<Edge>(iterables);
     }
 
-    public Iterable<Edge> getInEdges(final String... labels) {
+    public Iterable<Edge> getInEdges(final Object... labels) {
         List<Iterable<Edge>> iterables = new ArrayList<Iterable<Edge>>();
-        for (final String label : labels) {
-            final Derivation derivation = this.graph.getDerivation(label);
+        for (final Object label : labels) {
+            final Derivation derivation = this.graph.getDerivation((String) label);
             if (null != derivation)
                 iterables.add(derivation.inEdges(this.rawVertex));
         }
