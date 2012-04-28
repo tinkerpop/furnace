@@ -1,7 +1,9 @@
 package com.tinkerpop.furnace;
 
 import com.tinkerpop.blueprints.pgm.Edge;
+import com.tinkerpop.blueprints.pgm.Query;
 import com.tinkerpop.blueprints.pgm.Vertex;
+import com.tinkerpop.blueprints.pgm.impls.BasicQuery;
 import com.tinkerpop.blueprints.pgm.impls.MultiIterable;
 
 import java.util.ArrayList;
@@ -21,7 +23,7 @@ public class DerivedVertex implements Vertex {
         this.graph = graph;
     }
 
-    public Iterable<Edge> getOutEdges(final Object... labels) {
+    public Iterable<Edge> getOutEdges(final String... labels) {
         List<Iterable<Edge>> iterables = new ArrayList<Iterable<Edge>>();
         for (final Object label : labels) {
             final Derivation derivation = this.graph.getDerivation((String) label);
@@ -31,7 +33,7 @@ public class DerivedVertex implements Vertex {
         return new MultiIterable<Edge>(iterables);
     }
 
-    public Iterable<Edge> getInEdges(final Object... labels) {
+    public Iterable<Edge> getInEdges(final String... labels) {
         List<Iterable<Edge>> iterables = new ArrayList<Iterable<Edge>>();
         for (final Object label : labels) {
             final Derivation derivation = this.graph.getDerivation((String) label);
@@ -39,6 +41,10 @@ public class DerivedVertex implements Vertex {
                 iterables.add(derivation.inEdges(this.rawVertex));
         }
         return new MultiIterable<Edge>(iterables);
+    }
+
+    public Query query() {
+        return new BasicQuery(this);
     }
 
     public Object getId() {
