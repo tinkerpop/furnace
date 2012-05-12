@@ -1,6 +1,8 @@
 package com.tinkerpop.furnace;
 
+import com.tinkerpop.blueprints.pgm.CloseableIterable;
 import com.tinkerpop.blueprints.pgm.Edge;
+import com.tinkerpop.blueprints.pgm.Features;
 import com.tinkerpop.blueprints.pgm.Graph;
 import com.tinkerpop.blueprints.pgm.Vertex;
 
@@ -32,8 +34,16 @@ public class DerivedGraph implements Graph {
         this.rawGraph.shutdown();
     }
 
-    public void clear() {
-        this.rawGraph.clear();
+    public CloseableIterable<Vertex> getVertices(final String key, final Object value) {
+        return this.rawGraph.getVertices(key, value);
+    }
+
+    public CloseableIterable<Edge> getEdges(final String key, final Object value) {
+        return this.rawGraph.getEdges(key, value);
+    }
+
+    public Features getFeatures() {
+        return this.rawGraph.getFeatures();
     }
 
     public Vertex addVertex(final Object id) {
