@@ -3,8 +3,8 @@ package com.tinkerpop.furnace;
 import com.tinkerpop.blueprints.pgm.Edge;
 import com.tinkerpop.blueprints.pgm.Query;
 import com.tinkerpop.blueprints.pgm.Vertex;
-import com.tinkerpop.blueprints.pgm.impls.DefaultQuery;
-import com.tinkerpop.blueprints.pgm.impls.MultiIterable;
+import com.tinkerpop.blueprints.pgm.util.DefaultQuery;
+import com.tinkerpop.blueprints.pgm.util.MultiIterable;
 
 import java.util.ArrayList;
 import java.util.List;
