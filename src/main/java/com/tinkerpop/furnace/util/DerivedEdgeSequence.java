@@ -1,7 +1,7 @@
 package com.tinkerpop.furnace.util;
 
-import com.tinkerpop.blueprints.pgm.Edge;
-import com.tinkerpop.blueprints.pgm.Vertex;
+import com.tinkerpop.blueprints.Edge;
+import com.tinkerpop.blueprints.Vertex;
 import com.tinkerpop.furnace.DerivedEdge;
 import com.tinkerpop.furnace.DerivedGraph;
 import com.tinkerpop.furnace.DerivedVertex;

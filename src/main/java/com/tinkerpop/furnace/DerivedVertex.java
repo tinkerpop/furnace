@@ -1,10 +1,10 @@
 package com.tinkerpop.furnace;
 
-import com.tinkerpop.blueprints.pgm.Edge;
-import com.tinkerpop.blueprints.pgm.Query;
-import com.tinkerpop.blueprints.pgm.Vertex;
-import com.tinkerpop.blueprints.pgm.util.DefaultQuery;
-import com.tinkerpop.blueprints.pgm.util.MultiIterable;
+import com.tinkerpop.blueprints.Edge;
+import com.tinkerpop.blueprints.Query;
+import com.tinkerpop.blueprints.Vertex;
+import com.tinkerpop.blueprints.util.DefaultQuery;
+import com.tinkerpop.blueprints.util.MultiIterable;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,7 +1,7 @@
 package com.tinkerpop.furnace;
 
-import com.tinkerpop.blueprints.pgm.Edge;
-import com.tinkerpop.blueprints.pgm.Vertex;
+import com.tinkerpop.blueprints.Edge;
+import com.tinkerpop.blueprints.Vertex;
 
 /**
  * @author Marko A. Rodriguez (http://markorodriguez.com)

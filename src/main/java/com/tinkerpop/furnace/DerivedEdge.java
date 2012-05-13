@@ -1,8 +1,8 @@
 package com.tinkerpop.furnace;
 
-import com.tinkerpop.blueprints.pgm.Edge;
-import com.tinkerpop.blueprints.pgm.Vertex;
-import com.tinkerpop.blueprints.pgm.util.StringFactory;
+import com.tinkerpop.blueprints.Edge;
+import com.tinkerpop.blueprints.Vertex;
+import com.tinkerpop.blueprints.util.StringFactory;
 
 import java.util.HashMap;
 import java.util.HashSet;
