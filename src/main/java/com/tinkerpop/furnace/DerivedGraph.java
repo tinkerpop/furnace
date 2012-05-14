@@ -34,11 +34,11 @@ public class DerivedGraph implements Graph {
         this.rawGraph.shutdown();
     }
 
-    public CloseableIterable<Vertex> getVertices(final String key, final Object value) {
+    public Iterable<Vertex> getVertices(final String key, final Object value) {
         return this.rawGraph.getVertices(key, value);
     }
 
-    public CloseableIterable<Edge> getEdges(final String key, final Object value) {
+    public Iterable<Edge> getEdges(final String key, final Object value) {
         return this.rawGraph.getEdges(key, value);
     }
 
