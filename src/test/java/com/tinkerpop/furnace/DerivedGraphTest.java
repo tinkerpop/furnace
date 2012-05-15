@@ -1,5 +1,6 @@
 package com.tinkerpop.furnace;
 
+import com.tinkerpop.blueprints.Direction;
 import com.tinkerpop.blueprints.Edge;
 import com.tinkerpop.blueprints.Graph;
 import com.tinkerpop.blueprints.Vertex;
@@ -26,11 +27,11 @@ public class DerivedGraphTest extends TestCase {
             }
         });
         int counter = 0;
-        for (Edge edge : derived.getVertex(1).getOutEdges("coworker")) {
-            assertEquals(edge.getOutVertex(), derived.getVertex(1));
-            assertTrue(edge.getInVertex().equals(derived.getVertex(1)) ||
-                    edge.getInVertex().equals(derived.getVertex(4)) ||
-                    edge.getInVertex().equals(derived.getVertex(6)));
+        for (Edge edge : derived.getVertex(1).getEdges(Direction.OUT, "coworker")) {
+            assertEquals(edge.getVertex(Direction.OUT), derived.getVertex(1));
+            assertTrue(edge.getVertex(Direction.IN).equals(derived.getVertex(1)) ||
+                    edge.getVertex(Direction.IN).equals(derived.getVertex(4)) ||
+                    edge.getVertex(Direction.IN).equals(derived.getVertex(6)));
             counter++;
         }
 
