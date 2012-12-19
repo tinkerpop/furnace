@@ -8,7 +8,7 @@
         <artifactId>oss-parent</artifactId>
         <version>7</version>
     </parent>
-    <groupId>com.tinkerpop</groupId>
+    <groupId>com.tinkerpop.furnace</groupId>
     <artifactId>furnace</artifactId>
     <version>0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
