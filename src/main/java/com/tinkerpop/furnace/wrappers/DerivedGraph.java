@@ -1,6 +1,5 @@
-package com.tinkerpop.furnace;
+package com.tinkerpop.furnace.wrappers;
 
-import com.tinkerpop.blueprints.CloseableIterable;
 import com.tinkerpop.blueprints.Edge;
 import com.tinkerpop.blueprints.Features;
 import com.tinkerpop.blueprints.Graph;

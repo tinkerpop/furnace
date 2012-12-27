@@ -1,4 +1,4 @@
-package com.tinkerpop.furnace.algos;
+package com.tinkerpop.furnace.algorithms;
 
 import com.tinkerpop.blueprints.Element;
 import com.tinkerpop.blueprints.Graph;

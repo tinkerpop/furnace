@@ -1,4 +1,4 @@
-package com.tinkerpop.furnace;
+package com.tinkerpop.furnace.wrappers;
 
 import com.tinkerpop.blueprints.Direction;
 import com.tinkerpop.blueprints.Edge;
@@ -6,10 +6,8 @@ import com.tinkerpop.blueprints.Query;
 import com.tinkerpop.blueprints.Vertex;
 import com.tinkerpop.blueprints.util.DefaultQuery;
 import com.tinkerpop.blueprints.util.MultiIterable;
-import com.tinkerpop.blueprints.util.VerticesFromEdgesIterable;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -27,38 +25,22 @@ public class DerivedVertex implements Vertex {
     }
 
     public Iterable<Edge> getEdges(final Direction direction, final String... labels) {
-        if (direction.equals(Direction.OUT)) {
-            return this.getOutEdges(labels);
-        } else if (direction.equals(Direction.IN))
-            return this.getInEdges(labels);
-        else {
-            return new MultiIterable<Edge>(Arrays.asList(this.getInEdges(labels), this.getOutEdges(labels)));
-        }
+        return new ArrayList<Edge>();
     }
 
     public Iterable<Vertex> getVertices(final Direction direction, final String... labels) {
-        return new VerticesFromEdgesIterable(this, direction, labels);
+        final List<Iterable<Vertex>> vertices = new ArrayList<Iterable<Vertex>>();
+        for (final String label : labels) {
+            final Derivation derivation = this.graph.getDerivation(label);
+            if (null != derivation) {
+                vertices.add(derivation.adjacent(this));
+            } else {
+                vertices.add(this.rawVertex.getVertices(direction, label));
+            }
+        }
+        return new MultiIterable<Vertex>(vertices);
     }
 
-    private Iterable<Edge> getOutEdges(final String... labels) {
-        List<Iterable<Edge>> iterables = new ArrayList<Iterable<Edge>>();
-        for (final Object label : labels) {
-            final Derivation derivation = this.graph.getDerivation((String) label);
-            if (null != derivation)
-                iterables.add(derivation.outEdges(this.rawVertex));
-        }
-        return new MultiIterable<Edge>(iterables);
-    }
-
-    private Iterable<Edge> getInEdges(final String... labels) {
-        List<Iterable<Edge>> iterables = new ArrayList<Iterable<Edge>>();
-        for (final Object label : labels) {
-            final Derivation derivation = this.graph.getDerivation((String) label);
-            if (null != derivation)
-                iterables.add(derivation.inEdges(this.rawVertex));
-        }
-        return new MultiIterable<Edge>(iterables);
-    }
 
     public Query query() {
         return new DefaultQuery(this);

@@ -1,4 +1,4 @@
-package com.tinkerpop.furnace.algos;
+package com.tinkerpop.furnace.algorithms;
 
 /**
  * @author Marko A. Rodriguez (http://markorodriguez.com)

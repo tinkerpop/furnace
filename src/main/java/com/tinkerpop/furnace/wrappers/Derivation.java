@@ -1,4 +1,4 @@
-package com.tinkerpop.furnace;
+package com.tinkerpop.furnace.wrappers;
 
 import com.tinkerpop.blueprints.Edge;
 import com.tinkerpop.blueprints.Vertex;
@@ -8,7 +8,5 @@ import com.tinkerpop.blueprints.Vertex;
  */
 public interface Derivation {
 
-    public Iterable<Edge> outEdges(Vertex vertex);
-
-    public Iterable<Edge> inEdges(Vertex vertex);
+    public Iterable<Vertex> adjacent(Vertex vertex);
 }
