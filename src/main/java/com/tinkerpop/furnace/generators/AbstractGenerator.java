@@ -1,5 +1,7 @@
 package com.tinkerpop.furnace.generators;
 
+import java.util.Map;
+
 import com.tinkerpop.blueprints.Edge;
 import com.tinkerpop.blueprints.Graph;
 import com.tinkerpop.blueprints.Vertex;
@@ -13,7 +15,24 @@ import com.tinkerpop.blueprints.Vertex;
 public abstract class AbstractGenerator {
 
     private final String label;
-    private final EdgeAnnotator annotator;
+    private final EdgeAnnotator edgeAnnotator;
+    private final VertexAnnotator vertexAnnotator;
+
+    /**
+     * Constructs a new network generator for edges with the given label and annotator.
+     *
+     * @param label Label for the generated edges
+     * @param edgeAnnotator EdgeAnnotator to use for annotating newly generated edges.
+     * @param vertexAnnotator VertexAnnotator to use for annotating process vertices.
+     */
+    public AbstractGenerator(String label, EdgeAnnotator edgeAnnotator, VertexAnnotator vertexAnnotator) {
+        if (label==null || label.isEmpty()) throw new IllegalArgumentException("Label cannot be empty");
+        if (edgeAnnotator==null) throw new NullPointerException();
+        if (vertexAnnotator==null) throw new NullPointerException();
+        this.label = label;
+        this.edgeAnnotator = edgeAnnotator;
+        this.vertexAnnotator = vertexAnnotator;
+    }
 
     /**
      * Constructs a new network generator for edges with the given label and annotator.
@@ -22,10 +41,7 @@ public abstract class AbstractGenerator {
      * @param annotator EdgeAnnotator to use for annotating newly generated edges.
      */
     public AbstractGenerator(String label, EdgeAnnotator annotator) {
-        if (label==null || label.isEmpty()) throw new IllegalArgumentException("Label cannot be empty");
-        if (annotator==null) throw new NullPointerException();
-        this.label=label;
-        this.annotator=annotator;
+        this(label, annotator, VertexAnnotator.NONE);
     }
 
     /**
@@ -51,13 +67,26 @@ public abstract class AbstractGenerator {
      * @return
      */
     public final EdgeAnnotator getEdgeAnnotator() {
-        return annotator;
+        return edgeAnnotator;
+    }
+
+    /**
+     * Returns the {@link VertexAnnotator} for this generator
+     * @return
+     */
+    public final VertexAnnotator getVertexAnnotator() {
+        return vertexAnnotator;
     }
     
     protected final Edge addEdge(Graph graph, Vertex out, Vertex in) {
         Edge e = graph.addEdge(null,out,in,label);
-        annotator.annotate(e);
+        edgeAnnotator.annotate(e);
         return e;
+    }
+
+    protected final Vertex processVertex(Vertex vertex, Map<String, Object> context) {
+        vertexAnnotator.annotate(vertex, context);
+        return vertex;
     }
 
 }
