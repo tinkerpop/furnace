@@ -134,16 +134,21 @@ public class CommunityGenerator extends AbstractGenerator {
                 int degree = degreeDist.nextValue(random);
                 degree = Math.min(degree,(int)Math.ceil((community.size() - 1) / inCommunityPercentage)-1);
                 Set<Vertex> inlinks = new HashSet<Vertex>();
+                Set<Vertex> outlinks = new HashSet<Vertex>();
                 for (int i=0;i<degree;i++) {
                     Vertex selected = null;
                     if (random.nextDouble()<crossCommunityPercentage || (community.size()-1<=inlinks.size()) ) {
                         //Cross community
                         ArrayList<Vertex> othercomm = null;
-                        while (othercomm==null) {
-                            othercomm = communities.get(random.nextInt(communities.size()));
-                            if (othercomm.equals(community)) othercomm=null;
+                        while (selected == null) {
+                            while (othercomm==null) {
+                                othercomm = communities.get(random.nextInt(communities.size()));
+                                if (othercomm.equals(community)) othercomm=null;
+                            }
+                            selected = othercomm.get(random.nextInt(othercomm.size()));
+                            if (outlinks.contains(selected)) selected = null;
                         }
-                        selected=othercomm.get(random.nextInt(othercomm.size()));
+                        outlinks.add(selected);
                     } else {
                         //In community
                         while (selected==null) {
