@@ -38,6 +38,17 @@ public class CommunityGenerator extends AbstractGenerator {
     /**
      *
      * @param label
+     * @param edgeAnnotator
+     * @param vertexAnnotator
+     * @see AbstractGenerator#AbstractGenerator(String, EdgeAnnotator, VertexAnnotator)
+     */
+    public CommunityGenerator(String label, EdgeAnnotator edgeAnnotator, VertexAnnotator vertexAnnotator) {
+        super(label, edgeAnnotator, vertexAnnotator);
+    }
+
+    /**
+     *
+     * @param label
      * @see AbstractGenerator#AbstractGenerator(String)
      */
     public CommunityGenerator(String label) {
@@ -113,11 +124,13 @@ public class CommunityGenerator extends AbstractGenerator {
         Iterator<Vertex> iter = vertices.iterator();
         ArrayList<ArrayList<Vertex>> communities = new ArrayList<ArrayList<Vertex>>(expectedNumCommunities);
         Distribution communityDist = communitySize.initialize(expectedNumCommunities,numVertices);
+        Map<String, Object> context = new HashMap<String, Object>();
         while (iter.hasNext()) {
             int nextSize = communityDist.nextValue(random);
+            context.put("communityIndex", communities.size());
             ArrayList<Vertex> community = new ArrayList<Vertex>(nextSize);
             for (int i=0;i<nextSize && iter.hasNext();i++) {
-                community.add(iter.next());
+                community.add(processVertex(iter.next(), context));
             }
             if (!community.isEmpty()) communities.add(community);
         }
