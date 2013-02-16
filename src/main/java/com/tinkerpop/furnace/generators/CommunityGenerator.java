@@ -1,9 +1,15 @@
 package com.tinkerpop.furnace.generators;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Random;
+import java.util.Set;
+
 import com.tinkerpop.blueprints.Graph;
 import com.tinkerpop.blueprints.Vertex;
-
-import java.util.*;
 
 /**
  * Generates a synthetic network with a community structure, that is, several densely connected
