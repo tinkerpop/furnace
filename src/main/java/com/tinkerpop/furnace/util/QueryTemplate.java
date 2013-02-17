@@ -1,10 +1,10 @@
 package com.tinkerpop.furnace.util;
 
-import com.tinkerpop.blueprints.Direction;
-import com.tinkerpop.blueprints.Query;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import com.tinkerpop.blueprints.Direction;
+import com.tinkerpop.blueprints.Query;
 
 /**
  * @author Marko A. Rodriguez (http://markorodriguez.com)
