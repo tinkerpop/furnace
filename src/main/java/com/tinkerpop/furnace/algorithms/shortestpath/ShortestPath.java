@@ -1,4 +1,4 @@
-package com.tinkerpop.furnace.algorithms;
+package com.tinkerpop.furnace.algorithms.shortestpath;
 
 import java.util.ArrayList;
 import java.util.List;
