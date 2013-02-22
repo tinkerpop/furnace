@@ -2,3 +2,6 @@
 target/
 .idea/
 furnace.iml
+/.settings
+/.classpath
+/.project
