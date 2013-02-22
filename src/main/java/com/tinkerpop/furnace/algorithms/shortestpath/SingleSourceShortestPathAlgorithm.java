@@ -11,7 +11,7 @@ import com.tinkerpop.blueprints.Vertex;
  * @author Nicholas A. Stuart (nicholasastuart@gmail.com)
  */
 public abstract class SingleSourceShortestPathAlgorithm {
-	private final Graph graph;
+	protected final Graph graph;
 
 	public SingleSourceShortestPathAlgorithm(final Graph graph) {
 		this.graph = graph;

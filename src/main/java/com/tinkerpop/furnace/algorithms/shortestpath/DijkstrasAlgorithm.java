@@ -1,10 +1,10 @@
 package com.tinkerpop.furnace.algorithms.shortestpath;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -44,15 +44,14 @@ public class DijkstrasAlgorithm extends SingleSourceShortestPathAlgorithm {
 			}
 		}
 
-		Graph graph = getGraph();
 		source = graph.getVertex(source.getId());
 		if (source == null) {
 			throw new IllegalStateException("Source vertex does not belong to this graph.");
 		}
-		return performDijkstrasAlgorithm(graph, source, weightPropertyName, weightedEdgeLabels);
+		return performDijkstrasAlgorithm(source, weightPropertyName, weightedEdgeLabels);
 	}
 
-	private Map<Vertex, List<Edge>> performDijkstrasAlgorithm(Graph graph, Vertex source, String weightPropertyName, final String... weightedEdgeLabels) {
+	private Map<Vertex, List<Edge>> performDijkstrasAlgorithm(Vertex source, String weightPropertyName, final String... weightedEdgeLabels) {
 		// TODO: Check to see if an edge weight is negative, which is not allowed in dijkstra's.
 		final Map<Vertex, Long> distanceMap = new HashMap<Vertex, Long>();
 		Set<Vertex> remainingNodes = new HashSet<Vertex>();
@@ -105,7 +104,7 @@ public class DijkstrasAlgorithm extends SingleSourceShortestPathAlgorithm {
 		}
 		Map<Vertex, List<Edge>> pathMap = new HashMap<Vertex, List<Edge>>();
 		for (Entry<Vertex, Edge> entry : previousMap.entrySet()) {
-			List<Edge> path = new LinkedList<Edge>();
+			List<Edge> path = new ArrayList<Edge>();
 			pathMap.put(entry.getKey(), path);
 
 			Vertex pastVertex = null;
