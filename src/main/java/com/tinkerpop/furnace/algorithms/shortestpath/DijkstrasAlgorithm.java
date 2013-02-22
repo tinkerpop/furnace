@@ -4,7 +4,10 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import com.tinkerpop.blueprints.Direction;
@@ -25,7 +28,7 @@ public class DijkstrasAlgorithm extends SingleSourceShortestPathAlgorithm {
 	}
 
 	@Override
-	public Map<Vertex, Long> compute(Vertex source, String weightPropertyName, String... weightedEdgeLabels) {
+	public Map<Vertex, List<Edge>> compute(Vertex source, String weightPropertyName, String... weightedEdgeLabels) {
 		if (source == null) {
 			throw new NullPointerException("Source cannot be null");
 		}
@@ -49,11 +52,13 @@ public class DijkstrasAlgorithm extends SingleSourceShortestPathAlgorithm {
 		return performDijkstrasAlgorithm(graph, source, weightPropertyName, weightedEdgeLabels);
 	}
 
-	private Map<Vertex, Long> performDijkstrasAlgorithm(Graph graph, Vertex source, String weightPropertyName, final String... weightedEdgeLabels) {
+	private Map<Vertex, List<Edge>> performDijkstrasAlgorithm(Graph graph, Vertex source, String weightPropertyName, final String... weightedEdgeLabels) {
+		// TODO: Check to see if an edge weight is negative, which is not allowed in dijkstra's.
 		final Map<Vertex, Long> distanceMap = new HashMap<Vertex, Long>();
 		Set<Vertex> remainingNodes = new HashSet<Vertex>();
-		// Map<Vertex, Edge> previousMap = new HashMap<Vertex, Edge>();
+		Map<Vertex, Edge> previousMap = new HashMap<Vertex, Edge>();
 
+		// Compares the distances of the vertexes from the map
 		Comparator<Vertex> distanceComparator = new Comparator<Vertex>() {
 			@Override
 			public int compare(Vertex vertex1, Vertex vertex2) {
@@ -68,6 +73,7 @@ public class DijkstrasAlgorithm extends SingleSourceShortestPathAlgorithm {
 		distanceMap.put(source, 0L);
 
 		while (!remainingNodes.isEmpty()) {
+			// Since we constantly need to get the min, which will change every iteration, we need to resort.
 			Vertex smallestVertex = Collections.min(remainingNodes, distanceComparator);
 			remainingNodes.remove(smallestVertex);
 			Long currentDistance = distanceMap.get(smallestVertex);
@@ -92,11 +98,26 @@ public class DijkstrasAlgorithm extends SingleSourceShortestPathAlgorithm {
 					}
 					if (couldBeShorterDistance < distanceMap.get(neighborVertex)) {
 						distanceMap.put(neighborVertex, couldBeShorterDistance);
-						// previousMap.put(neighborVertex, edge);
+						previousMap.put(neighborVertex, edge);
 					}
 				}
 			}
 		}
-		return distanceMap;
+		Map<Vertex, List<Edge>> pathMap = new HashMap<Vertex, List<Edge>>();
+		for (Entry<Vertex, Edge> entry : previousMap.entrySet()) {
+			List<Edge> path = new LinkedList<Edge>();
+			pathMap.put(entry.getKey(), path);
+
+			Vertex pastVertex = null;
+			Edge currentEdge = entry.getValue();
+			do {
+				pastVertex = currentEdge.getVertex(Direction.OUT);
+				path.add(currentEdge);
+				currentEdge = previousMap.get(pastVertex);
+			} while (!source.equals(pastVertex));
+
+			Collections.reverse(path);
+		}
+		return pathMap;
 	}
 }

@@ -2,6 +2,9 @@ package com.tinkerpop.furnace.algorithms;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 import org.junit.Test;
@@ -28,10 +31,10 @@ public class DijkstrasAlgorithmTest {
 		edge2.setProperty("weight", 1);
 
 		DijkstrasAlgorithm da = new DijkstrasAlgorithm(graph);
-		Map<Vertex, Long> shortMap = da.compute(vertex1, "weight");
-		assertEquals(shortMap.get(vertex1), new Long(0));
-		assertEquals(shortMap.get(vertex2), new Long(1));
-		assertEquals(shortMap.get(vertex3), new Long(2));
+		Map<Vertex, List<Edge>> shortMap = da.compute(vertex1, "weight");
+		assertEquals(shortMap.get(vertex1), null);
+		assertEquals(shortMap.get(vertex2), Collections.singletonList(edge1));
+		assertEquals(shortMap.get(vertex3), Arrays.asList(edge1, edge2));
 	}
 
 	@Test
@@ -48,9 +51,9 @@ public class DijkstrasAlgorithmTest {
 		edge2.setProperty("weight", 1);
 
 		DijkstrasAlgorithm da = new DijkstrasAlgorithm(graph);
-		Map<Vertex, Long> shortMap = da.compute(vertex1, "weight");
-		assertEquals(shortMap.get(vertex1), new Long(0));
-		assertEquals(shortMap.get(vertex2), new Long(Long.MAX_VALUE));
-		assertEquals(shortMap.get(vertex3), new Long(Long.MAX_VALUE));
+		Map<Vertex, List<Edge>> shortMap = da.compute(vertex1, "weight");
+		assertEquals(shortMap.get(vertex1), null);
+		assertEquals(shortMap.get(vertex2), null);
+		assertEquals(shortMap.get(vertex3), null);
 	}
 }
