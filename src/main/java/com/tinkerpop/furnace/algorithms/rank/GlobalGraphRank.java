@@ -1,4 +1,4 @@
-package com.tinkerpop.furnace.algorithms;
+package com.tinkerpop.furnace.algorithms.rank;
 
 import java.util.Map;
 
