@@ -2,6 +2,7 @@ package com.tinkerpop.furnace.util;
 
 import com.tinkerpop.blueprints.Query;
 import com.tinkerpop.blueprints.Vertex;
+import com.tinkerpop.blueprints.VertexQuery;
 import com.tinkerpop.furnace.util.QueryTemplate.HasContainer;
 
 /**
@@ -9,8 +10,8 @@ import com.tinkerpop.furnace.util.QueryTemplate.HasContainer;
  */
 public class QueryHelper {
 
-	public static Query createQuery(final Vertex vertex, final QueryTemplate queryTemplate) {
-		final Query query = vertex.query();
+	public static VertexQuery createQuery(final Vertex vertex, final QueryTemplate queryTemplate) {
+		final VertexQuery query = vertex.query();
 		for (final HasContainer hasContainer : queryTemplate.hasContainers) {
 			if (hasContainer.compare.equals(Query.Compare.EQUAL)) {
 				query.has(hasContainer.key, hasContainer.value);
