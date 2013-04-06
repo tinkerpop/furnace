@@ -14,9 +14,11 @@ import com.tinkerpop.blueprints.Edge;
 import com.tinkerpop.blueprints.Graph;
 import com.tinkerpop.blueprints.Vertex;
 
-public class DepthFirstSearch extends SearchAlgorithm {
+public class DepthFirstSearch implements SearchAlgorithm {
+	private Graph graph;
+
 	public DepthFirstSearch(Graph graph) {
-		super(graph);
+		this.graph = graph;
 	}
 
 	@Override
