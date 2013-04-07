@@ -1,24 +1,61 @@
 package com.tinkerpop.furnace.algorithms.search;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 import java.util.Set;
-import java.util.Stack;
 
 import com.tinkerpop.blueprints.Direction;
 import com.tinkerpop.blueprints.Edge;
 import com.tinkerpop.blueprints.Graph;
 import com.tinkerpop.blueprints.Vertex;
 
-public class DepthFirstSearch implements SearchAlgorithm {
+public class BreadthFirstAlgorithm implements SearchAlgorithm, TraversalAlgorithm {
 	private Graph graph;
 
-	public DepthFirstSearch(Graph graph) {
+	public BreadthFirstAlgorithm(Graph graph) {
 		this.graph = graph;
+	}
+
+	@Override
+	public List<Vertex> traverseTree(Vertex start) {
+		if (start == null) {
+			throw new NullPointerException("Start cannot be null");
+		}
+
+		start = graph.getVertex(start.getId());
+		if (start == null) {
+			throw new IllegalStateException("Start vertex does not belong to this graph.");
+		}
+
+		return performBreadthFirstTraversal(start);
+	}
+
+	private List<Vertex> performBreadthFirstTraversal(Vertex start) {
+		Queue<Vertex> list = new LinkedList<Vertex>();
+		Set<Vertex> visitedSet = new HashSet<Vertex>();
+		LinkedList<Vertex> returnList = new LinkedList<Vertex>();
+
+		list.add(start);
+		visitedSet.add(start);
+		while (!list.isEmpty()) {
+			Vertex next = list.poll();
+			returnList.add(next);
+			for (Edge edge : next.getEdges(Direction.OUT)) {
+				Vertex child = edge.getVertex(Direction.IN);
+				if (!visitedSet.contains(child)) {
+					visitedSet.add(child);
+					list.add(child);
+				}
+			}
+		}
+
+		return new ArrayList<Vertex>(returnList);
 	}
 
 	@Override
@@ -47,14 +84,14 @@ public class DepthFirstSearch implements SearchAlgorithm {
 	}
 
 	private List<Edge> performBreadthFirstSearch(Vertex start, Vertex end) {
-		Stack<Vertex> list = new Stack<Vertex>();
+		Queue<Vertex> list = new LinkedList<Vertex>();
 		Set<Vertex> visitedSet = new HashSet<Vertex>();
 		Map<Vertex, Edge> previousMap = new HashMap<Vertex, Edge>();
 
 		list.add(start);
 		visitedSet.add(start);
 		while (!list.isEmpty()) {
-			Vertex next = list.pop();
+			Vertex next = list.poll();
 			if (end.equals(next)) {
 				break;
 			}
