@@ -52,7 +52,6 @@ public class DijkstrasAlgorithm extends SingleSourceShortestPathAlgorithm {
 	}
 
 	private Map<Vertex, List<Edge>> performDijkstrasAlgorithm(Vertex source, String weightPropertyName, final String... weightedEdgeLabels) {
-		// TODO: Check to see if an edge weight is negative, which is not allowed in dijkstra's.
 		final Map<Vertex, Long> distanceMap = new HashMap<Vertex, Long>();
 		Set<Vertex> remainingNodes = new HashSet<Vertex>();
 		Map<Vertex, Edge> previousMap = new HashMap<Vertex, Edge>();
@@ -72,7 +71,7 @@ public class DijkstrasAlgorithm extends SingleSourceShortestPathAlgorithm {
 		distanceMap.put(source, 0L);
 
 		while (!remainingNodes.isEmpty()) {
-			// Since we constantly need to get the min, which will change every iteration, we need to resort.
+			// Since we constantly need to get the min, which will change every iteration, we're unable to utilize a heap.
 			Vertex smallestVertex = Collections.min(remainingNodes, distanceComparator);
 			remainingNodes.remove(smallestVertex);
 			Long currentDistance = distanceMap.get(smallestVertex);
@@ -86,6 +85,9 @@ public class DijkstrasAlgorithm extends SingleSourceShortestPathAlgorithm {
 					Long edgeWeight = null;
 					try {
 						edgeWeight = Long.valueOf(edge.getProperty(weightPropertyName).toString());
+						if (edgeWeight < 0) {
+							throw new IllegalArgumentException("Weight on Edge " + edge + " was negative, and this implementation of Dijkstra's does not allow negative edge weights");
+						}
 					} catch (NumberFormatException nfe) {
 						throw new IllegalArgumentException("Edge " + edge + " weight property not castable to Long");
 					} catch (NullPointerException npe) {
