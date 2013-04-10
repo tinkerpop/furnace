@@ -1,6 +1,5 @@
 Single-relational algorithms still to be implemented:
 
-    http://en.wikipedia.org/wiki/Breadth-first_search
     http://en.wikipedia.org/wiki/A*_search_algorithm
     http://en.wikipedia.org/wiki/B*
     http://en.wikipedia.org/wiki/Centrality
@@ -15,3 +14,5 @@ Single-relational algorithms still to be implemented:
  
     http://en.wikipedia.org/wiki/Dijkstra's_algorithm
 	http://en.wikipedia.org/wiki/Rank_(graph_theory)    
+    http://en.wikipedia.org/wiki/Breadth-first_search
+    http://en.wikipedia.org/wiki/Depth-first_search
