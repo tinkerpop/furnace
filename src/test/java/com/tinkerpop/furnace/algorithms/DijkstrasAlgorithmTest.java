@@ -14,6 +14,7 @@ import com.tinkerpop.blueprints.Graph;
 import com.tinkerpop.blueprints.Vertex;
 import com.tinkerpop.blueprints.impls.tg.TinkerGraph;
 import com.tinkerpop.furnace.algorithms.shortestpath.DijkstrasAlgorithm;
+import com.tinkerpop.furnace.algorithms.shortestpath.SingleSourceShortestPathAlgorithm;
 
 public class DijkstrasAlgorithmTest {
 
@@ -30,7 +31,7 @@ public class DijkstrasAlgorithmTest {
 		edge1.setProperty("weight", 1);
 		edge2.setProperty("weight", 1);
 
-		DijkstrasAlgorithm da = new DijkstrasAlgorithm(graph);
+		SingleSourceShortestPathAlgorithm da = new DijkstrasAlgorithm(graph);
 		Map<Vertex, List<Edge>> shortMap = da.compute(vertex1, "weight");
 		assertEquals(shortMap.get(vertex1), null);
 		assertEquals(shortMap.get(vertex2), Collections.singletonList(edge1));
@@ -50,7 +51,7 @@ public class DijkstrasAlgorithmTest {
 		edge1.setProperty("weight", 1);
 		edge2.setProperty("weight", 1);
 
-		DijkstrasAlgorithm da = new DijkstrasAlgorithm(graph);
+		SingleSourceShortestPathAlgorithm da = new DijkstrasAlgorithm(graph);
 		Map<Vertex, List<Edge>> shortMap = da.compute(vertex1, "weight");
 		assertEquals(shortMap.get(vertex1), null);
 		assertEquals(shortMap.get(vertex2), null);
