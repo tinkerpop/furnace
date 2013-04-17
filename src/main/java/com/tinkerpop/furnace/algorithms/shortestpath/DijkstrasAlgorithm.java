@@ -17,7 +17,7 @@ import com.tinkerpop.blueprints.Vertex;
 
 /**
  * 
- * Implementation of Dijkstra's Algorithm using Tinkerpop's Pipelines.
+ * Implementation of Dijkstra's Algorithm, which will not work with negative edge weights.
  * 
  * @author Nicholas A. Stuart (nicholasastuart@gmail.com)
  * 
@@ -54,7 +54,7 @@ public class DijkstrasAlgorithm extends SingleSourceShortestPathAlgorithm {
 	private Map<Vertex, List<Edge>> performDijkstrasAlgorithm(Vertex source, String weightPropertyName, final String... weightedEdgeLabels) {
 		final Map<Vertex, Long> distanceMap = new HashMap<Vertex, Long>();
 		Set<Vertex> remainingNodes = new HashSet<Vertex>();
-		Map<Vertex, Edge> previousMap = new HashMap<Vertex, Edge>();
+		Map<Vertex, Edge> predecessorMap = new HashMap<Vertex, Edge>();
 
 		// Compares the distances of the vertexes from the map
 		Comparator<Vertex> distanceComparator = new Comparator<Vertex>() {
@@ -99,13 +99,13 @@ public class DijkstrasAlgorithm extends SingleSourceShortestPathAlgorithm {
 					}
 					if (couldBeShorterDistance < distanceMap.get(neighborVertex)) {
 						distanceMap.put(neighborVertex, couldBeShorterDistance);
-						previousMap.put(neighborVertex, edge);
+						predecessorMap.put(neighborVertex, edge);
 					}
 				}
 			}
 		}
 		Map<Vertex, List<Edge>> pathMap = new HashMap<Vertex, List<Edge>>();
-		for (Entry<Vertex, Edge> entry : previousMap.entrySet()) {
+		for (Entry<Vertex, Edge> entry : predecessorMap.entrySet()) {
 			List<Edge> path = new ArrayList<Edge>();
 			pathMap.put(entry.getKey(), path);
 
@@ -114,7 +114,7 @@ public class DijkstrasAlgorithm extends SingleSourceShortestPathAlgorithm {
 			do {
 				pastVertex = currentEdge.getVertex(Direction.OUT);
 				path.add(currentEdge);
-				currentEdge = previousMap.get(pastVertex);
+				currentEdge = predecessorMap.get(pastVertex);
 			} while (!source.equals(pastVertex));
 
 			Collections.reverse(path);

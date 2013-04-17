@@ -24,7 +24,7 @@ public abstract class SingleSourceShortestPathAlgorithm {
 	 * @param weightPropertyName
 	 *            Name of the property on each edge to use for weight. Cannot be {@code null} or empty.
 	 * @param weightedEdgeLabel
-	 *            Edge label to go out from the vertex. {@code null} or empty is allowed and will use any edge label to traverse.
+	 *            Edge label to go out from the vertex. If none are specified, all edge labels will be considered.
 	 * @return {@code Map<Vertex, List<Edge>} with key of {@code Vertex} in the graph and value is a list of the ordered edges composing the shortest path.
 	 */
 	public abstract Map<Vertex, List<Edge>> compute(final Vertex source, final String weightPropertyName, final String... weightedEdgeLabels);
