@@ -77,7 +77,7 @@ public class BellmanFordAlgorithm extends SingleSourceShortestPathAlgorithm {
 
 		for (int i = 0; i < verticesSize - 1; i++) {
 			for (Edge edge : edgesToCheck) {
-				long edgeWeight = edge.getProperty(weightPropertyName);
+				long edgeWeight = (Long)edge.getProperty(weightPropertyName);
 				Vertex from = edge.getVertex(Direction.OUT);
 				Vertex to = edge.getVertex(Direction.IN);
 
@@ -91,7 +91,7 @@ public class BellmanFordAlgorithm extends SingleSourceShortestPathAlgorithm {
 		}
 
 		for (Edge edge : edgesToCheck) {
-			long edgeWeight = edge.getProperty(weightPropertyName);
+			long edgeWeight = (Long)edge.getProperty(weightPropertyName);
 			Vertex from = edge.getVertex(Direction.OUT);
 			Vertex to = edge.getVertex(Direction.IN);
 
