@@ -9,7 +9,7 @@ import com.tinkerpop.blueprints.Edge;
  * called on each newly generated edge exactly once. Hence, an implementation of this
  * interface can assign arbitrary properties to this edge.
  * 
- * (c) Matthias Broecheler (me@matthiasb.com)
+ * @author Matthias Broecheler (me@matthiasb.com)
  */
 
 public interface EdgeAnnotator {

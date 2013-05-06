@@ -13,7 +13,7 @@ import com.tinkerpop.blueprints.Vertex;
  * processed vertex exactly once. Hence, an implementation of this interface can
  * assign arbitrary properties to this vertex.
  * 
- * (c) Uwe L. Korn (uwelk@xhochy.com)
+ * @author Uwe L. Korn (uwelk@xhochy.com)
  */
 
 public interface VertexAnnotator {

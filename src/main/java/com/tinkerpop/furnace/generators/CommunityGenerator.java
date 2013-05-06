@@ -15,7 +15,7 @@ import com.tinkerpop.blueprints.Vertex;
  * Generates a synthetic network with a community structure, that is, several densely connected
  * sub-networks that are loosely connected with one another.
  *
- * (c) Matthias Broecheler (me@matthiasb.com)
+ * @author Matthias Broecheler (me@matthiasb.com)
  */
 
 public class CommunityGenerator extends AbstractGenerator {

@@ -5,7 +5,7 @@ import com.tinkerpop.blueprints.Graph;
 import com.tinkerpop.blueprints.Vertex;
 import com.tinkerpop.blueprints.impls.tg.TinkerGraphFactory;
 import com.tinkerpop.furnace.algorithms.rank.DegreeCentrality;
-import com.tinkerpop.furnace.util.QueryTemplate;
+import com.tinkerpop.furnace.util.VertexQueryBuilder;
 import junit.framework.TestCase;
 
 import java.util.Map;
@@ -18,7 +18,7 @@ public class DegreeCentralityTest extends TestCase {
     public void testCompute() {
         Graph graph = TinkerGraphFactory.createTinkerGraph();
         DegreeCentrality dc = new DegreeCentrality();
-        Map<Vertex, Long> rank = dc.compute(graph, new QueryTemplate().labels("created").direction(Direction.OUT));
+        Map<Vertex, Long> rank = dc.compute(graph, new VertexQueryBuilder().labels("created").direction(Direction.OUT));
         assertEquals(rank.get(graph.getVertex(1)), new Long(1));
         assertEquals(rank.get(graph.getVertex(2)), new Long(0));
         assertEquals(rank.get(graph.getVertex(3)), new Long(0));

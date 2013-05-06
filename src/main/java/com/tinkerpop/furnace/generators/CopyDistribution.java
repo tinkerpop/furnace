@@ -8,7 +8,7 @@ import java.util.Random;
  * Hence, this class can be used as the in-degree distribution to ensure that
  * the in-degree of a vertex is equal to the out-degree.
  *
- * (c) Matthias Broecheler (me@matthiasb.com)
+ * @author Matthias Broecheler (me@matthiasb.com)
  */
 
 public class CopyDistribution implements Distribution {

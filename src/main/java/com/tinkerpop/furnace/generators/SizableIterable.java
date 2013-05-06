@@ -10,7 +10,7 @@ import java.util.Iterator;
  * 
  * Some generators need to know the number of vertices prior to generation. Using this class can speed up the generator.
  * 
- * (c) Matthias Broecheler (me@matthiasb.com)
+ * @author Matthias Broecheler (me@matthiasb.com)
  */
 
 public class SizableIterable<T> implements Iterable<T> {

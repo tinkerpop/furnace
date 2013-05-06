@@ -9,7 +9,7 @@ import com.tinkerpop.blueprints.Vertex;
 /**
  * Base class for all synthetic network generators.
  * 
- * (c) Matthias Broecheler (me@matthiasb.com)
+ * @author Matthias Broecheler (me@matthiasb.com)
  */
 
 public abstract class AbstractGenerator {

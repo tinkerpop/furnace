@@ -12,7 +12,7 @@ import junit.framework.TestCase;
 import java.util.Random;
 
 /**
- * (c) Matthias Broecheler (me@matthiasb.com)
+ * @author Matthias Broecheler (me@matthiasb.com)
  */
 
 public class DistributionGeneratorTest extends TestCase {

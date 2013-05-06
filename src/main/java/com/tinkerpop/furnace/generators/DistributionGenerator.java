@@ -12,7 +12,7 @@ import com.tinkerpop.blueprints.Vertex;
  * 
  * After construction, at least the out-degree distribution must be set via {@link #setOutDistribution}
  * 
- * (c) Matthias Broecheler (me@matthiasb.com)
+ * @author Matthias Broecheler (me@matthiasb.com)
  */
 
 public class DistributionGenerator extends AbstractGenerator {

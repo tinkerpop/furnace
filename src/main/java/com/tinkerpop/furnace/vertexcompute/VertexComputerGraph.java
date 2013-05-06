@@ -1,17 +1,13 @@
 package com.tinkerpop.furnace.vertexcompute;
 
-import com.tinkerpop.blueprints.Graph;
-
-import java.util.Map;
-
 /**
- * (c) Matthias Broecheler (me@matthiasb.com)
+ * @author Marko A. Rodriguez (http://markorodriguez.com)
+ * @author Matthias Broecheler (me@matthiasb.com)
  */
-
 public interface VertexComputerGraph {
 
-    public ComputeResult execute(VertexComputer computer, ComputeConfiguration configuration, TerminationCondition termination, Map<String,Object> initialState);
+    public ComputeResult execute(GraphComputer graphComputer);
 
-    public ComputeResult execute(VertexComputer computer, ComputeConfiguration configuration, TerminationCondition termination);
+    public void cleanup(GraphComputer graphComputer);
 
 }

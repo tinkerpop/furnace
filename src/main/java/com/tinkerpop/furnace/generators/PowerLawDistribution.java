@@ -5,7 +5,7 @@ import java.util.Random;
 /**
  * Generates values according to a scale-free distribution with the configured gamma value.
  *
- * (c) Matthias Broecheler (me@matthiasb.com)
+ * @author Matthias Broecheler (me@matthiasb.com)
  */
 public class PowerLawDistribution implements Distribution {
 

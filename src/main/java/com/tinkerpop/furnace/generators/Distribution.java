@@ -8,7 +8,7 @@ import java.util.Random;
  * Used, for instance, by {@link DistributionGenerator} to define the in- and out-degree distributions and by
  * {@link CommunityGenerator} to define the community size distribution.
  *
- * (c) Matthias Broecheler (me@matthiasb.com)
+ * @author Matthias Broecheler (me@matthiasb.com)
  */
 
 public interface Distribution {
