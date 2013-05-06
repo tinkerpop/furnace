@@ -1,6 +1,10 @@
 package com.tinkerpop.furnace.vertexcompute;
 
 /**
+ * Each vertex in a vertex-centric graph computation can access itself and its neighbors.
+ * However, in many situations, a global backboard (or distributed cache) is desired.
+ * The SharedState is a synchronizing data structure that allows arbitrary vertex communication.
+ *
  * @author Matthias Broecheler (me@matthiasb.com)
  */
 public interface SharedState {

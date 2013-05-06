@@ -14,7 +14,7 @@ import com.tinkerpop.furnace.vertexcompute.util.VertexPropertyComputeResult;
 public class PageRankGraphComputer extends GraphComputer {
 
     private int iterations = 0;
-    private final int totalItertions;
+    private final int totalIterations;
     private final String pageRankKey;
 
     public static final String VERTEX_COUNT = "vertexCount";
@@ -26,14 +26,14 @@ public class PageRankGraphComputer extends GraphComputer {
                                     final SharedState sharedState, final Isolation isolation) {
         super(new PageRankVertexComputer(keyPrefix + "." + PAGE_RANK, builder), sharedState, isolation);
 
-        this.totalItertions = totalIterations;
+        this.totalIterations = totalIterations;
         this.pageRankKey = keyPrefix + "." + PAGE_RANK;
         this.getSharedState().set(VERTEX_COUNT, vertexCount);
         this.getSharedState().set(ALPHA, alpha);
     }
 
     public boolean terminate() {
-        return iterations++ == totalItertions;
+        return iterations++ == totalIterations;
     }
 
     public ComputeResult generateResult() {

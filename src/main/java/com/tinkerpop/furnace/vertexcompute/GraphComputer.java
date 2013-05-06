@@ -3,6 +3,11 @@ package com.tinkerpop.furnace.vertexcompute;
 import com.google.common.base.Preconditions;
 
 /**
+ * A GraphComputer is the global coordinator of the distributed graph computation.
+ * GraphComputer is responsible for constructing the VertexComputer and maintaining the SharedState between them.
+ * GraphComputer is the means by which the results of the distributed computation are accessed.
+ * Finally, GraphComputer provide the requisite cleanup method for removing all computational side-effects within the graph.
+ *
  * @author Matthias Broecheler (me@matthiasb.com)
  */
 public abstract class GraphComputer {
@@ -45,6 +50,11 @@ public abstract class GraphComputer {
         return this.sharedState;
     }
 
+    /**
+     * Whether or not the VertexComputer's need to be setup or if this stage of the computation can be skipped.
+     *
+     * @return whether or not do execute the setup stage of the computation
+     */
     public boolean doSetup() {
         return true;
     }

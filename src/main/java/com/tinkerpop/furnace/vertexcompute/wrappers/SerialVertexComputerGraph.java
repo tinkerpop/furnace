@@ -10,6 +10,9 @@ import com.tinkerpop.furnace.vertexcompute.VertexComputer;
 import com.tinkerpop.furnace.vertexcompute.VertexComputerGraph;
 
 /**
+ * A SerialVertexComputerGraph implements the vertex-centric graph computing model in a serial, single-threaded manner.
+ * This implementation is simple and provides a reference implementation for the semantics of the interfaces.
+ *
  * @author Marko A. Rodriguez (http://markorodriguez.com)
  */
 public class SerialVertexComputerGraph<T extends Graph> implements VertexComputerGraph, WrapperGraph<T> {

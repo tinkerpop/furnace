@@ -3,6 +3,9 @@ package com.tinkerpop.furnace.vertexcompute;
 import com.google.common.base.Preconditions;
 
 /**
+ * A GraphComputer typically requires numerous parameterizations.
+ * To simplify GraphComputer construction, every GraphComputer must come with a GraphComputerBuilder.
+ *
  * @author Marko A. Rodriguez (http://markorodriguez.com)
  */
 public abstract class GraphComputerBuilder {
