@@ -10,4 +10,7 @@ public interface VertexComputerGraph {
 
     public void cleanup(GraphComputer graphComputer);
 
+    // public SharedState createDefaultSharedState()
+    // SharedState is ultimately tied to the implemented VertexComputerGraph and thus, can be provided by the graph.
+
 }
