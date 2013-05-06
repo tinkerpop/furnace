@@ -51,7 +51,7 @@ public abstract class GraphComputer {
     }
 
     /**
-     * Whether or not the VertexComputer's need to be setup or if this stage of the computation can be skipped.
+     * Whether or not the VertexComputers need to be setup or if this stage of the computation can be skipped.
      *
      * @return whether or not do execute the setup stage of the computation
      */

@@ -9,6 +9,11 @@ import com.tinkerpop.furnace.vertexcompute.SharedState;
 import com.tinkerpop.furnace.vertexcompute.util.VertexPropertyComputeResult;
 
 /**
+ * The PageRankGraphComputer provides a vertex-centric implementation of the popular PageRank algorithm.
+ * This implementation is sink-unaware in that a sink vertex does not equally distribute its rank score across the entire graph.
+ * A drawback of such an implementation is that the final probability distribution does not sum 1.0.
+ * Moreover, if numerous sinks exists, then floating point issues can arise as the primary contributor of energy is the (1-alpha)/|V| score.
+ *
  * @author Marko A. Rodriguez (http://markorodriguez.com)
  */
 public class PageRankGraphComputer extends GraphComputer {

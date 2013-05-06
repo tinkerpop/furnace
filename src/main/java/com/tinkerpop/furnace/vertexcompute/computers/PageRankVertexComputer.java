@@ -7,6 +7,8 @@ import com.tinkerpop.furnace.vertexcompute.SharedState;
 import com.tinkerpop.furnace.vertexcompute.VertexComputer;
 
 /**
+ * A VertexComputer for the popular PageRank algorithm.
+ *
  * @author Marko A. Rodriguez (http://markorodriguez.com)
  */
 public class PageRankVertexComputer implements VertexComputer {
