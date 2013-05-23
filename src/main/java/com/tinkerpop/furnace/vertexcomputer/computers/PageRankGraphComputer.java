@@ -1,10 +1,10 @@
-package com.tinkerpop.furnace.vertexcompute.computers;
+package com.tinkerpop.furnace.vertexcomputer.computers;
 
 import com.google.common.base.Preconditions;
 import com.tinkerpop.blueprints.Direction;
 import com.tinkerpop.furnace.util.VertexQueryBuilder;
-import com.tinkerpop.furnace.vertexcompute.GraphComputer;
-import com.tinkerpop.furnace.vertexcompute.GraphComputerBuilder;
+import com.tinkerpop.furnace.vertexcomputer.GraphComputer;
+import com.tinkerpop.furnace.vertexcomputer.GraphComputerBuilder;
 
 import java.util.Arrays;
 

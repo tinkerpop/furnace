@@ -1,10 +1,10 @@
-package com.tinkerpop.furnace.vertexcompute.wrappers;
+package com.tinkerpop.furnace.vertexcomputer.wrappers;
 
 import com.tinkerpop.blueprints.Direction;
 import com.tinkerpop.blueprints.Edge;
 import com.tinkerpop.blueprints.Vertex;
 import com.tinkerpop.blueprints.VertexQuery;
-import com.tinkerpop.furnace.vertexcompute.GraphComputer;
+import com.tinkerpop.furnace.vertexcomputer.GraphComputer;
 
 import java.util.Set;
 

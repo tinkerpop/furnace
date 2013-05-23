@@ -1,14 +1,14 @@
-package com.tinkerpop.furnace.vertexcompute.wrappers;
+package com.tinkerpop.furnace.vertexcomputer.wrappers;
 
 import com.google.common.base.Preconditions;
 import com.tinkerpop.blueprints.Graph;
 import com.tinkerpop.blueprints.Vertex;
 import com.tinkerpop.blueprints.util.wrappers.WrapperGraph;
-import com.tinkerpop.furnace.vertexcompute.ComputerProperties;
-import com.tinkerpop.furnace.vertexcompute.GraphComputer;
-import com.tinkerpop.furnace.vertexcompute.SharedState;
-import com.tinkerpop.furnace.vertexcompute.VertexComputer;
-import com.tinkerpop.furnace.vertexcompute.VertexComputerGraph;
+import com.tinkerpop.furnace.vertexcomputer.ComputerProperties;
+import com.tinkerpop.furnace.vertexcomputer.GraphComputer;
+import com.tinkerpop.furnace.vertexcomputer.SharedState;
+import com.tinkerpop.furnace.vertexcomputer.VertexComputer;
+import com.tinkerpop.furnace.vertexcomputer.VertexComputerGraph;
 
 /**
  * A SerialVertexComputerGraph implements the vertex-centric graph computing model in a serial, single-threaded manner.

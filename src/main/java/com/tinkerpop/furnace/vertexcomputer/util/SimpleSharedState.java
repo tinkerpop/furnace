@@ -1,6 +1,6 @@
-package com.tinkerpop.furnace.vertexcompute.util;
+package com.tinkerpop.furnace.vertexcomputer.util;
 
-import com.tinkerpop.furnace.vertexcompute.SharedState;
+import com.tinkerpop.furnace.vertexcomputer.SharedState;
 
 import java.util.HashMap;
 import java.util.Map;

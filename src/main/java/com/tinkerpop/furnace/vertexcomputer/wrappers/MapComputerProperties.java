@@ -1,7 +1,7 @@
-package com.tinkerpop.furnace.vertexcompute.wrappers;
+package com.tinkerpop.furnace.vertexcomputer.wrappers;
 
 import com.tinkerpop.blueprints.Vertex;
-import com.tinkerpop.furnace.vertexcompute.ComputerProperties;
+import com.tinkerpop.furnace.vertexcomputer.ComputerProperties;
 
 import java.util.HashMap;
 import java.util.Map;

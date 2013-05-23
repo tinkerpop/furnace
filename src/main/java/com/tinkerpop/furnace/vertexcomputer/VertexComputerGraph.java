@@ -1,4 +1,4 @@
-package com.tinkerpop.furnace.vertexcompute;
+package com.tinkerpop.furnace.vertexcomputer;
 
 /**
  * A VertexComputerGraph is a Graph that supports the execution of a vertex-centric, graph computer.

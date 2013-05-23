@@ -1,4 +1,4 @@
-package com.tinkerpop.furnace.vertexcompute;
+package com.tinkerpop.furnace.vertexcomputer;
 
 /**
  * Each vertex in a vertex-centric graph computation can access itself and its neighbors.

@@ -1,4 +1,4 @@
-package com.tinkerpop.furnace.vertexcompute;
+package com.tinkerpop.furnace.vertexcomputer;
 
 import com.google.common.base.Preconditions;
 

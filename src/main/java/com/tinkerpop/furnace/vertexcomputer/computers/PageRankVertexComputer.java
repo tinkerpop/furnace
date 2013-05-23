@@ -1,9 +1,9 @@
-package com.tinkerpop.furnace.vertexcompute.computers;
+package com.tinkerpop.furnace.vertexcomputer.computers;
 
 import com.tinkerpop.blueprints.Vertex;
 import com.tinkerpop.furnace.util.VertexQueryBuilder;
-import com.tinkerpop.furnace.vertexcompute.SharedState;
-import com.tinkerpop.furnace.vertexcompute.VertexComputer;
+import com.tinkerpop.furnace.vertexcomputer.SharedState;
+import com.tinkerpop.furnace.vertexcomputer.VertexComputer;
 
 /**
  * A VertexComputer for the popular PageRank algorithm.
