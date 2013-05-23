@@ -5,24 +5,24 @@ import com.tinkerpop.blueprints.Edge;
 import com.tinkerpop.blueprints.Query;
 import com.tinkerpop.blueprints.Vertex;
 import com.tinkerpop.blueprints.VertexQuery;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.tinkerpop.blueprints.util.DefaultVertexQuery;
 
 /**
  * @author Marko A. Rodriguez (http://markorodriguez.com)
  */
-public class VertexQueryBuilder implements VertexQuery {
+public class VertexQueryBuilder extends DefaultVertexQuery {
 
-    private static final String[] EMPTY_LABELS = new String[]{};
+    public VertexQueryBuilder() {
+        super(null);
+    }
 
-    public Direction direction = Direction.BOTH;
-    public String[] labels = EMPTY_LABELS;
-    public long limit = Long.MAX_VALUE;
-    public List<HasContainer> hasContainers = new ArrayList<HasContainer>();
+    public VertexQueryBuilder hasNot(final String key, final Object... values) {
+        super.hasNot(key, values);
+        return this;
+    }
 
-    public VertexQueryBuilder has(final String key, final Object value) {
-        this.hasContainers.add(new HasContainer(key, value, Query.Compare.EQUAL));
+    public VertexQueryBuilder has(final String key, final Object... values) {
+        super.has(key, values);
         return this;
     }
 
@@ -32,28 +32,32 @@ public class VertexQueryBuilder implements VertexQuery {
     }
 
     public <T extends Comparable<T>> VertexQueryBuilder has(final String key, final Query.Compare compare, final T value) {
-        this.hasContainers.add(new HasContainer(key, value, compare));
+        super.has(key, compare, value);
         return this;
     }
 
     public <T extends Comparable<T>> VertexQueryBuilder interval(final String key, final T startValue, final T endValue) {
-        this.hasContainers.add(new HasContainer(key, startValue, Query.Compare.GREATER_THAN_EQUAL));
-        this.hasContainers.add(new HasContainer(key, endValue, Query.Compare.LESS_THAN));
+        super.interval(key, startValue, endValue);
         return this;
     }
 
     public VertexQueryBuilder direction(final Direction direction) {
-        this.direction = direction;
+        super.direction(direction);
         return this;
     }
 
     public VertexQueryBuilder labels(final String... labels) {
-        this.labels = labels;
+        super.labels(labels);
         return this;
     }
 
-    public VertexQueryBuilder limit(final long max) {
-        this.limit = max;
+    public VertexQueryBuilder limit(final long take) {
+        super.limit(take);
+        return this;
+    }
+
+    public VertexQueryBuilder limit(final long skip, final long take) {
+        super.limit(skip, take);
         return this;
     }
 
@@ -73,28 +77,15 @@ public class VertexQueryBuilder implements VertexQuery {
         throw new UnsupportedOperationException();
     }
 
-    public class HasContainer {
-        public String key;
-        public Object value;
-        public Query.Compare compare;
-
-        public HasContainer(final String key, final Object value, final Query.Compare compare) {
-            this.key = key;
-            this.value = value;
-            this.compare = compare;
-        }
-    }
-
     public VertexQuery build(final Vertex vertex) {
         final VertexQuery query = vertex.query();
         for (final HasContainer hasContainer : this.hasContainers) {
             if (hasContainer.compare.equals(Query.Compare.EQUAL)) {
-                query.has(hasContainer.key, hasContainer.value);
+                query.has(hasContainer.key, hasContainer.values);
             } else {
-                query.has(hasContainer.key, hasContainer.compare, (Comparable) hasContainer.value);
+                query.has(hasContainer.key, hasContainer.compare, hasContainer.values);
             }
         }
-        return query.limit(this.limit).labels(this.labels).direction(this.direction);
+        return query.limit(this.minimum, this.maximum).labels(this.labels).direction(this.direction);
     }
-
 }

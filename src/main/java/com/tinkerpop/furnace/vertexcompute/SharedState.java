@@ -11,7 +11,7 @@ public interface SharedState {
 
     public <R> R get(final String key);
 
-    public void set(final String key, final Object value);
+    public void setIfAbsent(String key, Object value);
 
    /*public void increment(String key, long delta);
 
@@ -23,10 +23,7 @@ public interface SharedState {
 
     public void avg(String key, double value);
 
-    public <V> void setIfAbsent(String key, V value);
-
     public <V> void update(String key, Function<V, V> update, V defaultValue);*/
 
     // public Map<String, Object> getCurrentState();
-
 }

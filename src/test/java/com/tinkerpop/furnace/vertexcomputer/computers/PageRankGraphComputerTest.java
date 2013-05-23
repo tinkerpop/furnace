@@ -5,13 +5,17 @@ import com.tinkerpop.blueprints.Graph;
 import com.tinkerpop.blueprints.Vertex;
 import com.tinkerpop.blueprints.impls.tg.TinkerGraphFactory;
 import com.tinkerpop.furnace.util.VertexQueryBuilder;
-import com.tinkerpop.furnace.vertexcompute.ComputeResult;
+import com.tinkerpop.furnace.vertexcompute.ComputerProperties;
 import com.tinkerpop.furnace.vertexcompute.GraphComputer;
 import com.tinkerpop.furnace.vertexcompute.VertexComputerGraph;
 import com.tinkerpop.furnace.vertexcompute.computers.PageRankGraphComputer;
 import com.tinkerpop.furnace.vertexcompute.util.SimpleSharedState;
+import com.tinkerpop.furnace.vertexcompute.wrappers.MapComputerProperties;
 import com.tinkerpop.furnace.vertexcompute.wrappers.SerialVertexComputerGraph;
 import junit.framework.TestCase;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Marko A. Rodriguez (http://markorodriguez.com)
@@ -22,17 +26,18 @@ public class PageRankGraphComputerTest extends TestCase {
         Graph graph = TinkerGraphFactory.createTinkerGraph();
         VertexComputerGraph vertexComputerGraph = new SerialVertexComputerGraph<Graph>(graph);
         GraphComputer graphComputer = PageRankGraphComputer.create()
-                .prefix("a.test.prefix").alpha(0.85d)
-                .iterations(30).vertexCount(6)
-                .query(new VertexQueryBuilder().direction(Direction.OUT))
-                .sharedState(new SimpleSharedState()).build();
+                .alpha(0.85d).iterations(30).vertexCount(6)
+                .outgoing(new VertexQueryBuilder().direction(Direction.OUT))
+                .incoming(new VertexQueryBuilder().direction(Direction.IN))
+                .computeKeys("pageRank", "edgeCount")
+                .sharedState(new SimpleSharedState())
+                .computerProperties(new MapComputerProperties(new HashMap<Object, Map<String, Object>>())).build();
 
-        vertexComputerGraph.execute(graphComputer);
-        ComputeResult result = graphComputer.generateResult();
+        ComputerProperties results = vertexComputerGraph.execute(graphComputer);
 
         double total = 0.0d;
         for (Vertex vertex : graph.getVertices()) {
-            double pageRank = result.getResult(vertex);
+            double pageRank = results.getProperty(vertex, PageRankGraphComputer.PAGE_RANK);
             total = total + pageRank;
             System.out.println(vertex + " " + pageRank);
             assertTrue(pageRank > 0.0d);
@@ -44,9 +49,6 @@ public class PageRankGraphComputerTest extends TestCase {
             System.out.println(i + " " + (pageRank / total));
         }*/
 
-        vertexComputerGraph.cleanup(graphComputer);
-        for (Vertex vertex : graph.getVertices()) {
-            assertNull(result.getResult(vertex));
-        }
+
     }
 }

@@ -1,6 +1,6 @@
 package com.tinkerpop.furnace.vertexcompute;
 
-import com.google.common.base.Preconditions;
+import java.util.List;
 
 /**
  * A GraphComputer is the global coordinator of the distributed graph computation.
@@ -25,18 +25,11 @@ public abstract class GraphComputer {
         DIRTY_BSP
     }
 
-    private final VertexComputer vertexComputer;
-    private final Isolation isolation;
-    private final SharedState sharedState;
-
-    public GraphComputer(final VertexComputer vertexComputer, final SharedState state, final Isolation isolation) {
-        Preconditions.checkNotNull(vertexComputer);
-        Preconditions.checkNotNull(state);
-        Preconditions.checkNotNull(isolation);
-        this.vertexComputer = vertexComputer;
-        this.sharedState = state;
-        this.isolation = isolation;
-    }
+    protected VertexComputer vertexComputer;
+    protected Isolation isolation;
+    protected SharedState sharedState;
+    protected ComputerProperties computerProperties;
+    protected List<String> computeKeys;
 
     public VertexComputer getVertexComputer() {
         return vertexComputer;
@@ -50,6 +43,14 @@ public abstract class GraphComputer {
         return this.sharedState;
     }
 
+    public ComputerProperties getComputerProperties() {
+        return this.computerProperties;
+    }
+
+    public boolean isComputeKey(final String key) {
+        return this.computeKeys.contains(key);
+    }
+
     /**
      * Whether or not the VertexComputers need to be setup or if this stage of the computation can be skipped.
      *
@@ -59,14 +60,9 @@ public abstract class GraphComputer {
         return true;
     }
 
-    // public abstract roundComplete() ?? What about ASP. Is terminate sufficient to understand the semantics of a "round" ?
-
     public static <R extends GraphComputerBuilder> R create() {
         return null;
     }
 
     public abstract boolean terminate();
-
-    public abstract ComputeResult generateResult();
-
 }

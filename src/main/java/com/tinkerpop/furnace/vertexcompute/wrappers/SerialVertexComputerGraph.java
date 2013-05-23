@@ -4,8 +4,9 @@ import com.google.common.base.Preconditions;
 import com.tinkerpop.blueprints.Graph;
 import com.tinkerpop.blueprints.Vertex;
 import com.tinkerpop.blueprints.util.wrappers.WrapperGraph;
-import com.tinkerpop.furnace.vertexcompute.ComputeResult;
+import com.tinkerpop.furnace.vertexcompute.ComputerProperties;
 import com.tinkerpop.furnace.vertexcompute.GraphComputer;
+import com.tinkerpop.furnace.vertexcompute.SharedState;
 import com.tinkerpop.furnace.vertexcompute.VertexComputer;
 import com.tinkerpop.furnace.vertexcompute.VertexComputerGraph;
 
@@ -28,29 +29,22 @@ public class SerialVertexComputerGraph<T extends Graph> implements VertexCompute
         return this.baseGraph;
     }
 
-    public ComputeResult execute(final GraphComputer graphComputer) {
+    public ComputerProperties execute(final GraphComputer graphComputer) {
         final VertexComputer vertexComputer = graphComputer.getVertexComputer();
+        final SharedState sharedState = graphComputer.getSharedState();
 
         if (graphComputer.doSetup()) {
             for (final Vertex vertex : this.baseGraph.getVertices()) {
-                vertexComputer.setup(vertex, graphComputer.getSharedState());
+                vertexComputer.setup(new HeavyVertex(vertex, graphComputer), sharedState);
             }
         }
 
         while (!graphComputer.terminate()) {
             for (final Vertex vertex : this.baseGraph.getVertices()) {
-                vertexComputer.compute(vertex, graphComputer.getSharedState());
+                vertexComputer.compute(new HeavyVertex(vertex, graphComputer), sharedState);
             }
         }
 
-        return graphComputer.generateResult();
-    }
-
-    public void cleanup(final GraphComputer graphComputer) {
-        final VertexComputer vertexComputer = graphComputer.getVertexComputer();
-
-        for (final Vertex vertex : this.baseGraph.getVertices()) {
-            vertexComputer.cleanup(vertex, graphComputer.getSharedState());
-        }
+        return graphComputer.getComputerProperties();
     }
 }

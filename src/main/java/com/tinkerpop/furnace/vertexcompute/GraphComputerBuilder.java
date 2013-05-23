@@ -12,6 +12,9 @@ public abstract class GraphComputerBuilder {
 
     protected GraphComputer.Isolation isolation = GraphComputer.Isolation.BSP;
     protected SharedState sharedState;
+    protected ComputerProperties computerProperties;
+    protected String[] computeKeys;
+
 
     public <R extends GraphComputerBuilder> R isolation(final GraphComputer.Isolation isolation) {
         this.isolation = isolation;
@@ -23,10 +26,21 @@ public abstract class GraphComputerBuilder {
         return (R) this;
     }
 
+    public <R extends GraphComputerBuilder> R computerProperties(final ComputerProperties computerProperties) {
+        this.computerProperties = computerProperties;
+        return (R) this;
+    }
+
+    public <R extends GraphComputerBuilder> R computeKeys(final String... keys) {
+        this.computeKeys = keys;
+        return (R) this;
+    }
+
     public <R extends GraphComputer> R build() {
         Preconditions.checkNotNull(this.isolation);
         Preconditions.checkNotNull(this.sharedState);
+        Preconditions.checkNotNull(this.computerProperties);
+        Preconditions.checkNotNull(this.computeKeys);
         return null;
     }
-
 }

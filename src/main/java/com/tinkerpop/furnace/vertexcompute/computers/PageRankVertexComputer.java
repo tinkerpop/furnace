@@ -1,7 +1,6 @@
 package com.tinkerpop.furnace.vertexcompute.computers;
 
 import com.tinkerpop.blueprints.Vertex;
-import com.tinkerpop.blueprints.VertexQuery;
 import com.tinkerpop.furnace.util.VertexQueryBuilder;
 import com.tinkerpop.furnace.vertexcompute.SharedState;
 import com.tinkerpop.furnace.vertexcompute.VertexComputer;
@@ -13,43 +12,31 @@ import com.tinkerpop.furnace.vertexcompute.VertexComputer;
  */
 public class PageRankVertexComputer implements VertexComputer {
 
-    private final String pageRankKey;
-    private final String pageRankTempKey;
-    private final VertexQueryBuilder builder;
+    private final VertexQueryBuilder outgoingQuery;
+    private final VertexQueryBuilder incomingQuery;
 
     private double vertexCountAsDouble;
     private double alpha;
-    private double oneMinusAlpha;
 
-    public PageRankVertexComputer(final String pageRankKey, final VertexQueryBuilder builder) {
-        this.pageRankKey = pageRankKey;
-        this.pageRankTempKey = pageRankKey + "Temp"; // isolation levels dictate computation (future)
-        this.builder = builder;
+    public PageRankVertexComputer(final VertexQueryBuilder outgoingQuery, final VertexQueryBuilder incomingQuery) {
+        this.outgoingQuery = outgoingQuery;
+        this.incomingQuery = incomingQuery;
     }
 
     public void setup(final Vertex vertex, final SharedState sharedState) {
         this.vertexCountAsDouble = ((Number) sharedState.get(PageRankGraphComputer.VERTEX_COUNT)).doubleValue();
         this.alpha = (Double) sharedState.get(PageRankGraphComputer.ALPHA);
-        this.oneMinusAlpha = 1.0d - this.alpha;
-        vertex.setProperty(this.pageRankKey, 1.0d / this.vertexCountAsDouble);
-        vertex.setProperty(this.pageRankTempKey, 0.0d);
+        vertex.setProperty(PageRankGraphComputer.PAGE_RANK, 1.0d / this.vertexCountAsDouble);
+        vertex.setProperty(PageRankGraphComputer.EDGE_COUNT, new Double(this.outgoingQuery.build(vertex).count()));
     }
 
     public <R> R compute(final Vertex vertex, final SharedState sharedState) {
-        vertex.setProperty(this.pageRankKey, (this.alpha * (Double) vertex.getProperty(this.pageRankTempKey)) + (this.oneMinusAlpha / this.vertexCountAsDouble));
-        vertex.setProperty(this.pageRankTempKey, 0.0d);
-        final VertexQuery query = this.builder.build(vertex);
-        final double pageRank = vertex.getProperty(this.pageRankKey);
-        final double distribution = pageRank / query.count();
-        for (final Vertex other : query.vertices()) {
-            double otherEnergy = other.getProperty(this.pageRankTempKey);
-            other.setProperty(this.pageRankTempKey, distribution + otherEnergy);
+        final Iterable<Vertex> adjacents = this.incomingQuery.build(vertex).vertices();
+        Double pageRankValue = vertex.getProperty(PageRankGraphComputer.PAGE_RANK);
+        for (final Vertex adjacent : adjacents) {
+            pageRankValue += (Double) adjacent.getProperty(PageRankGraphComputer.PAGE_RANK) / (Double) adjacent.getProperty(PageRankGraphComputer.EDGE_COUNT);
         }
-        return null;
-    }
-
-    public void cleanup(final Vertex vertex, final SharedState sharedState) {
-        vertex.removeProperty(this.pageRankKey);
-        vertex.removeProperty(this.pageRankTempKey);
+        vertex.setProperty(PageRankGraphComputer.PAGE_RANK, (this.alpha * pageRankValue) + ((1.0d - this.alpha) / this.vertexCountAsDouble));
+        return (R) pageRankValue;
     }
 }

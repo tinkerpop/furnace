@@ -8,8 +8,8 @@ import java.io.Serializable;
  * A VertexComputer represents one component of a distributed graph computation.
  * Each applicable vertex maintains a VertexComputer instance, where the collective behavior of all instances yields the computational result.
  *
- * @author Marko A. Rodriguez (http://markorodriguez.com)
  * @author Matthias Broecheler (me@matthiasb.com)
+ * @author Marko A. Rodriguez (http://markorodriguez.com)
  */
 public interface VertexComputer extends Serializable {
 
@@ -29,13 +29,5 @@ public interface VertexComputer extends Serializable {
      * @param sharedState the shared state between all vertices in the computation
      */
     public <R> R compute(Vertex vertex, SharedState sharedState);
-
-    /**
-     * This method is called by GraphComputer.cleanup() and is intended to remove all computational side-effects from the graph.
-     *
-     * @param vertex      the vertex to cleanup the VertexComputer on
-     * @param sharedState the shared state between all vertices in the computation
-     */
-    public void cleanup(Vertex vertex, SharedState sharedState);
 
 }

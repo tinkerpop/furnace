@@ -26,7 +26,9 @@ public class SimpleSharedState implements SharedState {
         return (R) this.state.get(key);
     }
 
-    public void set(final String key, final Object value) {
+    public void setIfAbsent(final String key, final Object value) {
+        if (this.state.containsKey(key))
+            throw new IllegalStateException("The state already has the a value for key " + key);
         this.state.put(key, value);
     }
 }
