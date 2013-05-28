@@ -1,5 +1,6 @@
 package com.tinkerpop.furnace.computer.programs;
 
+import com.google.common.collect.ImmutableSortedMap;
 import com.tinkerpop.blueprints.Direction;
 import com.tinkerpop.blueprints.Graph;
 import com.tinkerpop.blueprints.Vertex;
@@ -11,6 +12,10 @@ import com.tinkerpop.furnace.computer.memory.SimpleGlobalMemory;
 import com.tinkerpop.furnace.computer.memory.SimpleLocalMemory;
 import com.tinkerpop.furnace.util.VertexQueryBuilder;
 import junit.framework.TestCase;
+
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Marko A. Rodriguez (http://markorodriguez.com)
@@ -36,12 +41,22 @@ public class PageRankGraphComputerTest extends TestCase {
         System.out.println(results);
 
         double total = 0.0d;
+        final Map<String, Double> map = new HashMap<String, Double>();
         for (Vertex vertex : graph.getVertices()) {
             double pageRank = results.getProperty(vertex, PageRankGraphComputer.PAGE_RANK);
-            System.out.println(vertex.getProperty("name") + " " + pageRank);
             assertTrue(pageRank > 0.0d);
             total = total + pageRank;
+            map.put(vertex.getProperty("name") + " ", pageRank);
         }
+        for (Map.Entry<String, Double> entry : ImmutableSortedMap.copyOf(map, new Comparator<String>() {
+            public int compare(final String key, final String key2) {
+                int c = map.get(key2).compareTo(map.get(key));
+                return c == 0 ? -1 : c;
+            }
+        }).entrySet()) {
+            System.out.println(entry.getKey() + " " + entry.getValue());
+        }
+
         System.out.println(total);
 
         /*for (int i = 1; i < 7; i++) {

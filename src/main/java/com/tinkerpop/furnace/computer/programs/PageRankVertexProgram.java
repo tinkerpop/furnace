@@ -6,7 +6,7 @@ import com.tinkerpop.furnace.computer.VertexProgram;
 import com.tinkerpop.furnace.util.VertexQueryBuilder;
 
 /**
- * A VertexComputer for the popular PageRank algorithm.
+ * A VertexProgram for the popular PageRank algorithm.
  *
  * @author Marko A. Rodriguez (http://markorodriguez.com)
  */
