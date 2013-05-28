@@ -1,12 +1,15 @@
-package com.tinkerpop.furnace.vertexcomputer.computers;
+package com.tinkerpop.furnace.computer.programs;
 
 import com.google.common.base.Preconditions;
 import com.tinkerpop.blueprints.Direction;
+import com.tinkerpop.blueprints.Graph;
+import com.tinkerpop.furnace.computer.Evaluator;
+import com.tinkerpop.furnace.computer.GlobalMemory;
+import com.tinkerpop.furnace.computer.GraphComputer;
+import com.tinkerpop.furnace.computer.GraphComputerBuilder;
+import com.tinkerpop.furnace.computer.Isolation;
+import com.tinkerpop.furnace.computer.LocalMemory;
 import com.tinkerpop.furnace.util.VertexQueryBuilder;
-import com.tinkerpop.furnace.vertexcomputer.GraphComputer;
-import com.tinkerpop.furnace.vertexcomputer.GraphComputerBuilder;
-
-import java.util.Arrays;
 
 /**
  * The PageRankGraphComputer provides a vertex-centric implementation of the popular PageRank algorithm.
@@ -50,6 +53,31 @@ public class PageRankGraphComputer extends GraphComputer {
         protected Builder() {
         }
 
+        public Builder isolation(final Isolation isolation) {
+            super.isolation(isolation);
+            return this;
+        }
+
+        public Builder globalMemory(final GlobalMemory globalMemory) {
+            super.globalMemory(globalMemory);
+            return this;
+        }
+
+        public Builder localMemory(final LocalMemory localMemory) {
+            super.localMemory(localMemory);
+            return this;
+        }
+
+        public Builder evaluator(final Evaluator evaluator) {
+            super.evaluator(evaluator);
+            return this;
+        }
+
+        public Builder graph(final Graph graph) {
+            super.graph(graph);
+            return this;
+        }
+
         public Builder alpha(final double alpha) {
             this.alpha = alpha;
             return this;
@@ -84,14 +112,20 @@ public class PageRankGraphComputer extends GraphComputer {
             Preconditions.checkNotNull(this.outgoingQuery);
 
             final PageRankGraphComputer computer = new PageRankGraphComputer();
-            this.sharedState.setIfAbsent(ALPHA, this.alpha);
-            this.sharedState.setIfAbsent(VERTEX_COUNT, this.vertexCount);
-            computer.sharedState = this.sharedState;
+            this.globalMemory.setIfAbsent(ALPHA, this.alpha);
+            this.globalMemory.setIfAbsent(VERTEX_COUNT, this.vertexCount);
+            computer.globalMemory = this.globalMemory;
             computer.isolation = this.isolation;
-            computer.computerProperties = this.computerProperties;
+
+            computer.localMemory = this.localMemory;
+            computer.localMemory.setComputeKeys(PAGE_RANK);
+            computer.localMemory.setFinalComputeKeys(EDGE_COUNT);
+            computer.localMemory.setIsolation(this.isolation);
+
             computer.totalIterations = this.iterations;
-            computer.vertexComputer = new PageRankVertexComputer(this.outgoingQuery, this.incomingQuery);
-            computer.computeKeys = Arrays.asList(PAGE_RANK, EDGE_COUNT);
+            computer.vertexProgram = new PageRankVertexProgram(this.outgoingQuery, this.incomingQuery);
+            computer.evaluator = this.evaluator;
+            computer.graph = graph;
             return computer;
         }
     }

@@ -1,24 +1,25 @@
-package com.tinkerpop.furnace.vertexcomputer.wrappers;
+package com.tinkerpop.furnace.computer.managers;
 
 import com.tinkerpop.blueprints.Direction;
 import com.tinkerpop.blueprints.Edge;
 import com.tinkerpop.blueprints.Vertex;
 import com.tinkerpop.blueprints.VertexQuery;
-import com.tinkerpop.furnace.vertexcomputer.GraphComputer;
+import com.tinkerpop.furnace.computer.GraphComputer;
+import com.tinkerpop.furnace.computer.LocalMemory;
 
 import java.util.Set;
 
 /**
  * @author Marko A. Rodriguez (http://markorodriguez.com)
  */
-public class LightVertex implements Vertex {
+public class AdjacentShellVertex implements Vertex {
 
-    private final GraphComputer graphComputer;
+    private final LocalMemory localMemory;
     private final Vertex baseVertex;
 
-    public LightVertex(final Vertex baseVertex, final GraphComputer graphComputer) {
+    public AdjacentShellVertex(final Vertex baseVertex, final LocalMemory localMemory) {
         this.baseVertex = baseVertex;
-        this.graphComputer = graphComputer;
+        this.localMemory = localMemory;
     }
 
     public Object getId() {
@@ -26,8 +27,8 @@ public class LightVertex implements Vertex {
     }
 
     public <T> T getProperty(final String key) {
-        if (this.graphComputer.isComputeKey(key))
-            return this.graphComputer.getComputerProperties().getProperty(this, key);
+        if (this.localMemory.isComputeKey(key))
+            return this.localMemory.getProperty(this, key);
         else
             throw new IllegalArgumentException("The provided key is not a compute key: " + key);
     }

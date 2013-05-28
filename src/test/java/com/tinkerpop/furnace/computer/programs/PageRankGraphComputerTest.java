@@ -1,45 +1,46 @@
-package com.tinkerpop.furnace.vertexcomputer.computers;
+package com.tinkerpop.furnace.computer.programs;
 
 import com.tinkerpop.blueprints.Direction;
 import com.tinkerpop.blueprints.Graph;
 import com.tinkerpop.blueprints.Vertex;
 import com.tinkerpop.blueprints.impls.tg.TinkerGraphFactory;
+import com.tinkerpop.furnace.computer.GraphComputer;
+import com.tinkerpop.furnace.computer.LocalMemory;
+import com.tinkerpop.furnace.computer.managers.SerialEvaluator;
+import com.tinkerpop.furnace.computer.memory.SimpleGlobalMemory;
+import com.tinkerpop.furnace.computer.memory.SimpleLocalMemory;
 import com.tinkerpop.furnace.util.VertexQueryBuilder;
-import com.tinkerpop.furnace.vertexcomputer.ComputerProperties;
-import com.tinkerpop.furnace.vertexcomputer.GraphComputer;
-import com.tinkerpop.furnace.vertexcomputer.VertexComputerGraph;
-import com.tinkerpop.furnace.vertexcomputer.util.SimpleSharedState;
-import com.tinkerpop.furnace.vertexcomputer.wrappers.MapComputerProperties;
-import com.tinkerpop.furnace.vertexcomputer.wrappers.SerialVertexComputerGraph;
 import junit.framework.TestCase;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author Marko A. Rodriguez (http://markorodriguez.com)
  */
 public class PageRankGraphComputerTest extends TestCase {
 
-    public void testGraphComputer() {
+    public void testGraphComputer() throws Exception {
         Graph graph = TinkerGraphFactory.createTinkerGraph();
-        VertexComputerGraph vertexComputerGraph = new SerialVertexComputerGraph<Graph>(graph);
+        //Graph graph = new TinkerGraph();
+        //GraphMLReader.inputGraph(graph, "/Users/marko/software/tinkerpop/gremlin/data/graph-example-2.xml");
+
         GraphComputer graphComputer = PageRankGraphComputer.create()
-                .alpha(0.85d).iterations(30).vertexCount(6)
+                .graph(graph).alpha(0.85d).iterations(10).vertexCount(6)
                 .outgoing(new VertexQueryBuilder().direction(Direction.OUT))
                 .incoming(new VertexQueryBuilder().direction(Direction.IN))
-                .computeKeys("pageRank", "edgeCount")
-                .sharedState(new SimpleSharedState())
-                .computerProperties(new MapComputerProperties(new HashMap<Object, Map<String, Object>>())).build();
+                .evaluator(new SerialEvaluator())
+                .globalMemory(new SimpleGlobalMemory())
+                .localMemory(new SimpleLocalMemory()).build();
+        graphComputer.execute();
 
-        ComputerProperties results = vertexComputerGraph.execute(graphComputer);
+        LocalMemory results = graphComputer.getLocalMemory();
+
+        System.out.println(results);
 
         double total = 0.0d;
         for (Vertex vertex : graph.getVertices()) {
             double pageRank = results.getProperty(vertex, PageRankGraphComputer.PAGE_RANK);
-            total = total + pageRank;
-            System.out.println(vertex + " " + pageRank);
+            System.out.println(vertex.getProperty("name") + " " + pageRank);
             assertTrue(pageRank > 0.0d);
+            total = total + pageRank;
         }
         System.out.println(total);
 

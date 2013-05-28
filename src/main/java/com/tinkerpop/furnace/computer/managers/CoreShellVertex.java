@@ -1,11 +1,11 @@
-package com.tinkerpop.furnace.vertexcomputer.wrappers;
+package com.tinkerpop.furnace.computer.managers;
 
 import com.tinkerpop.blueprints.Direction;
 import com.tinkerpop.blueprints.Edge;
 import com.tinkerpop.blueprints.Vertex;
 import com.tinkerpop.blueprints.VertexQuery;
 import com.tinkerpop.blueprints.util.wrappers.WrapperVertexQuery;
-import com.tinkerpop.furnace.vertexcomputer.GraphComputer;
+import com.tinkerpop.furnace.computer.LocalMemory;
 
 import java.util.Iterator;
 import java.util.Set;
@@ -13,14 +13,17 @@ import java.util.Set;
 /**
  * @author Marko A. Rodriguez (http://markorodriguez.com)
  */
-public class HeavyVertex implements Vertex {
+public class CoreShellVertex implements Vertex {
 
-    private final GraphComputer graphComputer;
-    private final Vertex baseVertex;
+    private final LocalMemory localMemory;
+    private Vertex baseVertex;
 
-    public HeavyVertex(final Vertex vertex, final GraphComputer graphComputer) {
-        this.baseVertex = vertex;
-        this.graphComputer = graphComputer;
+    public CoreShellVertex(final LocalMemory localMemory) {
+        this.localMemory = localMemory;
+    }
+
+    public void setBaseVertex(final Vertex baseVertex) {
+        this.baseVertex = baseVertex;
     }
 
     public Object getId() {
@@ -36,15 +39,15 @@ public class HeavyVertex implements Vertex {
     }
 
     public <R> R getProperty(final String key) {
-        if (this.graphComputer.isComputeKey(key))
-            return this.graphComputer.getComputerProperties().getProperty(this, key);
+        if (this.localMemory.isComputeKey(key))
+            return this.localMemory.getProperty(this, key);
         else
             throw new IllegalArgumentException("The provided key is not a compute key: " + key);
     }
 
     public void setProperty(final String key, final Object value) {
-        if (this.graphComputer.isComputeKey(key))
-            this.graphComputer.getComputerProperties().setProperty(this, key, value);
+        if (this.localMemory.isComputeKey(key))
+            this.localMemory.setProperty(this, key, value);
         else
             throw new IllegalArgumentException("The provided key is not a compute key: " + key);
     }
@@ -54,8 +57,8 @@ public class HeavyVertex implements Vertex {
     }
 
     public <R> R removeProperty(final String key) {
-        if (this.graphComputer.isComputeKey(key))
-            return this.graphComputer.getComputerProperties().removeProperty(this, key);
+        if (this.localMemory.isComputeKey(key))
+            return this.localMemory.removeProperty(this, key);
         else
             throw new IllegalArgumentException("The provided key is not a compute key: " + key);
     }
@@ -72,7 +75,7 @@ public class HeavyVertex implements Vertex {
         return new WrapperVertexQuery(this.baseVertex.query()) {
             @Override
             public Iterable<Edge> edges() {
-                return this.query.edges();
+                throw new UnsupportedOperationException();
             }
 
             @Override
@@ -103,7 +106,7 @@ public class HeavyVertex implements Vertex {
                 }
 
                 public Vertex next() {
-                    return new LightVertex(itty.next(), graphComputer);
+                    return new AdjacentShellVertex(itty.next(), localMemory);
                 }
             };
         }
