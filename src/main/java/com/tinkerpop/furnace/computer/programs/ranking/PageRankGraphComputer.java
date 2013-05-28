@@ -1,4 +1,4 @@
-package com.tinkerpop.furnace.computer.programs;
+package com.tinkerpop.furnace.computer.programs.ranking;
 
 import com.google.common.base.Preconditions;
 import com.tinkerpop.blueprints.Direction;

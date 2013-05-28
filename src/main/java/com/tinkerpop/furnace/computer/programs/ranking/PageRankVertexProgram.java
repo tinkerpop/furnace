@@ -1,4 +1,4 @@
-package com.tinkerpop.furnace.computer.programs;
+package com.tinkerpop.furnace.computer.programs.ranking;
 
 import com.tinkerpop.blueprints.Vertex;
 import com.tinkerpop.furnace.computer.GlobalMemory;
