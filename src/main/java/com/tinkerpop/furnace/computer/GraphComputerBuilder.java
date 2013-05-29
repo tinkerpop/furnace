@@ -6,6 +6,7 @@ import com.tinkerpop.blueprints.Graph;
 /**
  * A GraphComputer typically requires numerous parameterizations.
  * To simplify GraphComputer construction, every GraphComputer must come with a GraphComputerBuilder.
+ * In order to support fluent chaining, the methods in this abstract class must be overridden with return types specified.
  *
  * @author Marko A. Rodriguez (http://markorodriguez.com)
  */

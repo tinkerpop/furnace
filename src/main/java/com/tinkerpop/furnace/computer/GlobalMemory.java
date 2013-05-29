@@ -6,6 +6,7 @@ package com.tinkerpop.furnace.computer;
  * The GlobalMemory is a synchronizing data structure that allows arbitrary vertex communication.
  *
  * @author Matthias Broecheler (me@matthiasb.com)
+ * @author Marko A. Rodriguez (http://markorodriguez.com)
  */
 public interface GlobalMemory {
 
@@ -16,6 +17,10 @@ public interface GlobalMemory {
     public void increment(String key, long delta);
 
     public void decrement(String key, long delta);
+
+    public void incrIteration();
+
+    public int getIteration();
 
     /*public void min(String key, double value);
 

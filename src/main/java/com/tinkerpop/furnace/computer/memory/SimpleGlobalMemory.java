@@ -4,6 +4,7 @@ import com.tinkerpop.furnace.computer.GlobalMemory;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author Marko A. Rodriguez (http://markorodriguez.com)
@@ -11,6 +12,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class SimpleGlobalMemory implements GlobalMemory {
 
     private final Map<String, Object> memory;
+    private final AtomicInteger iteration = new AtomicInteger(0);
 
     public SimpleGlobalMemory() {
         this(new ConcurrentHashMap<String, Object>());
@@ -18,6 +20,14 @@ public class SimpleGlobalMemory implements GlobalMemory {
 
     public SimpleGlobalMemory(final Map<String, Object> state) {
         this.memory = state;
+    }
+
+    public void incrIteration() {
+        this.iteration.getAndIncrement();
+    }
+
+    public int getIteration() {
+        return this.iteration.get();
     }
 
     public <R> R get(final String key) {

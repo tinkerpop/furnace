@@ -7,7 +7,7 @@ import com.tinkerpop.blueprints.Vertex;
 import com.tinkerpop.blueprints.impls.tg.TinkerGraphFactory;
 import com.tinkerpop.furnace.computer.GraphComputer;
 import com.tinkerpop.furnace.computer.LocalMemory;
-import com.tinkerpop.furnace.computer.managers.SerialEvaluator;
+import com.tinkerpop.furnace.computer.evaluators.SerialEvaluator;
 import com.tinkerpop.furnace.computer.memory.SimpleGlobalMemory;
 import com.tinkerpop.furnace.computer.memory.SimpleLocalMemory;
 import com.tinkerpop.furnace.util.VertexQueryBuilder;
@@ -29,8 +29,8 @@ public class PeerPressureGraphComputerTest extends TestCase {
 
         GraphComputer graphComputer = PeerPressureGraphComputer.create()
                 .graph(graph).iterations(30)
-                .voteStrength(new VertexQueryBuilder().direction(Direction.OUT))
-                .incomingVotes(new VertexQueryBuilder().direction(Direction.IN))
+                .outgoingQuery(new VertexQueryBuilder().direction(Direction.OUT))
+                .incomingQuery(new VertexQueryBuilder().direction(Direction.IN))
                 .evaluator(new SerialEvaluator())
                 .globalMemory(new SimpleGlobalMemory())
                 .localMemory(new SimpleLocalMemory()).build();

@@ -1,4 +1,4 @@
-package com.tinkerpop.furnace.computer.managers;
+package com.tinkerpop.furnace.computer.evaluators;
 
 import com.tinkerpop.blueprints.Direction;
 import com.tinkerpop.blueprints.Edge;
@@ -31,7 +31,7 @@ public class CoreShellVertex implements Vertex {
     }
 
     public Iterable<Vertex> getVertices(final Direction direction, final String... labels) {
-        return new LightVertexIterable(this.baseVertex.getVertices(direction, labels));
+        return new AdjacentShellVertexIterable(this.baseVertex.getVertices(direction, labels));
     }
 
     public Iterable<Edge> getEdges(final Direction direction, final String... labels) {
@@ -57,10 +57,7 @@ public class CoreShellVertex implements Vertex {
     }
 
     public <R> R removeProperty(final String key) {
-        if (this.localMemory.isComputeKey(key))
-            return this.localMemory.removeProperty(this, key);
-        else
-            throw new IllegalArgumentException("The provided key is not a compute key: " + key);
+        throw new UnsupportedOperationException();
     }
 
     public Edge addEdge(final String label, final Vertex vertex) {
@@ -75,21 +72,48 @@ public class CoreShellVertex implements Vertex {
         return new WrapperVertexQuery(this.baseVertex.query()) {
             @Override
             public Iterable<Edge> edges() {
-                throw new UnsupportedOperationException();
+                return new ShellEdgeIterable(this.query.edges());
             }
 
             @Override
             public Iterable<Vertex> vertices() {
-                return new LightVertexIterable(this.query.vertices());
+                return new AdjacentShellVertexIterable(this.query.vertices());
             }
         };
     }
 
-    public class LightVertexIterable implements Iterable<Vertex> {
+    public class ShellEdgeIterable implements Iterable<Edge> {
+
+        private final Iterable<Edge> iterable;
+
+        public ShellEdgeIterable(final Iterable<Edge> iterable) {
+            this.iterable = iterable;
+        }
+
+        public Iterator<Edge> iterator() {
+            final Iterator<Edge> itty = iterable.iterator();
+            return new Iterator<Edge>() {
+
+                public void remove() {
+                    throw new UnsupportedOperationException();
+                }
+
+                public boolean hasNext() {
+                    return itty.hasNext();
+                }
+
+                public Edge next() {
+                    return new ShellEdge(itty.next(), localMemory);
+                }
+            };
+        }
+    }
+
+    public class AdjacentShellVertexIterable implements Iterable<Vertex> {
 
         private final Iterable<Vertex> iterable;
 
-        public LightVertexIterable(final Iterable<Vertex> iterable) {
+        public AdjacentShellVertexIterable(final Iterable<Vertex> iterable) {
             this.iterable = iterable;
         }
 

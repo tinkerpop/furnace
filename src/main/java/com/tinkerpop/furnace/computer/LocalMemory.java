@@ -13,15 +13,13 @@ public interface LocalMemory {
 
     public <T> T getProperty(Vertex vertex, String key);
 
-    public <T> T removeProperty(Vertex vertex, String key);
-
     public void setComputeKeys(String... keys);
 
     public void setFinalComputeKeys(String... keys);
 
     public boolean isComputeKey(String key);
 
-    public void completeRound();
+    public void completeIteration();
 
     public void setIsolation(Isolation isolation);
 }

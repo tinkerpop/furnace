@@ -16,18 +16,17 @@ import com.tinkerpop.furnace.util.VertexQueryBuilder;
  */
 public class PeerPressureGraphComputer extends GraphComputer {
 
-    private int iterations = 0;
     protected int totalIterations;
 
     public static final String CLUSTER = "cluster";
-    public static final String VOTE_STRENGTH = "voteStrength";
+    public static final String EDGE_COUNT = "edgeCount";
 
     protected PeerPressureGraphComputer() {
         super();
     }
 
     public boolean terminate() {
-        return iterations++ == totalIterations;
+        return this.getGlobalMemory().getIteration() >= this.totalIterations;
     }
 
     public static Builder create() {
@@ -37,8 +36,8 @@ public class PeerPressureGraphComputer extends GraphComputer {
     public static class Builder extends GraphComputerBuilder {
 
         protected int iterations = 30;
-        protected VertexQueryBuilder incomingVotesQuery = new VertexQueryBuilder().direction(Direction.IN);
-        protected VertexQueryBuilder voteStrengthQuery = new VertexQueryBuilder().direction(Direction.OUT);
+        protected VertexQueryBuilder incomingQuery = new VertexQueryBuilder().direction(Direction.IN);
+        protected VertexQueryBuilder outgoingQuery = new VertexQueryBuilder().direction(Direction.OUT);
 
         protected Builder() {
         }
@@ -73,21 +72,21 @@ public class PeerPressureGraphComputer extends GraphComputer {
             return this;
         }
 
-        public Builder incomingVotes(final VertexQueryBuilder builder) {
-            this.incomingVotesQuery = builder;
+        public Builder incomingQuery(final VertexQueryBuilder builder) {
+            this.incomingQuery = builder;
             return this;
         }
 
-        public Builder voteStrength(final VertexQueryBuilder builder) {
-            this.voteStrengthQuery = builder;
+        public Builder outgoingQuery(final VertexQueryBuilder builder) {
+            this.outgoingQuery = builder;
             return this;
         }
 
         public PeerPressureGraphComputer build() {
             super.build();
             Preconditions.checkNotNull(this.iterations);
-            Preconditions.checkNotNull(this.incomingVotesQuery);
-            Preconditions.checkNotNull(this.voteStrengthQuery);
+            Preconditions.checkNotNull(this.incomingQuery);
+            Preconditions.checkNotNull(this.outgoingQuery);
 
             final PeerPressureGraphComputer computer = new PeerPressureGraphComputer();
             computer.globalMemory = this.globalMemory;
@@ -95,11 +94,11 @@ public class PeerPressureGraphComputer extends GraphComputer {
 
             computer.localMemory = this.localMemory;
             computer.localMemory.setComputeKeys(CLUSTER);
-            computer.localMemory.setFinalComputeKeys(VOTE_STRENGTH);
+            computer.localMemory.setFinalComputeKeys(EDGE_COUNT);
             computer.localMemory.setIsolation(this.isolation);
 
             computer.totalIterations = this.iterations;
-            computer.vertexProgram = new PeerPressureVertexProgram(this.voteStrengthQuery, this.incomingVotesQuery);
+            computer.vertexProgram = new PeerPressureVertexProgram(this.outgoingQuery, this.incomingQuery);
             computer.evaluator = this.evaluator;
             computer.graph = graph;
             return computer;

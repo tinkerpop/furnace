@@ -1,10 +1,9 @@
-package com.tinkerpop.furnace.computer.managers;
+package com.tinkerpop.furnace.computer.evaluators;
 
 import com.tinkerpop.blueprints.Direction;
 import com.tinkerpop.blueprints.Edge;
 import com.tinkerpop.blueprints.Vertex;
 import com.tinkerpop.blueprints.VertexQuery;
-import com.tinkerpop.furnace.computer.GraphComputer;
 import com.tinkerpop.furnace.computer.LocalMemory;
 
 import java.util.Set;

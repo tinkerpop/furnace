@@ -31,14 +31,6 @@ public class SimpleLocalMemory extends AbstractLocalMemory {
         map.put(generateSetKey(key), value);
     }
 
-    public <T> T removeProperty(final Vertex vertex, final String key) {
-        final Map<String, Object> map = memory.get(vertex.getId());
-        if (null == map)
-            return null;
-        else
-            return (T) map.remove(key);
-    }
-
     public <T> T getProperty(final Vertex vertex, final String key) {
         final Map<String, Object> map = memory.get(vertex.getId());
         if (null == map)

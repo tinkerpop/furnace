@@ -21,7 +21,6 @@ import com.tinkerpop.furnace.util.VertexQueryBuilder;
  */
 public class PageRankGraphComputer extends GraphComputer {
 
-    private int iterations = 0;
     protected int totalIterations;
 
     public static final String PAGE_RANK = "pageRank";
@@ -35,7 +34,7 @@ public class PageRankGraphComputer extends GraphComputer {
     }
 
     public boolean terminate() {
-        return iterations++ == totalIterations;
+        return this.getGlobalMemory().getIteration() >= this.totalIterations;
     }
 
     public static Builder create() {

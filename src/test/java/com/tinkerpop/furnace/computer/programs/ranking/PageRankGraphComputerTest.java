@@ -7,7 +7,7 @@ import com.tinkerpop.blueprints.Vertex;
 import com.tinkerpop.blueprints.impls.tg.TinkerGraphFactory;
 import com.tinkerpop.furnace.computer.GraphComputer;
 import com.tinkerpop.furnace.computer.LocalMemory;
-import com.tinkerpop.furnace.computer.managers.SerialEvaluator;
+import com.tinkerpop.furnace.computer.evaluators.SerialEvaluator;
 import com.tinkerpop.furnace.computer.memory.SimpleGlobalMemory;
 import com.tinkerpop.furnace.computer.memory.SimpleLocalMemory;
 import com.tinkerpop.furnace.util.VertexQueryBuilder;
@@ -31,6 +31,7 @@ public class PageRankGraphComputerTest extends TestCase {
                 .graph(graph).alpha(0.85d).iterations(10).vertexCount(6)
                 .outgoing(new VertexQueryBuilder().direction(Direction.OUT))
                 .incoming(new VertexQueryBuilder().direction(Direction.IN))
+                        //.isolation(Isolation.DIRTY_BSP)
                 .evaluator(new SerialEvaluator())
                 .globalMemory(new SimpleGlobalMemory())
                 .localMemory(new SimpleLocalMemory()).build();

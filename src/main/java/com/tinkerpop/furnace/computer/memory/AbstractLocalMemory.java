@@ -32,7 +32,7 @@ public abstract class AbstractLocalMemory implements LocalMemory {
         return this.computeKeys.contains(key) || this.finalComputeKeys.contains(key);
     }
 
-    public void completeRound() {
+    public void completeIteration() {
         this.phase = !this.phase;
     }
 

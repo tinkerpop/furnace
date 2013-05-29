@@ -13,34 +13,50 @@ import java.util.Map;
  */
 public class PeerPressureVertexProgram implements VertexProgram {
 
-    private final VertexQueryBuilder voteStrengthQuery;
-    private final VertexQueryBuilder incomingVotesQuery;
+    private final VertexQueryBuilder outgoingQuery;
+    private final VertexQueryBuilder incomingQuery;
 
-    public PeerPressureVertexProgram(final VertexQueryBuilder voteStrengthQuery, final VertexQueryBuilder incomingVotesQuery) {
-        this.voteStrengthQuery = voteStrengthQuery;
-        this.incomingVotesQuery = incomingVotesQuery;
+    public PeerPressureVertexProgram(final VertexQueryBuilder outgoingQuery, final VertexQueryBuilder incomingQuery) {
+        this.outgoingQuery = outgoingQuery;
+        this.incomingQuery = incomingQuery;
     }
 
 
     public void setup(final Vertex vertex, final GlobalMemory globalMemory) {
         vertex.setProperty(PeerPressureGraphComputer.CLUSTER, vertex.getId());
-        vertex.setProperty(PeerPressureGraphComputer.VOTE_STRENGTH, (double) this.voteStrengthQuery.build(vertex).count());
+        vertex.setProperty(PeerPressureGraphComputer.EDGE_COUNT, (double) this.outgoingQuery.build(vertex).count());
     }
 
     public void execute(final Vertex vertex, final GlobalMemory globalMemory) {
         final Map<Object, Double> votes = new HashMap<Object, Double>();
-        for (Vertex adjacent : this.incomingVotesQuery.build(vertex).vertices()) {
-            votes.put(adjacent.getProperty(PeerPressureGraphComputer.CLUSTER), 1.0d / (Double) adjacent.getProperty(PeerPressureGraphComputer.VOTE_STRENGTH));
+        // tally up the votes
+        for (final Vertex adjacent : this.incomingQuery.build(vertex).vertices()) {
+            incrementVote(votes, adjacent.getProperty(PeerPressureGraphComputer.CLUSTER), 1.0d / (Double) adjacent.getProperty(PeerPressureGraphComputer.EDGE_COUNT));
         }
-
+        // find the largest vote
         Object finalVoteCluster = vertex.getProperty(PeerPressureGraphComputer.CLUSTER);
         Double finalVoteScore = Double.MIN_VALUE;
         for (Map.Entry<Object, Double> entry : votes.entrySet()) {
             if (entry.getValue() > finalVoteScore) {
                 finalVoteCluster = entry.getKey();
                 finalVoteScore = entry.getValue();
+            } else if (entry.getValue().equals(finalVoteScore)) {
+                // tie breaker select based on key
+                if (finalVoteCluster instanceof Comparable && ((Comparable) finalVoteCluster).compareTo(entry.getKey()) < 0) {
+                    finalVoteCluster = entry.getKey();
+                    finalVoteScore = entry.getValue();
+                }
             }
         }
+        // assign vertex to cluster based on strongest vote
         vertex.setProperty(PeerPressureGraphComputer.CLUSTER, finalVoteCluster);
+    }
+
+    private void incrementVote(final Map<Object, Double> votes, final Object vote, final Double increment) {
+        Double current = votes.get(vote);
+        if (current == null)
+            current = 0.0d;
+        current = current + increment;
+        votes.put(vote, current);
     }
 }
