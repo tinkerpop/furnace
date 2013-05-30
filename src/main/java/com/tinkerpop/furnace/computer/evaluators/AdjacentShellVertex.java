@@ -25,6 +25,10 @@ public class AdjacentShellVertex implements Vertex {
         return this.baseVertex.getId();
     }
 
+    public String toString() {
+        return this.baseVertex.toString();
+    }
+
     public <T> T getProperty(final String key) {
         if (this.localMemory.isComputeKey(key))
             return this.localMemory.getProperty(this, key);

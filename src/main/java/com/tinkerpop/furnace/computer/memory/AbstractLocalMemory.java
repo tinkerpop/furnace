@@ -3,6 +3,7 @@ package com.tinkerpop.furnace.computer.memory;
 import com.tinkerpop.furnace.computer.Isolation;
 import com.tinkerpop.furnace.computer.LocalMemory;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -11,8 +12,8 @@ import java.util.List;
  */
 public abstract class AbstractLocalMemory implements LocalMemory {
 
-    protected List<String> computeKeys;
-    protected List<String> finalComputeKeys;
+    protected List<String> computeKeys = new ArrayList<String>();
+    protected List<String> finalComputeKeys = new ArrayList<String>();
     protected Isolation isolation;
     protected boolean phase = true;
 

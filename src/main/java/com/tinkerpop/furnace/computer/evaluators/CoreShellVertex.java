@@ -30,6 +30,10 @@ public class CoreShellVertex implements Vertex {
         return baseVertex.getId();
     }
 
+    public String toString() {
+        return this.baseVertex.toString();
+    }
+
     public Iterable<Vertex> getVertices(final Direction direction, final String... labels) {
         return new AdjacentShellVertexIterable(this.baseVertex.getVertices(direction, labels));
     }

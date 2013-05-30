@@ -24,6 +24,10 @@ public class ShellEdge implements Edge {
         return this.baseEdge.getId();
     }
 
+    public String toString() {
+        return this.baseEdge.toString();
+    }
+
     public String getLabel() {
         return this.baseEdge.getLabel();
     }
