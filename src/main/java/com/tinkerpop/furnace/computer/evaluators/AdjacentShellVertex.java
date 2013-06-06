@@ -4,7 +4,7 @@ import com.tinkerpop.blueprints.Direction;
 import com.tinkerpop.blueprints.Edge;
 import com.tinkerpop.blueprints.Vertex;
 import com.tinkerpop.blueprints.VertexQuery;
-import com.tinkerpop.furnace.computer.LocalMemory;
+import com.tinkerpop.furnace.computer.VertexSystemMemory;
 
 import java.util.Set;
 
@@ -13,12 +13,12 @@ import java.util.Set;
  */
 public class AdjacentShellVertex implements Vertex {
 
-    private final LocalMemory localMemory;
+    private final VertexSystemMemory vertexMemory;
     private final Vertex baseVertex;
 
-    public AdjacentShellVertex(final Vertex baseVertex, final LocalMemory localMemory) {
+    public AdjacentShellVertex(final Vertex baseVertex, final VertexSystemMemory vertexMemory) {
         this.baseVertex = baseVertex;
-        this.localMemory = localMemory;
+        this.vertexMemory = vertexMemory;
     }
 
     public Object getId() {
@@ -30,8 +30,8 @@ public class AdjacentShellVertex implements Vertex {
     }
 
     public <T> T getProperty(final String key) {
-        if (this.localMemory.isComputeKey(key))
-            return this.localMemory.getProperty(this, key);
+        if (this.vertexMemory.isComputeKey(key))
+            return this.vertexMemory.getProperty(this, key);
         else
             throw new IllegalArgumentException("The provided key is not a compute key: " + key);
     }

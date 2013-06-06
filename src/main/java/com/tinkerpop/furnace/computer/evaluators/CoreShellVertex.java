@@ -5,7 +5,7 @@ import com.tinkerpop.blueprints.Edge;
 import com.tinkerpop.blueprints.Vertex;
 import com.tinkerpop.blueprints.VertexQuery;
 import com.tinkerpop.blueprints.util.wrappers.WrapperVertexQuery;
-import com.tinkerpop.furnace.computer.LocalMemory;
+import com.tinkerpop.furnace.computer.VertexSystemMemory;
 
 import java.util.Iterator;
 import java.util.Set;
@@ -15,11 +15,11 @@ import java.util.Set;
  */
 public class CoreShellVertex implements Vertex {
 
-    private final LocalMemory localMemory;
+    private final VertexSystemMemory vertexMemory;
     private Vertex baseVertex;
 
-    public CoreShellVertex(final LocalMemory localMemory) {
-        this.localMemory = localMemory;
+    public CoreShellVertex(final VertexSystemMemory vertexMemory) {
+        this.vertexMemory = vertexMemory;
     }
 
     public void setBaseVertex(final Vertex baseVertex) {
@@ -43,15 +43,15 @@ public class CoreShellVertex implements Vertex {
     }
 
     public <R> R getProperty(final String key) {
-        if (this.localMemory.isComputeKey(key))
-            return this.localMemory.getProperty(this, key);
+        if (this.vertexMemory.isComputeKey(key))
+            return this.vertexMemory.getProperty(this, key);
         else
-            throw new IllegalArgumentException("The provided key is not a compute key: " + key);
+            return this.baseVertex.getProperty(key);
     }
 
     public void setProperty(final String key, final Object value) {
-        if (this.localMemory.isComputeKey(key))
-            this.localMemory.setProperty(this, key, value);
+        if (this.vertexMemory.isComputeKey(key))
+            this.vertexMemory.setProperty(this, key, value);
         else
             throw new IllegalArgumentException("The provided key is not a compute key: " + key);
     }
@@ -61,7 +61,10 @@ public class CoreShellVertex implements Vertex {
     }
 
     public <R> R removeProperty(final String key) {
-        throw new UnsupportedOperationException();
+        if (this.vertexMemory.isComputeKey(key))
+            return this.vertexMemory.removeProperty(this, key);
+        else
+            throw new IllegalArgumentException("The provided key is not a compute key: " + key);
     }
 
     public Edge addEdge(final String label, final Vertex vertex) {
@@ -107,7 +110,7 @@ public class CoreShellVertex implements Vertex {
                 }
 
                 public Edge next() {
-                    return new ShellEdge(itty.next(), localMemory);
+                    return new ShellEdge(itty.next(), vertexMemory);
                 }
             };
         }
@@ -134,7 +137,7 @@ public class CoreShellVertex implements Vertex {
                 }
 
                 public Vertex next() {
-                    return new AdjacentShellVertex(itty.next(), localMemory);
+                    return new AdjacentShellVertex(itty.next(), vertexMemory);
                 }
             };
         }

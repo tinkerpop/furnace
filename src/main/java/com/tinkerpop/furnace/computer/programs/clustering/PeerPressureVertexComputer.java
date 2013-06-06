@@ -1,33 +1,26 @@
 package com.tinkerpop.furnace.computer.programs.clustering;
 
-import com.tinkerpop.blueprints.Vertex;
-import com.tinkerpop.furnace.computer.GlobalMemory;
-import com.tinkerpop.furnace.computer.VertexProgram;
-import com.tinkerpop.furnace.util.VertexQueryBuilder;
-
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * @author Marko A. Rodriguez (http://markorodriguez.com)
  */
-public class PeerPressureVertexProgram implements VertexProgram {
+public class PeerPressureVertexComputer {
+}  /* implements VertexProgram {
 
     private final VertexQueryBuilder outgoingQuery;
     private final VertexQueryBuilder incomingQuery;
 
-    public PeerPressureVertexProgram(final VertexQueryBuilder outgoingQuery, final VertexQueryBuilder incomingQuery) {
+    public PeerPressureVertexComputer(final VertexQueryBuilder outgoingQuery, final VertexQueryBuilder incomingQuery) {
         this.outgoingQuery = outgoingQuery;
         this.incomingQuery = incomingQuery;
     }
 
 
-    public void setup(final Vertex vertex, final GlobalMemory globalMemory) {
+    public void setup(final Vertex vertex, final GraphMemory globalMemory) {
         vertex.setProperty(PeerPressureGraphComputer.CLUSTER, vertex.getId());
         vertex.setProperty(PeerPressureGraphComputer.EDGE_COUNT, (double) this.outgoingQuery.build(vertex).count());
     }
 
-    public void execute(final Vertex vertex, final GlobalMemory globalMemory) {
+    public void execute(final Vertex vertex, final GraphMemory globalMemory) {
         final Map<Object, Double> votes = new HashMap<Object, Double>();
         // tally up the votes
         for (final Vertex adjacent : this.incomingQuery.build(vertex).vertices()) {
@@ -59,4 +52,4 @@ public class PeerPressureVertexProgram implements VertexProgram {
         current = current + increment;
         votes.put(vote, current);
     }
-}
+}  */

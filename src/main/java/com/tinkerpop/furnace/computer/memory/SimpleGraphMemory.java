@@ -1,24 +1,26 @@
 package com.tinkerpop.furnace.computer.memory;
 
-import com.tinkerpop.furnace.computer.GlobalMemory;
+import com.tinkerpop.furnace.computer.GraphSystemMemory;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * @author Marko A. Rodriguez (http://markorodriguez.com)
  */
-public class SimpleGlobalMemory implements GlobalMemory {
+public class SimpleGraphMemory implements GraphSystemMemory {
 
     private final Map<String, Object> memory;
     private final AtomicInteger iteration = new AtomicInteger(0);
+    private final AtomicLong runtime = new AtomicLong(0l);
 
-    public SimpleGlobalMemory() {
+    public SimpleGraphMemory() {
         this(new ConcurrentHashMap<String, Object>());
     }
 
-    public SimpleGlobalMemory(final Map<String, Object> state) {
+    public SimpleGraphMemory(final Map<String, Object> state) {
         this.memory = state;
     }
 
@@ -28,6 +30,18 @@ public class SimpleGlobalMemory implements GlobalMemory {
 
     public int getIteration() {
         return this.iteration.get();
+    }
+
+    public void setRuntime(final long runTime) {
+        this.runtime.set(runTime);
+    }
+
+    public long getRuntime() {
+        return this.runtime.get();
+    }
+
+    public boolean isInitialIteration() {
+        return this.getIteration() == 0;
     }
 
     public <R> R get(final String key) {

@@ -1,68 +1,29 @@
 package com.tinkerpop.furnace.computer;
 
-import com.google.common.base.Preconditions;
-import com.tinkerpop.blueprints.Graph;
-
 /**
- * A GraphComputer maintains reference to the components requisite for the execution of a vertex-centric graph computation.
- * In this model of computing, each vertex maintains a "program."
- * Each vertex program is embedded in a communication topology as defined by the explicit graph structure.
- * A vertex program can read/write its local properties, but can only read its adjacent neighbor's properties.
- * In this manner, a pull-based communication model is defined where a vertex can only pull information from its adjacents.
- * Given the information gathered from the adjacents and the rules of the vertex program, the local properties are updated.
- * The collective behavior of all vertex programs against the global and local memory structures computation's results.
+ * The GraphComputer is responsible for the execution of the GraphComputer against a particular graph instance.
  *
- * @author Matthias Broecheler (me@matthiasb.com)
  * @author Marko A. Rodriguez (http://markorodriguez.com)
  */
-public abstract class GraphComputer {
+public interface GraphComputer {
 
-    protected Graph graph;
-    protected VertexProgram vertexProgram;
-    protected Isolation isolation;
-    protected GlobalMemory globalMemory;
-    protected LocalMemory localMemory;
-    protected Evaluator evaluator;
-
-    public Graph getGraph() {
-        return this.graph;
+    enum Isolation {
+        /**
+         * Computations are carried out in a bulk synchronous manner.
+         * The computation is completed on all vertices.
+         * All resulting changes are buffered until the changes become visible.
+         * Only after all computations are completed is a round complete.
+         */
+        BSP,
+        /**
+         * As with BSP but mutations may become visible before the end of the round.
+         */
+        DIRTY_BSP
     }
 
-    public VertexProgram getVertexProgram() {
-        return this.vertexProgram;
-    }
+    public void execute();
 
-    public Isolation getIsolation() {
-        return this.isolation;
-    }
+    public VertexMemory getVertexMemory();
 
-    public GlobalMemory getGlobalMemory() {
-        return this.globalMemory;
-    }
-
-    public LocalMemory getLocalMemory() {
-        return this.localMemory;
-    }
-
-    public Evaluator getEvaluator() {
-        return this.evaluator;
-    }
-
-    public void execute() {
-        Preconditions.checkNotNull(this.isolation);
-        Preconditions.checkNotNull(this.globalMemory);
-        Preconditions.checkNotNull(this.localMemory);
-        Preconditions.checkNotNull(this.evaluator);
-        this.evaluator.execute(this);
-    }
-
-    public boolean doSetupIteration() {
-        return true;
-    }
-
-    public static <R extends GraphComputerBuilder> R create() {
-        return null;
-    }
-
-    public abstract boolean terminate();
+    public GraphMemory getGraphMemory();
 }

@@ -1,21 +1,8 @@
 package com.tinkerpop.furnace.computer.programs.clustering;
 
-import com.google.common.collect.ImmutableSortedMap;
-import com.tinkerpop.blueprints.Direction;
 import com.tinkerpop.blueprints.Graph;
-import com.tinkerpop.blueprints.Vertex;
 import com.tinkerpop.blueprints.impls.tg.TinkerGraphFactory;
-import com.tinkerpop.furnace.computer.GraphComputer;
-import com.tinkerpop.furnace.computer.LocalMemory;
-import com.tinkerpop.furnace.computer.evaluators.SerialEvaluator;
-import com.tinkerpop.furnace.computer.memory.SimpleGlobalMemory;
-import com.tinkerpop.furnace.computer.memory.SimpleLocalMemory;
-import com.tinkerpop.furnace.util.VertexQueryBuilder;
 import junit.framework.TestCase;
-
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author Marko A. Rodriguez (http://markorodriguez.com)
@@ -27,16 +14,16 @@ public class PeerPressureGraphComputerTest extends TestCase {
         //Graph graph = new TinkerGraph();
         //GraphMLReader.inputGraph(graph, "/Users/marko/software/tinkerpop/gremlin/data/graph-example-2.xml");
 
-        GraphComputer graphComputer = PeerPressureGraphComputer.create()
+       /* GraphComputer graphComputer = PeerPressureGraphComputer.create()
                 .graph(graph).iterations(30)
                 .outgoingQuery(new VertexQueryBuilder().direction(Direction.OUT))
                 .incomingQuery(new VertexQueryBuilder().direction(Direction.IN))
-                .evaluator(new SerialEvaluator())
-                .globalMemory(new SimpleGlobalMemory())
-                .localMemory(new SimpleLocalMemory()).build();
+                .evaluator(new SerialGraphComputer())
+                .globalMemory(new SimpleGraphMemory())
+                .localMemory(new SimpleVertexMemory()).build();
         graphComputer.execute();
 
-        LocalMemory results = graphComputer.getLocalMemory();
+        VertexMemory results = graphComputer.getVertexMemory();
 
         System.out.println(results);
 
@@ -55,8 +42,8 @@ public class PeerPressureGraphComputerTest extends TestCase {
         }
 
         /*for (int i = 1; i < 7; i++) {
-            double pageRank = result.getResult(graph.getVertex(i));
-            System.out.println(i + " " + (pageRank / total));
+            double PAGE_RANK = result.getResult(graph.getVertex(i));
+            System.out.println(i + " " + (PAGE_RANK / total));
         }*/
 
 

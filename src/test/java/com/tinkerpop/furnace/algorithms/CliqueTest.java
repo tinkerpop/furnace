@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import junit.framework.TestCase;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -16,7 +17,7 @@ import com.tinkerpop.blueprints.impls.tg.TinkerGraph;
 import com.tinkerpop.furnace.algorithms.clique.BronKerboschAlgorithm;
 import com.tinkerpop.furnace.algorithms.clique.CliqueAlgorithm;
 
-public class CliqueTest {
+public class CliqueTest extends TestCase {
 	private CliqueAlgorithm cliqueAlgorithm;
 	private Vertex vertex1;
 	private Vertex vertex2;
@@ -36,13 +37,13 @@ public class CliqueTest {
 		vertex5 = g.addVertex(5);
 		vertex6 = g.addVertex(6);
 
-		makeBidirectionalRelationship(vertex1, vertex5, null);
-		makeBidirectionalRelationship(vertex1, vertex2, null);
-		makeBidirectionalRelationship(vertex5, vertex2, null);
-		makeBidirectionalRelationship(vertex3, vertex2, null);
-		makeBidirectionalRelationship(vertex4, vertex5, null);
-		makeBidirectionalRelationship(vertex6, vertex4, null);
-		makeBidirectionalRelationship(vertex3, vertex4, null);
+		makeBidirectionalRelationship(vertex1, vertex5, "link");
+		makeBidirectionalRelationship(vertex1, vertex2, "link");
+		makeBidirectionalRelationship(vertex5, vertex2, "link");
+		makeBidirectionalRelationship(vertex3, vertex2, "link");
+		makeBidirectionalRelationship(vertex4, vertex5, "link");
+		makeBidirectionalRelationship(vertex6, vertex4, "link");
+		makeBidirectionalRelationship(vertex3, vertex4, "link");
 
 		cliqueAlgorithm = new BronKerboschAlgorithm(g);
 	}

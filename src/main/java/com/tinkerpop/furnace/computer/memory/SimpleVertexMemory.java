@@ -1,6 +1,7 @@
 package com.tinkerpop.furnace.computer.memory;
 
 import com.tinkerpop.blueprints.Vertex;
+import com.tinkerpop.furnace.computer.GraphComputer;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -9,16 +10,16 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * @author Marko A. Rodriguez (http://markorodriguez.com)
  */
-public class SimpleLocalMemory extends AbstractLocalMemory {
+public class SimpleVertexMemory extends AbstractVertexMemory {
 
     private final Map<Object, Map<String, Object>> memory;
 
-    public SimpleLocalMemory() {
-        this(new ConcurrentHashMap<Object, Map<String, Object>>());
+    public SimpleVertexMemory(final GraphComputer.Isolation isolation) {
+        this(isolation, new ConcurrentHashMap<Object, Map<String, Object>>());
     }
 
-    public SimpleLocalMemory(final Map<Object, Map<String, Object>> memory) {
-        super();
+    public SimpleVertexMemory(final GraphComputer.Isolation isolation, final Map<Object, Map<String, Object>> memory) {
+        super(isolation);
         this.memory = memory;
     }
 
@@ -37,6 +38,15 @@ public class SimpleLocalMemory extends AbstractLocalMemory {
             return null;
         else
             return (T) map.get(generateGetKey(key));
+    }
+
+    public <T> T removeProperty(final Vertex vertex, final String key) {
+        final Map<String, Object> map = memory.get(vertex.getId());
+        if (null == map)
+            return null;
+        else {
+            return (T) map.remove(generateGetKey(key));
+        }
     }
 
     public String toString() {

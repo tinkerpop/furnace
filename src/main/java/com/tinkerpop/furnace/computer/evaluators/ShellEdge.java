@@ -3,7 +3,7 @@ package com.tinkerpop.furnace.computer.evaluators;
 import com.tinkerpop.blueprints.Direction;
 import com.tinkerpop.blueprints.Edge;
 import com.tinkerpop.blueprints.Vertex;
-import com.tinkerpop.furnace.computer.LocalMemory;
+import com.tinkerpop.furnace.computer.VertexSystemMemory;
 
 import java.util.Set;
 
@@ -12,12 +12,12 @@ import java.util.Set;
  */
 public class ShellEdge implements Edge {
 
-    private final LocalMemory localMemory;
+    private final VertexSystemMemory vertexMemory;
     private Edge baseEdge;
 
-    public ShellEdge(final Edge baseEdge, final LocalMemory localMemory) {
+    public ShellEdge(final Edge baseEdge, final VertexSystemMemory vertexMemory) {
         this.baseEdge = baseEdge;
-        this.localMemory = localMemory;
+        this.vertexMemory = vertexMemory;
     }
 
     public Object getId() {
@@ -49,7 +49,7 @@ public class ShellEdge implements Edge {
     }
 
     public Vertex getVertex(final Direction direction) {
-        return new AdjacentShellVertex(this.baseEdge.getVertex(direction), this.localMemory);
+        return new AdjacentShellVertex(this.baseEdge.getVertex(direction), this.vertexMemory);
     }
 
     public void remove() {

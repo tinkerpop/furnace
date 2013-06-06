@@ -1,16 +1,12 @@
 package com.tinkerpop.furnace.computer.programs.ranking;
 
 import com.google.common.collect.ImmutableSortedMap;
-import com.tinkerpop.blueprints.Direction;
 import com.tinkerpop.blueprints.Graph;
 import com.tinkerpop.blueprints.Vertex;
 import com.tinkerpop.blueprints.impls.tg.TinkerGraphFactory;
 import com.tinkerpop.furnace.computer.GraphComputer;
-import com.tinkerpop.furnace.computer.LocalMemory;
-import com.tinkerpop.furnace.computer.evaluators.SerialEvaluator;
-import com.tinkerpop.furnace.computer.memory.SimpleGlobalMemory;
-import com.tinkerpop.furnace.computer.memory.SimpleLocalMemory;
-import com.tinkerpop.furnace.util.VertexQueryBuilder;
+import com.tinkerpop.furnace.computer.VertexMemory;
+import com.tinkerpop.furnace.computer.evaluators.SerialGraphComputer;
 import junit.framework.TestCase;
 
 import java.util.Comparator;
@@ -27,24 +23,20 @@ public class PageRankGraphComputerTest extends TestCase {
         //Graph graph = new TinkerGraph();
         //GraphMLReader.inputGraph(graph, "/Users/marko/software/tinkerpop/gremlin/data/graph-example-2.xml");
 
-        GraphComputer graphComputer = PageRankGraphComputer.create()
-                .graph(graph).alpha(0.85d).iterations(10).vertexCount(6)
-                .outgoing(new VertexQueryBuilder().direction(Direction.OUT))
-                .incoming(new VertexQueryBuilder().direction(Direction.IN))
-                        //.isolation(Isolation.DIRTY_BSP)
-                .evaluator(new SerialEvaluator())
-                .globalMemory(new SimpleGlobalMemory())
-                .localMemory(new SimpleLocalMemory()).build();
-        graphComputer.execute();
 
-        LocalMemory results = graphComputer.getLocalMemory();
+        PageRankVertexProgram program = PageRankVertexProgram.create().vertexCount(6).build();
+        SerialGraphComputer computer = new SerialGraphComputer(program, graph, GraphComputer.Isolation.BSP);
+        computer.execute();
+
+
+        VertexMemory results = computer.getVertexMemory();
 
         System.out.println(results);
 
         double total = 0.0d;
         final Map<String, Double> map = new HashMap<String, Double>();
         for (Vertex vertex : graph.getVertices()) {
-            double pageRank = results.getProperty(vertex, PageRankGraphComputer.PAGE_RANK);
+            double pageRank = results.getProperty(vertex, PageRankVertexProgram.PAGE_RANK);
             assertTrue(pageRank > 0.0d);
             total = total + pageRank;
             map.put(vertex.getProperty("name") + " ", pageRank);
@@ -59,10 +51,11 @@ public class PageRankGraphComputerTest extends TestCase {
         }
 
         System.out.println(total);
+        System.out.println(computer.getGraphMemory().getRuntime());
 
         /*for (int i = 1; i < 7; i++) {
-            double pageRank = result.getResult(graph.getVertex(i));
-            System.out.println(i + " " + (pageRank / total));
+            double PAGE_RANK = result.getResult(graph.getVertex(i));
+            System.out.println(i + " " + (PAGE_RANK / total));
         }*/
 
 
