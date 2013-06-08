@@ -1,4 +1,4 @@
-package com.tinkerpop.furnace.algorithms.graphcentric;
+package com.tinkerpop.furnace.algorithms.graphcentric.searching;
 
 import static org.junit.Assert.assertEquals;
 
@@ -13,11 +13,9 @@ import com.tinkerpop.blueprints.Edge;
 import com.tinkerpop.blueprints.Graph;
 import com.tinkerpop.blueprints.Vertex;
 import com.tinkerpop.blueprints.impls.tg.TinkerGraph;
-import com.tinkerpop.furnace.algorithms.graphcentric.search.AStarAlgorithm;
-import com.tinkerpop.furnace.algorithms.graphcentric.search.SearchAlgorithm;
 
-public class AStarAlgorithmTest {
-	private Graph graph;
+public class DepthFirstSearchTest {
+	private Graph graph;;
 	private Vertex vertex1;
 	private Vertex vertex2;
 	private Vertex vertex3;
@@ -35,22 +33,24 @@ public class AStarAlgorithmTest {
 		vertex4 = graph.addVertex(null);
 
 		edge1 = vertex1.addEdge("TO", vertex2);
-		edge1.setProperty("weight", 1L);
-
 		edge2 = vertex2.addEdge("TO", vertex3);
-		edge2.setProperty("weight", 1L);
-
 		edge3 = vertex1.addEdge("TO", vertex4);
-		edge3.setProperty("weight", 1L);
 	}
 
 	@Test
-	public void aStarSimpleTest() {
-		SearchAlgorithm bfs = new AStarAlgorithm(graph, null);
-		List<Edge> path1 = bfs.findPathToTarget(vertex1, vertex3);
+	public void bfsSimpleTest() {
+		SearchAlgorithm dfs = new DepthFirstAlgorithm(graph);
+		List<Edge> path1 = dfs.findPathToTarget(vertex1, vertex3);
+		List<Edge> path2 = dfs.findPathToTarget(vertex1, vertex4);
 		assertEquals(path1, Arrays.asList(edge1, edge2));
-
-		List<Edge> path2 = bfs.findPathToTarget(vertex1, vertex4);
 		assertEquals(path2, Collections.singletonList(edge3));
+	}
+
+	@Test
+	public void bfaTraversalSimpleTest() {
+		TraversalAlgorithm bfs = new DepthFirstAlgorithm(graph);
+		List<Vertex> traversalList = bfs.traverseTree(vertex1);
+
+		assertEquals(traversalList, Arrays.asList(vertex1, vertex2, vertex3, vertex4));
 	}
 }

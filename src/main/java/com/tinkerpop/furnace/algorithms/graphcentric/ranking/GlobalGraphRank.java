@@ -1,4 +1,4 @@
-package com.tinkerpop.furnace.algorithms.graphcentric.rank;
+package com.tinkerpop.furnace.algorithms.graphcentric.ranking;
 
 import java.util.Map;
 

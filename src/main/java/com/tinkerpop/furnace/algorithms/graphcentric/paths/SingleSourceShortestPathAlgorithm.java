@@ -1,4 +1,4 @@
-package com.tinkerpop.furnace.algorithms.graphcentric.shortestpath;
+package com.tinkerpop.furnace.algorithms.graphcentric.paths;
 
 import java.util.List;
 import java.util.Map;

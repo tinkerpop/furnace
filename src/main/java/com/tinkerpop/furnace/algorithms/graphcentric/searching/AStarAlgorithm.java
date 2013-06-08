@@ -1,4 +1,4 @@
-package com.tinkerpop.furnace.algorithms.graphcentric.search;
+package com.tinkerpop.furnace.algorithms.graphcentric.searching;
 
 import java.util.Collections;
 import java.util.HashMap;

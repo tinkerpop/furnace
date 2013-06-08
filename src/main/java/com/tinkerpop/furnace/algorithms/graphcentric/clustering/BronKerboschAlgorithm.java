@@ -1,4 +1,4 @@
-package com.tinkerpop.furnace.algorithms.graphcentric.clique;
+package com.tinkerpop.furnace.algorithms.graphcentric.clustering;
 
 import java.util.HashSet;
 import java.util.LinkedList;

@@ -1,4 +1,4 @@
-package com.tinkerpop.furnace.algorithms.graphcentric;
+package com.tinkerpop.furnace.algorithms.graphcentric.paths;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -14,8 +14,8 @@ import com.tinkerpop.blueprints.Edge;
 import com.tinkerpop.blueprints.Graph;
 import com.tinkerpop.blueprints.Vertex;
 import com.tinkerpop.blueprints.impls.tg.TinkerGraph;
-import com.tinkerpop.furnace.algorithms.graphcentric.shortestpath.BellmanFordAlgorithm;
-import com.tinkerpop.furnace.algorithms.graphcentric.shortestpath.SingleSourceShortestPathAlgorithm;
+import com.tinkerpop.furnace.algorithms.graphcentric.paths.BellmanFordAlgorithm;
+import com.tinkerpop.furnace.algorithms.graphcentric.paths.SingleSourceShortestPathAlgorithm;
 
 public class BellmanFordAlgorithmTest {
 

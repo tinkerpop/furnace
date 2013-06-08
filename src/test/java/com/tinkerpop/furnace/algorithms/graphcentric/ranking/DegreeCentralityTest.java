@@ -1,10 +1,10 @@
-package com.tinkerpop.furnace.algorithms.graphcentric;
+package com.tinkerpop.furnace.algorithms.graphcentric.ranking;
 
 import com.tinkerpop.blueprints.Direction;
 import com.tinkerpop.blueprints.Graph;
 import com.tinkerpop.blueprints.Vertex;
 import com.tinkerpop.blueprints.impls.tg.TinkerGraphFactory;
-import com.tinkerpop.furnace.algorithms.graphcentric.rank.DegreeCentrality;
+import com.tinkerpop.furnace.algorithms.graphcentric.ranking.DegreeCentrality;
 import com.tinkerpop.furnace.util.VertexQueryBuilder;
 import junit.framework.TestCase;
 

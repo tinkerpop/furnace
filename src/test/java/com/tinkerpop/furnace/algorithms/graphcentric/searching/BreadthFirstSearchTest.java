@@ -1,4 +1,4 @@
-package com.tinkerpop.furnace.algorithms.graphcentric;
+package com.tinkerpop.furnace.algorithms.graphcentric.searching;
 
 import static org.junit.Assert.assertEquals;
 
@@ -13,9 +13,6 @@ import com.tinkerpop.blueprints.Edge;
 import com.tinkerpop.blueprints.Graph;
 import com.tinkerpop.blueprints.Vertex;
 import com.tinkerpop.blueprints.impls.tg.TinkerGraph;
-import com.tinkerpop.furnace.algorithms.graphcentric.search.BreadthFirstAlgorithm;
-import com.tinkerpop.furnace.algorithms.graphcentric.search.SearchAlgorithm;
-import com.tinkerpop.furnace.algorithms.graphcentric.search.TraversalAlgorithm;
 
 public class BreadthFirstSearchTest {
 	private Graph graph;
