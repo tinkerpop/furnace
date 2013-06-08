@@ -7,7 +7,8 @@ import java.util.Map;
 
 /**
  * A VertexProgram represents one component of a distributed graph computation.
- * Each applicable vertex maintains a VertexProgram instance, where the collective behavior of all instances yields the computational result.
+ * Each applicable vertex (theoretically) maintains a VertexProgram instance.
+ * The collective behavior of all instances yields the computational result.
  *
  * @author Matthias Broecheler (me@matthiasb.com)
  * @author Marko A. Rodriguez (http://markorodriguez.com)
@@ -19,6 +20,12 @@ public interface VertexProgram extends Serializable {
         CONSTANT
     }
 
+    /**
+     * The method is called at the beginning of the computation.
+     * The method is global to the GraphComputer and as such, is not called for each vertex.
+     *
+     * @param graphMemory The global GraphMemory of the GraphComputer
+     */
     public void setup(GraphMemory graphMemory);
 
     /**
@@ -29,6 +36,13 @@ public interface VertexProgram extends Serializable {
      */
     public void execute(Vertex vertex, GraphMemory graphMemory);
 
+    /**
+     * The method is called at the end of a round to determine if the computation is complete.
+     * The method is global to the GraphComputer and as such, is not called for each vertex.
+     *
+     * @param graphMemory The global GraphMemory of the GraphComputer
+     * @return whether or not to halt the computation
+     */
     public boolean terminate(GraphMemory graphMemory);
 
     public Map<String, KeyType> getComputeKeys();

@@ -1,9 +1,10 @@
 package com.tinkerpop.furnace.computer;
 
 /**
- * Each vertex in a vertex-centric graph computation can access itself and its neighbors.
+ * Each vertex in a vertex-centric graph computation can access itself and its neighbors' properties.
  * However, in many situations, a global backboard (or distributed cache) is desired.
  * The GraphMemory is a synchronizing data structure that allows arbitrary vertex communication.
+ * Moreover, the GraphMemory maintains global information about the computation such as the iterations and runtime.
  *
  * @author Matthias Broecheler (me@matthiasb.com)
  * @author Marko A. Rodriguez (http://markorodriguez.com)

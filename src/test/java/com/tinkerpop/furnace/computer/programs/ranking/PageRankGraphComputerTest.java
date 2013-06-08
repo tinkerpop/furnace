@@ -6,7 +6,7 @@ import com.tinkerpop.blueprints.Vertex;
 import com.tinkerpop.blueprints.impls.tg.TinkerGraphFactory;
 import com.tinkerpop.furnace.computer.GraphComputer;
 import com.tinkerpop.furnace.computer.VertexMemory;
-import com.tinkerpop.furnace.computer.evaluators.SerialGraphComputer;
+import com.tinkerpop.furnace.computer.computers.SerialGraphComputer;
 import junit.framework.TestCase;
 
 import java.util.Comparator;
@@ -25,7 +25,7 @@ public class PageRankGraphComputerTest extends TestCase {
 
 
         PageRankVertexProgram program = PageRankVertexProgram.create().vertexCount(6).build();
-        SerialGraphComputer computer = new SerialGraphComputer(program, graph, GraphComputer.Isolation.BSP);
+        SerialGraphComputer computer = new SerialGraphComputer(graph, program, GraphComputer.Isolation.BSP);
         computer.execute();
 
 

@@ -3,7 +3,7 @@ package com.tinkerpop.furnace.computer;
 import com.tinkerpop.blueprints.Vertex;
 
 /**
- * VertexMemory denotes the vertex properties that are used for the graph computation.
+ * VertexMemory denotes the vertex properties that are used for the VertexProgram.
  *
  * @author Marko A. Rodriguez (http://markorodriguez.com)
  */

@@ -1,4 +1,4 @@
-package com.tinkerpop.furnace.computer.memory;
+package com.tinkerpop.furnace.computer.computers;
 
 import com.tinkerpop.furnace.computer.GraphComputer;
 import com.tinkerpop.furnace.computer.VertexProgram;
