@@ -40,7 +40,6 @@ public class PageRankVertexProgram extends AbstractVertexProgram {
                 newPageRank += (Double) adjacent.getProperty(PAGE_RANK) / (Double) adjacent.getProperty(EDGE_COUNT);
             }
             vertex.setProperty(PAGE_RANK, (this.alpha * newPageRank) + ((1.0d - this.alpha) / this.vertexCountAsDouble));
-            vertex.setProperty(EDGE_COUNT, vertex.getProperty(EDGE_COUNT));
         }
     }
 

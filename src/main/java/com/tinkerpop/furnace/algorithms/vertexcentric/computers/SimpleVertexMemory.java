@@ -24,16 +24,16 @@ public class SimpleVertexMemory extends AbstractVertexMemory {
     }
 
     public void setProperty(final Vertex vertex, final String key, final Object value) {
-        Map<String, Object> map = memory.get(vertex.getId());
+        Map<String, Object> map = this.memory.get(vertex.getId());
         if (null == map) {
             map = new HashMap<String, Object>();
-            memory.put(vertex.getId(), map);
+            this.memory.put(vertex.getId(), map);
         }
         map.put(generateSetKey(key), value);
     }
 
     public <T> T getProperty(final Vertex vertex, final String key) {
-        final Map<String, Object> map = memory.get(vertex.getId());
+        final Map<String, Object> map = this.memory.get(vertex.getId());
         if (null == map)
             return null;
         else
@@ -41,7 +41,7 @@ public class SimpleVertexMemory extends AbstractVertexMemory {
     }
 
     public <T> T removeProperty(final Vertex vertex, final String key) {
-        final Map<String, Object> map = memory.get(vertex.getId());
+        final Map<String, Object> map = this.memory.get(vertex.getId());
         if (null == map)
             return null;
         else {
