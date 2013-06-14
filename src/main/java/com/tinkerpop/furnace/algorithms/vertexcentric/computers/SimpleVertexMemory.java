@@ -29,7 +29,11 @@ public class SimpleVertexMemory extends AbstractVertexMemory {
             map = new HashMap<String, Object>();
             this.memory.put(vertex.getId(), map);
         }
-        map.put(generateSetKey(key), value);
+        final String bspKey = generateSetKey(key);
+        if (isConstantKey(key) && map.containsKey(bspKey))
+            throw new IllegalStateException("The constant property " + bspKey + " has already been set for vertex " + vertex);
+        else
+            map.put(bspKey, value);
     }
 
     public <T> T getProperty(final Vertex vertex, final String key) {

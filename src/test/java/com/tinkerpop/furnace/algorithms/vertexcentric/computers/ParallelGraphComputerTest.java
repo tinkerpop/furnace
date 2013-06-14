@@ -21,7 +21,6 @@ public class ParallelGraphComputerTest extends TestCase {
                 ParallelGraphComputer computer = new ParallelGraphComputer(graph, program, GraphComputer.Isolation.BSP, threads, workers, 6);
                 computer.execute();
                 VertexMemory results = computer.getVertexMemory();
-                //System.out.println("workers: " + workers + " -- threads: " + threads);
                 testDegree(graph, results);
             }
         }

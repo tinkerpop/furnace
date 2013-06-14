@@ -50,4 +50,8 @@ public abstract class AbstractVertexMemory implements VertexSystemMemory {
         else
             return key;
     }
+
+    protected boolean isConstantKey(final String key) {
+        return VertexProgram.KeyType.CONSTANT.equals(this.computeKeys.get(key));
+    }
 }
