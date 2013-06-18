@@ -29,4 +29,8 @@ public abstract class AbstractVertexProgram implements VertexProgram {
 
     }
 
+    public String toString() {
+        return this.getClass().getSimpleName() + "[" + computeKeys.keySet() + "]";
+    }
+
 }

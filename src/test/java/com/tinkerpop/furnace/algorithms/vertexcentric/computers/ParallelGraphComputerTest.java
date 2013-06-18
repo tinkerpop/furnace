@@ -18,7 +18,7 @@ public class ParallelGraphComputerTest extends TestCase {
         for (int workers = 1; workers < 25; workers++) {
             for (int threads = 1; threads < 25; threads++) {
                 DegreeRankVertexProgram program = DegreeRankVertexProgram.create().build();
-                ParallelGraphComputer computer = new ParallelGraphComputer(graph, program, GraphComputer.Isolation.BSP, threads, workers, 6);
+                ParallelGraphComputer computer = new ParallelGraphComputer(graph, program, GraphComputer.Isolation.BSP);
                 computer.execute();
                 VertexMemory results = computer.getVertexMemory();
                 testDegree(graph, results);

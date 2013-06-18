@@ -52,8 +52,4 @@ public class SimpleVertexMemory extends AbstractVertexMemory {
             return (T) map.remove(generateGetKey(key));
         }
     }
-
-    public String toString() {
-        return this.memory.toString();
-    }
 }

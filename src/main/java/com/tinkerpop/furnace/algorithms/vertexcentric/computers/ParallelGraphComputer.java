@@ -5,6 +5,9 @@ import com.tinkerpop.blueprints.Graph;
 import com.tinkerpop.blueprints.Vertex;
 import com.tinkerpop.furnace.algorithms.vertexcentric.VertexProgram;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -13,19 +16,16 @@ import java.util.concurrent.Executors;
  */
 public class ParallelGraphComputer extends AbstractGraphComputer {
 
-    long totalVertices = 1000;
-    int threads = 10;
-    long workers = 100;
+    int threads = Runtime.getRuntime().availableProcessors() - 1;
+    int chunkSize = 1000;
 
     public ParallelGraphComputer(final Graph graph, final VertexProgram vertexProgram, final Isolation isolation) {
         super(graph, vertexProgram, new SimpleGraphMemory(), new SimpleVertexMemory(isolation), isolation);
     }
 
-    public ParallelGraphComputer(final Graph graph, final VertexProgram vertexProgram, final Isolation isolation, final int threads, final int workers, final long totalVertices) {
+    public ParallelGraphComputer(final Graph graph, final VertexProgram vertexProgram, final Isolation isolation, final int threads) {
         this(graph, vertexProgram, isolation);
         this.threads = threads;
-        this.workers = workers > totalVertices ? totalVertices : workers;
-        this.totalVertices = totalVertices;
     }
 
     public void execute() {
@@ -34,16 +34,12 @@ public class ParallelGraphComputer extends AbstractGraphComputer {
         this.vertexMemory.setComputeKeys(this.vertexProgram.getComputeKeys());
         this.vertexProgram.setup(this.graphMemory);
 
-        long limit = this.totalVertices / this.workers;
-        if (totalVertices % workers != 0)
-            limit = (totalVertices / workers) + 1;
-
         boolean done = false;
         while (!done) {
             final ExecutorService executor = Executors.newFixedThreadPool(this.threads);
-            for (int i = 0; i < this.workers; i++) {
-                long skip = i * limit;
-                final Runnable worker = new VertexThread(skip, i - 1 == this.workers ? Long.MAX_VALUE : limit);
+            final Iterator<Vertex> vertices = this.graph.getVertices().iterator();
+            while (vertices.hasNext()) {
+                final Runnable worker = new VertexThread(vertices);
                 executor.execute(worker);
             }
             executor.shutdown();
@@ -53,15 +49,20 @@ public class ParallelGraphComputer extends AbstractGraphComputer {
             this.graphMemory.incrIteration();
             done = this.vertexProgram.terminate(this.graphMemory);
         }
+
         this.graphMemory.setRuntime(System.currentTimeMillis() - time);
     }
 
     public class VertexThread implements Runnable {
 
-        private final Iterable<Vertex> vertices;
+        private final List<Vertex> vertices = new ArrayList<Vertex>();
 
-        public VertexThread(final long skip, final long limit) {
-            this.vertices = graph.query().limit(skip, limit).vertices();
+        public VertexThread(final Iterator<Vertex> vertices) {
+            for (int i = 0; i < chunkSize; i++) {
+                if (!vertices.hasNext())
+                    break;
+                this.vertices.add(vertices.next());
+            }
         }
 
         public void run() {

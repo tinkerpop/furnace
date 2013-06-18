@@ -11,7 +11,7 @@ package com.tinkerpop.furnace.algorithms.vertexcentric;
  */
 public interface GraphComputer {
 
-    enum Isolation {
+    public enum Isolation {
         /**
          * Computations are carried out in a bulk synchronous manner.
          * The results of a vertex property update are only visible after the round is complete.
