@@ -17,7 +17,7 @@ public class PageRankVertexProgram extends AbstractVertexProgram {
     public static final String PAGE_RANK = "pageRank";
     public static final String EDGE_COUNT = "edgeCount";
 
-    private double vertexCountAsDouble = 100;
+    private double vertexCountAsDouble = 1;
     private double alpha = 0.85d;
     private int totalIterations = 30;
 

@@ -1,5 +1,6 @@
 package com.tinkerpop.furnace.util;
 
+import com.tinkerpop.blueprints.CompareRelation;
 import com.tinkerpop.blueprints.Direction;
 import com.tinkerpop.blueprints.Edge;
 import com.tinkerpop.blueprints.Query;
@@ -16,13 +17,23 @@ public class VertexQueryBuilder extends DefaultVertexQuery {
         super(null);
     }
 
-    public VertexQueryBuilder hasNot(final String key, final Object... values) {
-        super.hasNot(key, values);
+    public VertexQueryBuilder has(final String key) {
+        super.has(key);
         return this;
     }
 
-    public VertexQueryBuilder has(final String key, final Object... values) {
-        super.has(key, values);
+    public VertexQueryBuilder hasNot(final String key) {
+        super.hasNot(key);
+        return this;
+    }
+
+    public VertexQueryBuilder has(final String key, final Object value) {
+        super.has(key, value);
+        return this;
+    }
+
+    public VertexQueryBuilder hasNot(final String key, final Object value) {
+        super.hasNot(key, value);
         return this;
     }
 
@@ -31,8 +42,8 @@ public class VertexQueryBuilder extends DefaultVertexQuery {
         return this.has(key, compare, value);
     }
 
-    public <T extends Comparable<T>> VertexQueryBuilder has(final String key, final Query.Compare compare, final T value) {
-        super.has(key, compare, value);
+    public VertexQueryBuilder has(final String key, final CompareRelation compare, final Object... values) {
+        super.has(key, compare, values);
         return this;
     }
 
@@ -51,13 +62,8 @@ public class VertexQueryBuilder extends DefaultVertexQuery {
         return this;
     }
 
-    public VertexQueryBuilder limit(final long take) {
-        super.limit(take);
-        return this;
-    }
-
-    public VertexQueryBuilder limit(final long skip, final long take) {
-        super.limit(skip, take);
+    public VertexQueryBuilder limit(final long limit) {
+        super.limit(limit);
         return this;
     }
 
@@ -78,14 +84,14 @@ public class VertexQueryBuilder extends DefaultVertexQuery {
     }
 
     public VertexQuery build(final Vertex vertex) {
-        final VertexQuery query = vertex.query();
+        VertexQuery query = vertex.query();
         for (final HasContainer hasContainer : this.hasContainers) {
-            if (hasContainer.compare.equals(Query.Compare.EQUAL)) {
-                query.has(hasContainer.key, hasContainer.values);
+            if (hasContainer.compare.equals(com.tinkerpop.blueprints.Compare.EQUAL)) {
+                query = query.has(hasContainer.key, hasContainer.values);
             } else {
-                query.has(hasContainer.key, hasContainer.compare, hasContainer.values);
+                query = query.has(hasContainer.key, hasContainer.compare, hasContainer.values);
             }
         }
-        return query.limit(this.minimum, this.maximum).labels(this.labels).direction(this.direction);
+        return query.limit(this.limit).labels(this.labels).direction(this.direction);
     }
 }
