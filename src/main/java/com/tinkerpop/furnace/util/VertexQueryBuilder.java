@@ -1,8 +1,8 @@
 package com.tinkerpop.furnace.util;
 
-import com.tinkerpop.blueprints.CompareRelation;
 import com.tinkerpop.blueprints.Direction;
 import com.tinkerpop.blueprints.Edge;
+import com.tinkerpop.blueprints.Predicate;
 import com.tinkerpop.blueprints.Query;
 import com.tinkerpop.blueprints.Vertex;
 import com.tinkerpop.blueprints.VertexQuery;
@@ -42,8 +42,8 @@ public class VertexQueryBuilder extends DefaultVertexQuery {
         return this.has(key, compare, value);
     }
 
-    public VertexQueryBuilder has(final String key, final CompareRelation compare, final Object... values) {
-        super.has(key, compare, values);
+    public VertexQueryBuilder has(final String key, final Predicate compare, final Object value) {
+        super.has(key, compare, value);
         return this;
     }
 
@@ -62,7 +62,7 @@ public class VertexQueryBuilder extends DefaultVertexQuery {
         return this;
     }
 
-    public VertexQueryBuilder limit(final long limit) {
+    public VertexQueryBuilder limit(final int limit) {
         super.limit(limit);
         return this;
     }
@@ -86,11 +86,7 @@ public class VertexQueryBuilder extends DefaultVertexQuery {
     public VertexQuery build(final Vertex vertex) {
         VertexQuery query = vertex.query();
         for (final HasContainer hasContainer : this.hasContainers) {
-            if (hasContainer.compare.equals(com.tinkerpop.blueprints.Compare.EQUAL)) {
-                query = query.has(hasContainer.key, hasContainer.values);
-            } else {
-                query = query.has(hasContainer.key, hasContainer.compare, hasContainer.values);
-            }
+            query = query.has(hasContainer.key, hasContainer.predicate, hasContainer.value);
         }
         return query.limit(this.limit).labels(this.labels).direction(this.direction);
     }
