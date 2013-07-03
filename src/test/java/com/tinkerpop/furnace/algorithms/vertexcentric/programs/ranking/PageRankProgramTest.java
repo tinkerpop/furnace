@@ -16,14 +16,14 @@ import java.util.Map;
 /**
  * @author Marko A. Rodriguez (http://markorodriguez.com)
  */
-public class PageRankVertexProgramTest extends TestCase {
+public class PageRankProgramTest extends TestCase {
 
-    public void testGraphComputer() throws Exception {
+    public void testPageRankProgram() throws Exception {
         Graph graph = TinkerGraphFactory.createTinkerGraph();
         //Graph graph = new TinkerGraph();
         //GraphMLReader.inputGraph(graph, "/Users/marko/software/tinkerpop/gremlin/data/graph-example-2.xml");
 
-        PageRankVertexProgram program = PageRankVertexProgram.create().vertexCount(6).build();
+        PageRankProgram program = PageRankProgram.create().vertexCount(6).build();
         SerialGraphComputer computer = new SerialGraphComputer(graph, program, GraphComputer.Isolation.BSP);
         computer.execute();
 
@@ -34,7 +34,7 @@ public class PageRankVertexProgramTest extends TestCase {
         double total = 0.0d;
         final Map<String, Double> map = new HashMap<String, Double>();
         for (Vertex vertex : graph.getVertices()) {
-            double pageRank = results.getProperty(vertex, PageRankVertexProgram.PAGE_RANK);
+            double pageRank = results.getProperty(vertex, PageRankProgram.PAGE_RANK);
             assertTrue(pageRank > 0.0d);
             total = total + pageRank;
             map.put(vertex.getProperty("name") + " ", pageRank);

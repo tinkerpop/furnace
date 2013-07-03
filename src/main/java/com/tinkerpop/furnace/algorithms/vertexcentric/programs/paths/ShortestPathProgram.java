@@ -3,11 +3,11 @@ package com.tinkerpop.furnace.algorithms.vertexcentric.programs.paths;
 /**
  * @author Marko A. Rodriguez (http://markorodriguez.com)
  */
-public class ShortestPathVertexProgram {} /*implements VertexProgram {
+public class ShortestPathProgram {} /*implements VertexProgram {
 
     private final VertexQueryBuilder incomingQuery;
 
-    public ShortestPathVertexProgram(final VertexQueryBuilder incomingQuery) {
+    public ShortestPathProgram(final VertexQueryBuilder incomingQuery) {
         this.incomingQuery = incomingQuery;
     }
 

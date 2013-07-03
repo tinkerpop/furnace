@@ -1,5 +1,6 @@
 package com.tinkerpop.furnace.algorithms.vertexcentric.programs.clustering;
 
+import com.tinkerpop.blueprints.Direction;
 import com.tinkerpop.blueprints.Vertex;
 import com.tinkerpop.furnace.algorithms.vertexcentric.GraphMemory;
 import com.tinkerpop.furnace.algorithms.vertexcentric.programs.AbstractVertexProgram;
@@ -11,14 +12,17 @@ import java.util.Map;
 /**
  * @author Marko A. Rodriguez (http://markorodriguez.com)
  */
-public class PeerPressureVertexProgram extends AbstractVertexProgram {
+public class PeerPressureProgram extends AbstractVertexProgram {
+
+    private VertexQueryBuilder outgoingQuery = new VertexQueryBuilder().direction(Direction.OUT);
+    private VertexQueryBuilder incomingQuery = new VertexQueryBuilder().direction(Direction.IN);
 
     public static final String CLUSTER = "cluster";
     public static final String EDGE_COUNT = "edgeCount";
 
     private int totalIterations = 30;
 
-    protected PeerPressureVertexProgram() {
+    protected PeerPressureProgram() {
         computeKeys.put(CLUSTER, KeyType.VARIABLE);
         computeKeys.put(EDGE_COUNT, KeyType.CONSTANT);
     }
@@ -74,7 +78,7 @@ public class PeerPressureVertexProgram extends AbstractVertexProgram {
 
     public static class Builder {
 
-        private final PeerPressureVertexProgram vertexProgram = new PeerPressureVertexProgram();
+        private final PeerPressureProgram vertexProgram = new PeerPressureProgram();
 
         public Builder iterations(final int iterations) {
             this.vertexProgram.totalIterations = iterations;
@@ -91,7 +95,7 @@ public class PeerPressureVertexProgram extends AbstractVertexProgram {
             return this;
         }
 
-        public PeerPressureVertexProgram build() {
+        public PeerPressureProgram build() {
             return this.vertexProgram;
         }
     }

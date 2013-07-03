@@ -2,6 +2,7 @@ package com.tinkerpop.furnace.algorithms.vertexcentric.computers;
 
 import com.tinkerpop.blueprints.Direction;
 import com.tinkerpop.blueprints.Edge;
+import com.tinkerpop.blueprints.Element;
 import com.tinkerpop.blueprints.Vertex;
 import com.tinkerpop.furnace.algorithms.vertexcentric.VertexSystemMemory;
 
@@ -26,6 +27,14 @@ public class ShellEdge implements Edge {
 
     public String toString() {
         return this.baseEdge.toString();
+    }
+
+    public boolean equals(Object object) {
+        return (object instanceof Edge) && ((Element) object).getId().equals(this.getId());
+    }
+
+    public int hashCode() {
+        return this.baseEdge.hashCode();
     }
 
     public String getLabel() {

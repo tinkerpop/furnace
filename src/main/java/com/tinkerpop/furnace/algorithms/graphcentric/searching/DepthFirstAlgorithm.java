@@ -30,7 +30,7 @@ public class DepthFirstAlgorithm implements SearchAlgorithm, TraversalAlgorithm 
 
 		start = graph.getVertex(start.getId());
 		if (start == null) {
-			throw new IllegalStateException("Start vertex does not belong to this graph.");
+			throw new IllegalStateException("Start vertex does not belong to this graph");
 		}
 
 		return performBreadthFirstTraversal(start);

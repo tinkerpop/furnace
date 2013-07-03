@@ -7,7 +7,7 @@ import junit.framework.TestCase;
 /**
  * @author Marko A. Rodriguez (http://markorodriguez.com)
  */
-public class ShortestPathVertexProgramTest extends TestCase {
+public class ShortestPathProgramTest extends TestCase {
 
     public void testGraphComputer() throws Exception {
         Graph graph = TinkerGraphFactory.createTinkerGraph();

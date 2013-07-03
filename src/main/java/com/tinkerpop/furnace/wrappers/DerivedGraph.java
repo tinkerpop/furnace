@@ -15,18 +15,27 @@ import java.util.Map;
 public class DerivedGraph implements Graph {
 
     private final Graph rawGraph;
-    protected final Map<String, Derivation> derivations = new HashMap<String, Derivation>();
+    protected final Map<String, DerivedAdjacency> derivations = new HashMap<String, DerivedAdjacency>();
 
     public DerivedGraph(final Graph rawGraph) {
         this.rawGraph = rawGraph;
     }
 
-    public void addDerivation(final String label, final Derivation derivation) {
+    public void addDerivation(final String label, final DerivedAdjacency derivation) {
         this.derivations.put(label, derivation);
     }
 
-    public Derivation getDerivation(final String label) {
+    public DerivedAdjacency getDerivation(final String label) {
         return this.derivations.get(label);
+    }
+
+    public int longestDerivation() {
+        int maxLength = 0;
+        for (DerivedAdjacency derivation : this.derivations.values()) {
+            if (derivation.size() > maxLength)
+                maxLength = derivation.size();
+        }
+        return maxLength;
     }
 
     @Override
@@ -36,12 +45,12 @@ public class DerivedGraph implements Graph {
 
     @Override
     public Iterable<Vertex> getVertices(final String key, final Object value) {
-        return this.rawGraph.getVertices(key, value);
+        return new DerivedVertexIterable(this.rawGraph.getVertices(key, value), this);
     }
 
     @Override
     public Iterable<Edge> getEdges(final String key, final Object value) {
-        return this.rawGraph.getEdges(key, value);
+        return new DerivedEdgeIterable(this.rawGraph.getEdges(key, value), this);
     }
 
     @Override
@@ -66,12 +75,12 @@ public class DerivedGraph implements Graph {
 
     @Override
     public Iterable<Vertex> getVertices() {
-        return this.rawGraph.getVertices();
+        return new DerivedVertexIterable(this.rawGraph.getVertices(), this);
     }
 
     @Override
     public Iterable<Edge> getEdges() {
-        return this.rawGraph.getEdges();
+        return new DerivedEdgeIterable(this.rawGraph.getEdges(), this);
     }
 
     @Override

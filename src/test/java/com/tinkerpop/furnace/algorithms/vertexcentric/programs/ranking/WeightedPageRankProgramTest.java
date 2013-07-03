@@ -1,4 +1,4 @@
-package com.tinkerpop.furnace.algorithms.vertexcentric.programs.clustering;
+package com.tinkerpop.furnace.algorithms.vertexcentric.programs.ranking;
 
 import com.google.common.collect.ImmutableSortedMap;
 import com.tinkerpop.blueprints.Graph;
@@ -16,14 +16,14 @@ import java.util.Map;
 /**
  * @author Marko A. Rodriguez (http://markorodriguez.com)
  */
-public class PeerPressureVertexProgramTest extends TestCase {
+public class WeightedPageRankProgramTest extends TestCase {
 
-    public void testProgramOnTinkerGraph() throws Exception {
+    public void testWeightedPageRankProgram() throws Exception {
         Graph graph = TinkerGraphFactory.createTinkerGraph();
         //Graph graph = new TinkerGraph();
         //GraphMLReader.inputGraph(graph, "/Users/marko/software/tinkerpop/gremlin/data/graph-example-2.xml");
 
-        PeerPressureVertexProgram program = PeerPressureVertexProgram.create().build();
+        WeightedPageRankProgram program = WeightedPageRankProgram.create().vertexCount(6).edgeWeightKey("weight").build();
         SerialGraphComputer computer = new SerialGraphComputer(graph, program, GraphComputer.Isolation.BSP);
         computer.execute();
 
@@ -31,19 +31,25 @@ public class PeerPressureVertexProgramTest extends TestCase {
 
         System.out.println(results);
 
-        final Map<String, Object> map = new HashMap<String, Object>();
+        double total = 0.0d;
+        final Map<String, Double> map = new HashMap<String, Double>();
         for (Vertex vertex : graph.getVertices()) {
-            Object cluster = results.getProperty(vertex, PeerPressureVertexProgram.CLUSTER);
-            map.put(vertex.getProperty("name") + " ", cluster);
+            double pageRank = results.getProperty(vertex, PageRankProgram.PAGE_RANK);
+            assertTrue(pageRank > 0.0d);
+            total = total + pageRank;
+            map.put(vertex.getProperty("name") + " ", pageRank);
         }
-        for (Map.Entry<String, Object> entry : ImmutableSortedMap.copyOf(map, new Comparator<String>() {
+        for (Map.Entry<String, Double> entry : ImmutableSortedMap.copyOf(map, new Comparator<String>() {
             public int compare(final String key, final String key2) {
-                int c = ((String) map.get(key2)).compareTo((String) map.get(key));
+                int c = map.get(key2).compareTo(map.get(key));
                 return c == 0 ? -1 : c;
             }
         }).entrySet()) {
             System.out.println(entry.getKey() + " " + entry.getValue());
         }
+
+        System.out.println(total);
+        System.out.println(computer.getGraphMemory().getRuntime());
 
         /*for (int i = 1; i < 7; i++) {
             double PAGE_RANK = result.getResult(graph.getVertex(i));

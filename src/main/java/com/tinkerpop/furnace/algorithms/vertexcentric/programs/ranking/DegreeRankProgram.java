@@ -12,7 +12,7 @@ import java.util.Map;
 /**
  * @author Marko A. Rodriguez (http://markorodriguez.com)
  */
-public class DegreeRankVertexProgram implements VertexProgram {
+public class DegreeRankProgram implements VertexProgram {
 
     public static final String DEGREE = "degree";
     protected VertexQueryBuilder degreeQuery = new VertexQueryBuilder().direction(Direction.IN);
@@ -23,7 +23,7 @@ public class DegreeRankVertexProgram implements VertexProgram {
     }
 
 
-    protected DegreeRankVertexProgram() {
+    protected DegreeRankProgram() {
 
     }
 
@@ -52,14 +52,14 @@ public class DegreeRankVertexProgram implements VertexProgram {
 
     public static class Builder {
 
-        private final DegreeRankVertexProgram vertexProgram = new DegreeRankVertexProgram();
+        private final DegreeRankProgram vertexProgram = new DegreeRankProgram();
 
         public Builder degreeQuery(final VertexQueryBuilder degreeQuery) {
             this.vertexProgram.degreeQuery = degreeQuery;
             return this;
         }
 
-        public DegreeRankVertexProgram build() {
+        public DegreeRankProgram build() {
             return this.vertexProgram;
         }
     }

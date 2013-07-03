@@ -1,5 +1,6 @@
 package com.tinkerpop.furnace.algorithms.vertexcentric.programs.swarm;
 
+import com.tinkerpop.blueprints.Direction;
 import com.tinkerpop.blueprints.Vertex;
 import com.tinkerpop.furnace.algorithms.vertexcentric.GraphMemory;
 import com.tinkerpop.furnace.algorithms.vertexcentric.programs.AbstractVertexProgram;
@@ -13,12 +14,15 @@ import java.util.Set;
 /**
  * @author Marko A. Rodriguez (http://markorodriguez.com)
  */
-public class SwarmVertexProgram extends AbstractVertexProgram {
+public class SwarmProgram extends AbstractVertexProgram {
+
+    private VertexQueryBuilder outgoingQuery = new VertexQueryBuilder().direction(Direction.OUT);
+    private VertexQueryBuilder incomingQuery = new VertexQueryBuilder().direction(Direction.IN);
 
     private static final String PARTICLES = "particles";
     private Set<Particle> particleTypes = new HashSet<Particle>();
 
-    protected SwarmVertexProgram() {
+    protected SwarmProgram() {
         this.computeKeys.put(PARTICLES, KeyType.VARIABLE);
     }
 
@@ -44,7 +48,7 @@ public class SwarmVertexProgram extends AbstractVertexProgram {
 
     public static class Builder {
 
-        private final SwarmVertexProgram vertexProgram = new SwarmVertexProgram();
+        private final SwarmProgram vertexProgram = new SwarmProgram();
 
         public Builder outgoing(final VertexQueryBuilder outgoingQuery) {
             this.vertexProgram.outgoingQuery = outgoingQuery;
@@ -61,7 +65,7 @@ public class SwarmVertexProgram extends AbstractVertexProgram {
             return this;
         }
 
-        public SwarmVertexProgram build() {
+        public SwarmProgram build() {
             return this.vertexProgram;
         }
     }

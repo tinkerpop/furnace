@@ -1,18 +1,20 @@
 package com.tinkerpop.furnace.algorithms.vertexcentric.programs.ranking;
 
+import com.tinkerpop.blueprints.Direction;
 import com.tinkerpop.blueprints.Vertex;
 import com.tinkerpop.furnace.algorithms.vertexcentric.GraphMemory;
 import com.tinkerpop.furnace.algorithms.vertexcentric.programs.AbstractVertexProgram;
 import com.tinkerpop.furnace.util.VertexQueryBuilder;
-
-import java.util.Map;
 
 /**
  * A VertexProgram for the popular PageRank algorithm.
  *
  * @author Marko A. Rodriguez (http://markorodriguez.com)
  */
-public class PageRankVertexProgram extends AbstractVertexProgram {
+public class PageRankProgram extends AbstractVertexProgram {
+
+    private VertexQueryBuilder outgoingQuery = new VertexQueryBuilder().direction(Direction.OUT);
+    private VertexQueryBuilder incomingQuery = new VertexQueryBuilder().direction(Direction.IN);
 
     public static final String PAGE_RANK = "pageRank";
     public static final String EDGE_COUNT = "edgeCount";
@@ -21,7 +23,7 @@ public class PageRankVertexProgram extends AbstractVertexProgram {
     private double alpha = 0.85d;
     private int totalIterations = 30;
 
-    protected PageRankVertexProgram() {
+    protected PageRankProgram() {
         computeKeys.put(PAGE_RANK, KeyType.VARIABLE);
         computeKeys.put(EDGE_COUNT, KeyType.CONSTANT);
     }
@@ -55,7 +57,7 @@ public class PageRankVertexProgram extends AbstractVertexProgram {
 
     public static class Builder {
 
-        private final PageRankVertexProgram vertexProgram = new PageRankVertexProgram();
+        private final PageRankProgram vertexProgram = new PageRankProgram();
 
         public Builder iterations(final int iterations) {
             this.vertexProgram.totalIterations = iterations;
@@ -82,7 +84,7 @@ public class PageRankVertexProgram extends AbstractVertexProgram {
             return this;
         }
 
-        public PageRankVertexProgram build() {
+        public PageRankProgram build() {
             return this.vertexProgram;
         }
     }

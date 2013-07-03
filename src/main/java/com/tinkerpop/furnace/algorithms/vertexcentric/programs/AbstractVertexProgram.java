@@ -16,9 +16,6 @@ import java.util.Map;
  */
 public abstract class AbstractVertexProgram implements VertexProgram {
 
-    protected VertexQueryBuilder outgoingQuery = new VertexQueryBuilder().direction(Direction.OUT);
-    protected VertexQueryBuilder incomingQuery = new VertexQueryBuilder().direction(Direction.IN);
-
     protected final Map<String, KeyType> computeKeys = new HashMap<String, KeyType>();
 
     public Map<String, KeyType> getComputeKeys() {

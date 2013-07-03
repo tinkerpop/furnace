@@ -2,6 +2,7 @@ package com.tinkerpop.furnace.algorithms.vertexcentric.computers;
 
 import com.tinkerpop.blueprints.Direction;
 import com.tinkerpop.blueprints.Edge;
+import com.tinkerpop.blueprints.Element;
 import com.tinkerpop.blueprints.Vertex;
 import com.tinkerpop.blueprints.VertexQuery;
 import com.tinkerpop.furnace.algorithms.vertexcentric.VertexSystemMemory;
@@ -27,6 +28,14 @@ public class AdjacentShellVertex implements Vertex {
 
     public String toString() {
         return this.baseVertex.toString();
+    }
+
+    public boolean equals(Object object) {
+        return (object instanceof Vertex) && ((Element) object).getId().equals(this.getId());
+    }
+
+    public int hashCode() {
+        return this.baseVertex.hashCode();
     }
 
     public <T> T getProperty(final String key) {
