@@ -13,9 +13,10 @@ import java.util.List;
  */
 public class TraversalProgram extends AbstractVertexProgram {
 
-    public static final String COUNTS = "counts";
     private int totalIterations = 30;
     private final List<VertexQueryBuilder> queries = new ArrayList<VertexQueryBuilder>();
+
+    public static final String COUNTS = TraversalProgram.class.getName() + ".counts";
 
     protected TraversalProgram() {
         computeKeys.put(COUNTS, KeyType.VARIABLE);

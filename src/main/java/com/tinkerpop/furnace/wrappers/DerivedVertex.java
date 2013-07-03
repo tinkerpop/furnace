@@ -20,16 +20,25 @@ public class DerivedVertex extends DerivedElement implements Vertex {
 
     @Override
     public Iterable<Edge> getEdges(final Direction direction, final String... labels) {
-        return new DerivedEdgeIterable(((Vertex) this.rawElement).getEdges(direction, labels), this.derivedGraph);
+        final List<Iterable<Edge>> edges = new ArrayList<Iterable<Edge>>();
+        for (final String label : labels) {
+            final Derivation derivation = this.derivedGraph.getDerivation(label);
+            if (null != derivation) {
+                edges.add(derivation.incident(direction, this));
+            } else {
+                edges.add(((Vertex) this.rawElement).getEdges(direction, label));
+            }
+        }
+        return new MultiIterable<Edge>(edges);
     }
 
     @Override
     public Iterable<Vertex> getVertices(final Direction direction, final String... labels) {
         final List<Iterable<Vertex>> vertices = new ArrayList<Iterable<Vertex>>();
         for (final String label : labels) {
-            final DerivedAdjacency derivation = this.derivedGraph.getDerivation(label);
+            final Derivation derivation = this.derivedGraph.getDerivation(label);
             if (null != derivation) {
-                vertices.add(derivation);
+                vertices.add(derivation.adjacent(direction, this));
             } else {
                 vertices.add(((Vertex) this.rawElement).getVertices(direction, label));
             }

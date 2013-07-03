@@ -14,9 +14,10 @@ import java.util.Map;
  */
 public class DegreeRankProgram implements VertexProgram {
 
-    public static final String DEGREE = "degree";
     protected VertexQueryBuilder degreeQuery = new VertexQueryBuilder().direction(Direction.IN);
     private static final Map<String, KeyType> computeKeys = new HashMap<String, KeyType>();
+
+    public static final String DEGREE = DegreeRankProgram.class.getName() + ".degree";
 
     static {
         computeKeys.put(DEGREE, KeyType.CONSTANT);

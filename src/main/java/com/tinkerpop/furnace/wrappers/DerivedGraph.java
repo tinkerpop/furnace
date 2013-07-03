@@ -15,27 +15,18 @@ import java.util.Map;
 public class DerivedGraph implements Graph {
 
     private final Graph rawGraph;
-    protected final Map<String, DerivedAdjacency> derivations = new HashMap<String, DerivedAdjacency>();
+    protected final Map<String, Derivation> derivations = new HashMap<String, Derivation>();
 
     public DerivedGraph(final Graph rawGraph) {
         this.rawGraph = rawGraph;
     }
 
-    public void addDerivation(final String label, final DerivedAdjacency derivation) {
+    public void addDerivation(final String label, final Derivation derivation) {
         this.derivations.put(label, derivation);
     }
 
-    public DerivedAdjacency getDerivation(final String label) {
+    public Derivation getDerivation(final String label) {
         return this.derivations.get(label);
-    }
-
-    public int longestDerivation() {
-        int maxLength = 0;
-        for (DerivedAdjacency derivation : this.derivations.values()) {
-            if (derivation.size() > maxLength)
-                maxLength = derivation.size();
-        }
-        return maxLength;
     }
 
     @Override

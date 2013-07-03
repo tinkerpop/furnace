@@ -19,8 +19,9 @@ public class SwarmProgram extends AbstractVertexProgram {
     private VertexQueryBuilder outgoingQuery = new VertexQueryBuilder().direction(Direction.OUT);
     private VertexQueryBuilder incomingQuery = new VertexQueryBuilder().direction(Direction.IN);
 
-    private static final String PARTICLES = "particles";
     private Set<Particle> particleTypes = new HashSet<Particle>();
+
+    public static final String PARTICLES = SwarmProgram.class.getName() + ".particles";
 
     protected SwarmProgram() {
         this.computeKeys.put(PARTICLES, KeyType.VARIABLE);

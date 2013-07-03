@@ -16,8 +16,8 @@ public class PageRankProgram extends AbstractVertexProgram {
     private VertexQueryBuilder outgoingQuery = new VertexQueryBuilder().direction(Direction.OUT);
     private VertexQueryBuilder incomingQuery = new VertexQueryBuilder().direction(Direction.IN);
 
-    public static final String PAGE_RANK = "pageRank";
-    public static final String EDGE_COUNT = "edgeCount";
+    public static final String PAGE_RANK = PageRankProgram.class.getName() + ".pageRank";
+    public static final String EDGE_COUNT = PageRankProgram.class.getName() + ".edgeCount";
 
     private double vertexCountAsDouble = 1;
     private double alpha = 0.85d;

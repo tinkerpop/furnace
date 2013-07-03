@@ -23,7 +23,7 @@ public class WeightedPageRankProgramTest extends TestCase {
         //Graph graph = new TinkerGraph();
         //GraphMLReader.inputGraph(graph, "/Users/marko/software/tinkerpop/gremlin/data/graph-example-2.xml");
 
-        WeightedPageRankProgram program = WeightedPageRankProgram.create().vertexCount(6).edgeWeightKey("weight").build();
+        WeightedPageRankProgram program = WeightedPageRankProgram.create().vertexCount(6).edgeWeightFunction(WeightedPageRankProgram.getEdgeWeightPropertyFunction("weight")).build();
         SerialGraphComputer computer = new SerialGraphComputer(graph, program, GraphComputer.Isolation.BSP);
         computer.execute();
 
@@ -34,7 +34,7 @@ public class WeightedPageRankProgramTest extends TestCase {
         double total = 0.0d;
         final Map<String, Double> map = new HashMap<String, Double>();
         for (Vertex vertex : graph.getVertices()) {
-            double pageRank = results.getProperty(vertex, PageRankProgram.PAGE_RANK);
+            double pageRank = results.getProperty(vertex, WeightedPageRankProgram.PAGE_RANK);
             assertTrue(pageRank > 0.0d);
             total = total + pageRank;
             map.put(vertex.getProperty("name") + " ", pageRank);
@@ -57,5 +57,24 @@ public class WeightedPageRankProgramTest extends TestCase {
         }*/
 
 
+    }
+
+    public void testWeightedPageRankDegenerateToPageRank() throws Exception {
+        Graph graph = TinkerGraphFactory.createTinkerGraph();
+
+        WeightedPageRankProgram program1 = WeightedPageRankProgram.create().vertexCount(6).build();
+        SerialGraphComputer computer1 = new SerialGraphComputer(graph, program1, GraphComputer.Isolation.BSP);
+        computer1.execute();
+
+        PageRankProgram program2 = PageRankProgram.create().vertexCount(6).build();
+        SerialGraphComputer computer2 = new SerialGraphComputer(graph, program2, GraphComputer.Isolation.BSP);
+        computer2.execute();
+
+        VertexMemory results1 = computer1.getVertexMemory();
+        VertexMemory results2 = computer2.getVertexMemory();
+
+        for (final Vertex vertex : graph.getVertices()) {
+            assertEquals(results1.getProperty(vertex, WeightedPageRankProgram.PAGE_RANK), results2.getProperty(vertex, PageRankProgram.PAGE_RANK));
+        }
     }
 }

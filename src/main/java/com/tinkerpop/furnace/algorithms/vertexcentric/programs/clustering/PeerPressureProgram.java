@@ -17,8 +17,8 @@ public class PeerPressureProgram extends AbstractVertexProgram {
     private VertexQueryBuilder outgoingQuery = new VertexQueryBuilder().direction(Direction.OUT);
     private VertexQueryBuilder incomingQuery = new VertexQueryBuilder().direction(Direction.IN);
 
-    public static final String CLUSTER = "cluster";
-    public static final String EDGE_COUNT = "edgeCount";
+    public static final String CLUSTER = PeerPressureProgram.class.getName() + ".cluster";
+    public static final String EDGE_COUNT = PeerPressureProgram.class.getName() + ".edgeCount";
 
     private int totalIterations = 30;
 
