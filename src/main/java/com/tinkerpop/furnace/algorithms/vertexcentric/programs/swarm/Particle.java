@@ -10,7 +10,5 @@ import java.io.Serializable;
  */
 public interface Particle extends Serializable {
 
-    public void execute(Vertex vertex, GraphMemory graphMemory);
-
-    public Particle createParticle();
+    public void execute(Vertex vertex, GraphMemory graphMemory, Long count);
 }

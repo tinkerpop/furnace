@@ -1,14 +1,12 @@
 package com.tinkerpop.furnace.algorithms.vertexcentric.programs.swarm;
 
-import com.tinkerpop.blueprints.Direction;
 import com.tinkerpop.blueprints.Vertex;
 import com.tinkerpop.furnace.algorithms.vertexcentric.GraphMemory;
 import com.tinkerpop.furnace.algorithms.vertexcentric.programs.AbstractVertexProgram;
-import com.tinkerpop.furnace.util.VertexQueryBuilder;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -16,28 +14,25 @@ import java.util.Set;
  */
 public class SwarmProgram extends AbstractVertexProgram {
 
-    private VertexQueryBuilder outgoingQuery = new VertexQueryBuilder().direction(Direction.OUT);
-    private VertexQueryBuilder incomingQuery = new VertexQueryBuilder().direction(Direction.IN);
-
     private Set<Particle> particleTypes = new HashSet<Particle>();
 
     public static final String PARTICLES = SwarmProgram.class.getName() + ".particles";
 
     protected SwarmProgram() {
-        this.computeKeys.put(PARTICLES, KeyType.VARIABLE);
+        this.computeKeys.put(PARTICLES, KeyType.CONSTANT);
     }
 
     public void execute(final Vertex vertex, final GraphMemory graphMemory) {
         if (graphMemory.isInitialIteration()) {
-            final List<Particle> particles = new ArrayList<Particle>();
-            for (final Particle particle : particleTypes) {
-                particles.add(particle.createParticle());
+            final Map<Particle, Long> particles = new HashMap<Particle, Long>();
+            for (final Particle particle : this.particleTypes) {
+                particles.put(particle, 1l);
             }
             vertex.setProperty(PARTICLES, particles);
-        }
-
-        for (final Particle particle : (List<Particle>) vertex.getProperty(PARTICLES)) {
-            particle.execute(vertex, graphMemory);
+        } else {
+            for (final Map.Entry<Particle, Long> entry : ((Map<Particle, Long>) vertex.getProperty(PARTICLES)).entrySet()) {
+                entry.getKey().execute(vertex, graphMemory, entry.getValue());
+            }
         }
     }
 
@@ -51,17 +46,7 @@ public class SwarmProgram extends AbstractVertexProgram {
 
         private final SwarmProgram vertexProgram = new SwarmProgram();
 
-        public Builder outgoing(final VertexQueryBuilder outgoingQuery) {
-            this.vertexProgram.outgoingQuery = outgoingQuery;
-            return this;
-        }
-
-        public Builder incoming(final VertexQueryBuilder incomingQuery) {
-            this.vertexProgram.incomingQuery = incomingQuery;
-            return this;
-        }
-
-        public Builder addParticleType(final Particle particle) {
+        public Builder addParticle(final Particle particle) {
             this.vertexProgram.particleTypes.add(particle);
             return this;
         }
