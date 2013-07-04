@@ -1,4 +1,4 @@
-package com.tinkerpop.furnace.wrappers;
+package com.tinkerpop.furnace.wrappers.derived;
 
 import com.tinkerpop.blueprints.Direction;
 import com.tinkerpop.blueprints.Edge;

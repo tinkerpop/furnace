@@ -1,10 +1,12 @@
-package com.tinkerpop.furnace.wrappers;
+package com.tinkerpop.furnace.wrappers.derived;
 
 import com.tinkerpop.blueprints.Direction;
 import com.tinkerpop.blueprints.Edge;
 import com.tinkerpop.blueprints.Vertex;
 import com.tinkerpop.blueprints.VertexQuery;
+import com.tinkerpop.blueprints.util.DefaultVertexQuery;
 import com.tinkerpop.blueprints.util.MultiIterable;
+import com.tinkerpop.blueprints.util.wrappers.WrapperVertexQuery;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +28,7 @@ public class DerivedVertex extends DerivedElement implements Vertex {
             if (null != derivation) {
                 edges.add(derivation.incident(direction, this));
             } else {
-                edges.add(((Vertex) this.rawElement).getEdges(direction, label));
+                edges.add(new DerivedEdgeIterable(((Vertex) this.baseElement).getEdges(direction, label), this.derivedGraph));
             }
         }
         return new MultiIterable<Edge>(edges);
@@ -40,7 +42,7 @@ public class DerivedVertex extends DerivedElement implements Vertex {
             if (null != derivation) {
                 vertices.add(derivation.adjacent(direction, this));
             } else {
-                vertices.add(((Vertex) this.rawElement).getVertices(direction, label));
+                vertices.add(new DerivedVertexIterable(((Vertex) this.baseElement).getVertices(direction, label), this.derivedGraph));
             }
         }
         return new MultiIterable<Vertex>(vertices);
@@ -48,13 +50,27 @@ public class DerivedVertex extends DerivedElement implements Vertex {
 
     @Override
     public VertexQuery query() {
-        throw new UnsupportedOperationException();
+        return new WrapperVertexQuery(new DefaultVertexQuery(this)) {
+            @Override
+            public Iterable<Edge> edges() {
+                return new DerivedEdgeIterable(this.query.edges(), derivedGraph);
+            }
+
+            @Override
+            public Iterable<Vertex> vertices() {
+                return new DerivedVertexIterable(this.query.vertices(), derivedGraph);
+            }
+        };
     }
 
-
-    @Override
-    public Edge addEdge(String label, Vertex vertex) {
-        return ((Vertex) this.rawElement).addEdge(label, ((Vertex) ((DerivedVertex) vertex).rawElement));
+    public Edge addEdge(final String label, final Vertex vertex) {
+        if (vertex instanceof DerivedVertex)
+            return new DerivedEdge(((Vertex) this.baseElement).addEdge(label, ((DerivedVertex) vertex).getBaseVertex()), this.derivedGraph);
+        else
+            return new DerivedEdge(((Vertex) this.baseElement).addEdge(label, vertex), this.derivedGraph);
     }
 
+    public Vertex getBaseVertex() {
+        return (Vertex) this.baseElement;
+    }
 }
