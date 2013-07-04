@@ -69,7 +69,8 @@ public class WeightedPageRankProgram extends AbstractVertexProgram {
         return new PipeFunction<Edge, Double>() {
             @Override
             public Double compute(final Edge argument) {
-                return ((Number) argument.getProperty(edgeWeightKey)).doubleValue();
+                final Number d = argument.getProperty(edgeWeightKey);
+                return (null == d) ? 0.0d : d.doubleValue();
             }
         };
     }
