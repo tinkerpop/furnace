@@ -34,7 +34,7 @@ public class WeightedPageRankProgramTest extends TestCase {
         double total = 0.0d;
         final Map<String, Double> map = new HashMap<String, Double>();
         for (Vertex vertex : graph.getVertices()) {
-            double pageRank = results.getProperty(vertex, WeightedPageRankProgram.PAGE_RANK);
+            double pageRank = Double.parseDouble(results.getProperty(vertex, WeightedPageRankProgram.PAGE_RANK).toString());
             assertTrue(pageRank > 0.0d);
             total = total + pageRank;
             map.put(vertex.getProperty("name") + " ", pageRank);
