@@ -48,14 +48,20 @@ public class SimpleGraphMemory implements GraphSystemMemory {
         return (R) this.memory.get(key);
     }
 
-    public void increment(final String key, final long delta) {
+    public long increment(final String key, final long delta) {
         final Object value = this.memory.get(key);
-        this.memory.put(key, (Long) value + delta);
+        final long incremented = value == null ? delta : (Long) value + delta;
+        this.memory.put(key, incremented);
+
+        return incremented;
     }
 
-    public void decrement(final String key, final long delta) {
+    public long decrement(final String key, final long delta) {
         final Object value = this.memory.get(key);
-        this.memory.put(key, (Long) value - delta);
+        final long incremented = value == null ? delta : (Long) value - delta;
+        this.memory.put(key, incremented);
+
+        return incremented;
     }
 
     public void setIfAbsent(final String key, final Object value) {

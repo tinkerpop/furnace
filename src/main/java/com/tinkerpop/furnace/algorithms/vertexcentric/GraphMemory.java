@@ -8,6 +8,7 @@ package com.tinkerpop.furnace.algorithms.vertexcentric;
  *
  * @author Matthias Broecheler (me@matthiasb.com)
  * @author Marko A. Rodriguez (http://markorodriguez.com)
+ * @author Stephen Mallette (http://stephen.genoprime.com)
  */
 public interface GraphMemory {
 
@@ -15,9 +16,9 @@ public interface GraphMemory {
 
     public void setIfAbsent(String key, Object value);
 
-    public void increment(String key, long delta);
+    public long increment(String key, long delta);
 
-    public void decrement(String key, long delta);
+    public long decrement(String key, long delta);
 
     public int getIteration();
 
