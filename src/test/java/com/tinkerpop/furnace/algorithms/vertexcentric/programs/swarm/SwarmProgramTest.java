@@ -8,6 +8,7 @@ import com.tinkerpop.furnace.algorithms.vertexcentric.GraphComputer;
 import com.tinkerpop.furnace.algorithms.vertexcentric.GraphMemory;
 import com.tinkerpop.furnace.algorithms.vertexcentric.VertexMemory;
 import com.tinkerpop.furnace.algorithms.vertexcentric.computers.SerialGraphComputer;
+import com.tinkerpop.furnace.algorithms.vertexcentric.programs.ranking.PageRankProgram;
 import junit.framework.TestCase;
 
 import java.util.Map;
@@ -19,17 +20,20 @@ public class SwarmProgramTest extends TestCase {
 
     public void testCoDeveloper() {
         Graph graph = TinkerGraphFactory.createTinkerGraph();
-        SwarmProgram program = SwarmProgram.create().addParticle(new Particle() {
+        SwarmProgram program = SwarmProgram.create().addParticle(new AbstractProgramParticle(PageRankProgram.create().vertexCount(6).build()) {
+
             @Override
-            public void execute(Vertex vertex, GraphMemory graphMemory, Long count, Map<Particle, Long> map) {
+            public void execute(Vertex vertex, GraphMemory graphMemory, Long count, Map<Particle, Long> newParticles) {
+                super.execute(vertex, graphMemory, count, newParticles);
                 if (graphMemory.isInitialIteration()) {
-                    SwarmProgram.addParticle(this, 1l, map);
+                    SwarmProgram.addParticle(this, count, newParticles);
                 } else {
                     for (Vertex adjacent : vertex.query().direction(Direction.IN).vertices()) {
                         Map<Particle, Long> others = (Map<Particle, Long>) adjacent.getProperty(SwarmProgram.PARTICLES);
                         for (Map.Entry<Particle, Long> entry : others.entrySet()) {
-                            SwarmProgram.addParticle(entry.getKey(), entry.getValue(), map);
+                            SwarmProgram.addParticle(entry.getKey(), entry.getValue(), newParticles);
                         }
+
                     }
                 }
             }
@@ -44,7 +48,7 @@ public class SwarmProgramTest extends TestCase {
 
         VertexMemory results = computer.getVertexMemory();
         for (Vertex vertex : graph.getVertices()) {
-            System.out.println(vertex.getProperty("name") + "\t" + results.getProperty(vertex, SwarmProgram.PARTICLES));
+            System.out.println(vertex.getProperty("name") + "\t" + results.getProperty(vertex, SwarmProgram.PARTICLES) + "\t" + results.getProperty(vertex, PageRankProgram.PAGE_RANK));
         }
     }
 

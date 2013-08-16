@@ -32,13 +32,18 @@ public abstract class AbstractVertexMemory implements VertexSystemMemory {
     }
 
     protected String generateGetKey(final String key) {
-        if (this.computeKeys.get(key).equals(VertexProgram.KeyType.CONSTANT))
+        final VertexProgram.KeyType keyType = this.computeKeys.get(key);
+        if (null == keyType)
+            throw new IllegalArgumentException("The provided key is not a compute key: " + key);
+
+        if (keyType.equals(VertexProgram.KeyType.CONSTANT))
             return key;
 
         if (isolation.equals(GraphComputer.Isolation.BSP))
             return key + !phase;
         else
             return key;
+
     }
 
     protected String generateSetKey(final String key) {

@@ -23,7 +23,7 @@ public class PageRankProgramTest extends TestCase {
         //Graph graph = new TinkerGraph();
         //GraphMLReader.inputGraph(graph, "/Users/marko/software/tinkerpop/gremlin/data/graph-example-2.xml");
 
-        PageRankProgram program = PageRankProgram.create().vertexCount(6).build();
+        PageRankProgram program = PageRankProgram.create().vertexCount(6).iterations(3).build();
         SerialGraphComputer computer = new SerialGraphComputer(graph, program, GraphComputer.Isolation.BSP);
         computer.execute();
 
