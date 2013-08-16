@@ -38,7 +38,6 @@
     </scm>
     <properties>
         <tinkerpop.version>2.5.0-SNAPSHOT</tinkerpop.version>
-        <junit.version>4.5</junit.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <dependencies>
