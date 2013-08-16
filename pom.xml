@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.tinkerpop.furnace</groupId>
     <artifactId>furnace</artifactId>
-    <version>0.1-SNAPSHOT</version>
+    <version>0.1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <url>http://furnace.tinkerpop.com</url>
     <name>Furnace: A Property Graph Algorithms Package</name>
