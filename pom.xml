@@ -23,6 +23,11 @@
             <email>marko@markorodriguez.com</email>
             <url>http://markorodriguez.com</url>
         </contributor>
+        <contributor>
+            <name>Stephen Mallette</name>
+            <email>spmva@genoprime.com</email>
+            <url>http://stephen.genoprime.com</url>
+        </contributor>
     </contributors>
     <inceptionYear>2011</inceptionYear>
     <licenses>
@@ -37,8 +42,8 @@
         <url>git@github.com:tinkerpop/furnace.git</url>
     </scm>
     <properties>
-        <tinkerpop.version>2.5.0-SNAPSHOT</tinkerpop.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <tinkerpop.version>2.5.0-SNAPSHOT</tinkerpop.version>
     </properties>
     <dependencies>
         <!-- PROPERTY GRAPH MODEL SUPPORT -->

@@ -47,7 +47,7 @@ public class VertexQueryBuilder extends DefaultVertexQuery {
         return this;
     }
 
-    public <T extends Comparable<T>> VertexQueryBuilder interval(final String key, final T startValue, final T endValue) {
+    public <T extends Comparable<?>> VertexQueryBuilder interval(final String key, final T startValue, final T endValue) {
         super.interval(key, startValue, endValue);
         return this;
     }
