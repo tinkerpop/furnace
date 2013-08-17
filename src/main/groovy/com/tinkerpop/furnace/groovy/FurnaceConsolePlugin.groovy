@@ -1,7 +1,5 @@
-package com.tinkerpop.furnace.console
+package com.tinkerpop.furnace.groovy
 
-import com.tinkerpop.furnace.console.loaders.CommunityGeneratorLoader
-import com.tinkerpop.furnace.console.loaders.DistributionGeneratorLoader
 import com.tinkerpop.gremlin.groovy.console.ConsoleGroovy
 import com.tinkerpop.gremlin.groovy.console.ConsoleIO
 import com.tinkerpop.gremlin.groovy.console.ConsolePlugin
@@ -30,12 +28,8 @@ class FurnaceConsolePlugin implements ConsolePlugin {
         groovy.execute("import com.tinkerpop.furnace.generators.*")
         groovy.execute("import com.tinkerpop.furnace.util.*")
         groovy.execute("import com.tinkerpop.furnace.wrappers.derived.*")
+        groovy.execute("import com.tinkerpop.furnace.groovy.Furnace")
 
-        groovy.execute("com.tinkerpop.furnace.console.FurnaceConsolePlugin.load()")
-    }
-
-    def static load() {
-        CommunityGeneratorLoader.load()
-        DistributionGeneratorLoader.load()
+        groovy.execute("com.tinkerpop.furnace.groovy.Furnace.load()")
     }
 }

@@ -1,4 +1,4 @@
-package com.tinkerpop.furnace.console.loaders
+package com.tinkerpop.furnace.groovy.loaders
 
 import com.tinkerpop.furnace.generators.Distribution
 import com.tinkerpop.furnace.generators.NormalDistribution
