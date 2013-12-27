@@ -16,7 +16,7 @@ class FurnaceConsolePlugin implements ConsolePlugin {
     }
 
     @Override
-    public void pluginTo(final ConsoleGroovy groovy, final ConsoleIO io) {
+    public void pluginTo(final ConsoleGroovy groovy, final ConsoleIO io, final Map args) {
         groovy.execute("import com.tinkerpop.furnace.algorithms.vertexcentric.*")
         groovy.execute("import com.tinkerpop.furnace.algorithms.vertexcentric.computers.*")
         groovy.execute("import com.tinkerpop.furnace.algorithms.vertexcentric.programs.*")
