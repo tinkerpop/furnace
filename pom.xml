@@ -17,18 +17,18 @@
     <description>Furnace supports the evaluation of standard graph analysis algorithms on property graph data
         structures.
     </description>
-    <contributors>
-        <contributor>
+    <developers>
+        <developer>
             <name>Marko A. Rodriguez</name>
             <email>marko@markorodriguez.com</email>
             <url>http://markorodriguez.com</url>
-        </contributor>
-        <contributor>
+        </developer>
+        <developer>
             <name>Stephen Mallette</name>
             <email>spmva@genoprime.com</email>
             <url>http://stephen.genoprime.com</url>
-        </contributor>
-    </contributors>
+        </developer>
+    </developers>
     <inceptionYear>2011</inceptionYear>
     <licenses>
         <license>
