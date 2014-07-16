@@ -43,7 +43,7 @@
     </scm>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <tinkerpop.version>2.5.0-SNAPSHOT</tinkerpop.version>
+        <tinkerpop.version>2.6.0-SNAPSHOT</tinkerpop.version>
     </properties>
     <dependencies>
         <!-- PROPERTY GRAPH MODEL SUPPORT -->
